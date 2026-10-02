@@ -1,0 +1,70 @@
+{
+  "_RESULT_STATUS": "INVALID - CONTAINS NO MEASUREMENTS",
+  "_WARNING": "All candidate records below have status='load_failed'. This file was written by a run in which the TextEmbedding import was scoped inside an if-block, so every candidate failed before any embedding happened. A later run with that bug fixed was OOM-killed and produced no output. DO NOT cite any number from this file as a measurement. See docs/resource-incident.md and docs/development-status.md section 4.",
+  "_SUPERSEDED_BY": "(pending) a memory-bounded rerun of spikes/s4_retrieval/spike.py",
+  "spike": "S4",
+  "subject": "Retrieval quality and embedding candidate comparison (D1)",
+  "repo": {
+    "name": "requests",
+    "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60"
+  },
+  "corpus": {
+    "chunks": 807,
+    "excluded": "module chunks (duplicated by functions)"
+  },
+  "queries": {
+    "total_authored": 24,
+    "resolved_at_this_commit": 24,
+    "unresolved": [],
+    "top_k": 10
+  },
+  "metric_definitions": {
+    "hit_rate_at_k": "expected chunk (file + qualified_name) present in top-k",
+    "mrr": "mean reciprocal rank of the expected chunk",
+    "ndcg_at_k": "single-relevant-item nDCG@k",
+    "expected_line_at_k": "a top-k chunk's [start_line,end_line] spans the expected line; this is what an M1 citation would point at"
+  },
+  "candidates": [
+    {
+      "key": "all-MiniLM-L6-v2",
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "expect_dim": 384,
+      "profile": "small/fast baseline",
+      "status": "load_failed",
+      "error": "cannot access local variable 'TextEmbedding' where it is not associated with a value"
+    },
+    {
+      "key": "bge-small-en-v1.5",
+      "model": "BAAI/bge-small-en-v1.5",
+      "expect_dim": 384,
+      "profile": "mid-size local baseline",
+      "status": "load_failed",
+      "error": "cannot access local variable 'TextEmbedding' where it is not associated with a value"
+    },
+    {
+      "key": "nomic-embed-text-v1.5",
+      "model": "nomic-ai/nomic-embed-text-v1.5",
+      "expect_dim": 768,
+      "profile": "research-document suggestion",
+      "status": "load_failed",
+      "error": "cannot access local variable 'TextEmbedding' where it is not associated with a value"
+    },
+    {
+      "key": "jina-embeddings-v2-base-code",
+      "model": "jinaai/jina-embeddings-v2-base-code",
+      "expect_dim": 768,
+      "profile": "code-specialised",
+      "status": "load_failed",
+      "error": "cannot access local variable 'TextEmbedding' where it is not associated with a value"
+    },
+    {
+      "key": "potion-retrieval-32M",
+      "model": "minishlab/potion-retrieval-32M",
+      "expect_dim": 512,
+      "profile": "static embeddings, fastest",
+      "status": "load_failed",
+      "error": "cannot access local variable 'TextEmbedding' where it is not associated with a value"
+    }
+  ],
+  "caveat": "These are OUR queries against ONE repository (24 queries, requests). That is enough to rank candidates and to validate the pipeline, and is NOT enough to claim a general retrieval quality result. The project's O1 evaluation requires 30 questions per repo across 2-3 repos."
+}

@@ -1,0 +1,70 @@
+{
+  "spike": "S2b",
+  "subject": "Semgrep CE detection rate on a self-authored ground-truth corpus",
+  "purpose": "Measure what CE actually detects, to inform D9 (rule configuration) and to give objective grounding for the O3 recall target.",
+  "toolchain": {
+    "semgrep": "1.179.0"
+  },
+  "rulesets": [
+    "p/security-audit",
+    "p/python",
+    "p/javascript"
+  ],
+  "corpus": {
+    "positive_patterns": 21,
+    "negative_control_patterns": 4,
+    "languages": [
+      "Python",
+      "JavaScript"
+    ]
+  },
+  "results": {
+    "true_positives": 9,
+    "false_negatives": 12,
+    "false_positives_on_controls": 0,
+    "precision_on_positives": 1.0,
+    "recall_on_positives": 0.429,
+    "control_specificity": 1.0,
+    "seconds": 2.57
+  },
+  "recall_detail": {
+    "detected": [
+      "eval_user_input",
+      "exec_user_input",
+      "js_child_process_exec",
+      "os_system",
+      "pickle_loads_untrusted",
+      "sha1_for_password",
+      "subprocess_popen_shell",
+      "urlopen_nonliteral",
+      "verify_false_tls"
+    ],
+    "missed": [
+      "hardcoded_password",
+      "js_eval",
+      "js_hardcoded_secret",
+      "js_path_join_traversal",
+      "js_sql_concat",
+      "md5_for_password",
+      "open_user_path",
+      "random_for_token",
+      "sqli_inline_concat",
+      "sqli_inline_fstring",
+      "subprocess_shell_true",
+      "yaml_load_unsafe"
+    ],
+    "controls_flagged_incorrectly": []
+  },
+  "findings_on_unmatched_locations": [],
+  "severity_distribution": {
+    "ERROR": 4,
+    "WARNING": 6
+  },
+  "confidence_distribution": {
+    "LOW": 6,
+    "MEDIUM": 4
+  },
+  "verdict": {
+    "note": "These are OUR patterns, not a third-party benchmark. They measure engine+ruleset capability on patterns we are confident about. They are NOT a claim about real-world recall, and must not be presented as one."
+  }
+}

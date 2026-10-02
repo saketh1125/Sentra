@@ -1,0 +1,321 @@
+{
+  "spike": "S2",
+  "subject": "Semgrep Community Edition static analysis feasibility",
+  "toolchain": {
+    "semgrep": "1.179.0",
+    "edition": "Community Edition"
+  },
+  "rulesets": [
+    "p/security-audit",
+    "p/python",
+    "p/javascript"
+  ],
+  "ruleset_licence_note": "Semgrep-maintained rules are licensed under Semgrep Rules License v1.0 (internal business use; no redistribution of the rules). Recorded for D9.",
+  "output_contract": {
+    "structure_matches_expected": true,
+    "missing_fields": {},
+    "required_fields": [
+      "check_id",
+      "path",
+      "start",
+      "end",
+      "extra",
+      "extra.severity",
+      "extra.message",
+      "extra.metadata",
+      "extra.fingerprint"
+    ]
+  },
+  "per_repo": [
+    {
+      "repo": "requests",
+      "exit_code": 0,
+      "seconds": 3.52,
+      "findings": 9,
+      "unique_rules": 2,
+      "severities": {
+        "WARNING": 9
+      },
+      "location_checks_passed": 9,
+      "location_checks_failed": 0,
+      "location_failure_samples": [],
+      "deterministic_across_two_runs": true,
+      "semgrep_version": "1.179.0",
+      "scanned_files": 82,
+      "errors": []
+    },
+    {
+      "repo": "flask",
+      "exit_code": 0,
+      "seconds": 3.88,
+      "findings": 3,
+      "unique_rules": 3,
+      "severities": {
+        "WARNING": 3
+      },
+      "location_checks_passed": 3,
+      "location_checks_failed": 0,
+      "location_failure_samples": [],
+      "deterministic_across_two_runs": true,
+      "semgrep_version": "1.179.0",
+      "scanned_files": 162,
+      "errors": []
+    },
+    {
+      "repo": "axios",
+      "exit_code": 0,
+      "seconds": 4.1,
+      "findings": 1,
+      "unique_rules": 1,
+      "severities": {
+        "WARNING": 1
+      },
+      "location_checks_passed": 1,
+      "location_checks_failed": 0,
+      "location_failure_samples": [],
+      "deterministic_across_two_runs": true,
+      "semgrep_version": "1.179.0",
+      "scanned_files": 300,
+      "errors": []
+    }
+  ],
+  "totals": {
+    "findings": 13
+  },
+  "severity_distribution": {
+    "WARNING": 13
+  },
+  "rule_namespace_distribution": {
+    "generic": 7,
+    "python": 5,
+    "javascript": 1
+  },
+  "cross_file_limitation_experiment": {
+    "case_a_single_file_sql": {
+      "target": "data/repos/fixtures/singlefile",
+      "exit_code": 0,
+      "all_findings": [
+        {
+          "check_id": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+          "path": "/home/saketh/Sentra/data/repos/fixtures/singlefile/vuln.py",
+          "start_line": 6,
+          "start_col": 32,
+          "start_offset": 222,
+          "end_line": 6,
+          "end_offset": 226,
+          "severity": "ERROR",
+          "message": "Found 'subprocess' function 'call' with 'shell=True'. This is dangerous because this call will spawn the command using a shell process. Doing so propagates current shell settings and variables, which makes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.",
+          "fingerprint": "requires login",
+          "validation_state": "NO_VALIDATOR"
+        }
+      ],
+      "sql_findings": [],
+      "shell_sink_findings": [
+        "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+      ]
+    },
+    "case_b_cross_file_sql": {
+      "target": "data/repos/fixtures/crossfile",
+      "exit_code": 0,
+      "all_findings": [],
+      "sql_findings": [],
+      "shell_sink_findings": []
+    },
+    "conclusion": {
+      "case_a_sql_detected": false,
+      "case_b_sql_detected": false,
+      "intra_procedural_limitation_demonstrated": false,
+      "interpretation": "Limitation NOT reproduced with this fixture. Investigate before relying on the claim; do not assert the limitation either way."
+    }
+  },
+  "human_sample_for_precision": [
+    {
+      "check_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "path": "/home/saketh/Sentra/data/repos/requests/src/requests/auth.py",
+      "start_line": 187,
+      "start_col": 24,
+      "start_offset": 6047,
+      "end_line": 187,
+      "end_offset": 6085,
+      "severity": "WARNING",
+      "message": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "path": "/home/saketh/Sentra/data/repos/requests/docs/_templates/sidebar.html",
+      "start_line": 2,
+      "start_col": 6,
+      "start_offset": 22,
+      "end_line": 2,
+      "end_offset": 51,
+      "severity": "WARNING",
+      "message": "Detected a template variable used in an anchor tag with the 'href' attribute. This allows a malicious actor to input the 'javascript:' URI and is subject to cross- site scripting (XSS) attacks. If using Flask, use 'url_for()' to safely generate a URL. If using Django, use the 'url' filter to safely generate a URL. If using Mustache, use a URL encoding library, or prepend a slash '/' to the variable for relative links (`href=\"/{{link}}\"`). You may also consider setting the Content Security Policy (CSP) header.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "path": "/home/saketh/Sentra/data/repos/requests/src/requests/auth.py",
+      "start_line": 237,
+      "start_col": 18,
+      "start_offset": 7660,
+      "end_line": 237,
+      "end_offset": 7698,
+      "severity": "WARNING",
+      "message": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "path": "/home/saketh/Sentra/data/repos/requests/docs/_templates/sidebar.html",
+      "start_line": 18,
+      "start_col": 10,
+      "start_offset": 543,
+      "end_line": 18,
+      "end_offset": 581,
+      "severity": "WARNING",
+      "message": "Detected a template variable used in an anchor tag with the 'href' attribute. This allows a malicious actor to input the 'javascript:' URI and is subject to cross- site scripting (XSS) attacks. If using Flask, use 'url_for()' to safely generate a URL. If using Django, use the 'url' filter to safely generate a URL. If using Mustache, use a URL encoding library, or prepend a slash '/' to the variable for relative links (`href=\"/{{link}}\"`). You may also consider setting the Content Security Policy (CSP) header.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "path": "/home/saketh/Sentra/data/repos/requests/docs/_templates/sidebar.html",
+      "start_line": 19,
+      "start_col": 10,
+      "start_offset": 622,
+      "end_line": 19,
+      "end_offset": 658,
+      "severity": "WARNING",
+      "message": "Detected a template variable used in an anchor tag with the 'href' attribute. This allows a malicious actor to input the 'javascript:' URI and is subject to cross- site scripting (XSS) attacks. If using Flask, use 'url_for()' to safely generate a URL. If using Django, use the 'url' filter to safely generate a URL. If using Mustache, use a URL encoding library, or prepend a slash '/' to the variable for relative links (`href=\"/{{link}}\"`). You may also consider setting the Content Security Policy (CSP) header.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "path": "/home/saketh/Sentra/data/repos/requests/docs/_templates/sidebar.html",
+      "start_line": 20,
+      "start_col": 10,
+      "start_offset": 703,
+      "end_line": 20,
+      "end_offset": 729,
+      "severity": "WARNING",
+      "message": "Detected a template variable used in an anchor tag with the 'href' attribute. This allows a malicious actor to input the 'javascript:' URI and is subject to cross- site scripting (XSS) attacks. If using Flask, use 'url_for()' to safely generate a URL. If using Django, use the 'url' filter to safely generate a URL. If using Mustache, use a URL encoding library, or prepend a slash '/' to the variable for relative links (`href=\"/{{link}}\"`). You may also consider setting the Content Security Policy (CSP) header.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "path": "/home/saketh/Sentra/data/repos/requests/docs/_templates/sidebar.html",
+      "start_line": 21,
+      "start_col": 10,
+      "start_offset": 773,
+      "end_line": 21,
+      "end_offset": 834,
+      "severity": "WARNING",
+      "message": "Detected a template variable used in an anchor tag with the 'href' attribute. This allows a malicious actor to input the 'javascript:' URI and is subject to cross- site scripting (XSS) attacks. If using Flask, use 'url_for()' to safely generate a URL. If using Django, use the 'url' filter to safely generate a URL. If using Mustache, use a URL encoding library, or prepend a slash '/' to the variable for relative links (`href=\"/{{link}}\"`). You may also consider setting the Content Security Policy (CSP) header.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "path": "/home/saketh/Sentra/data/repos/requests/docs/_templates/sidebar.html",
+      "start_line": 22,
+      "start_col": 10,
+      "start_offset": 880,
+      "end_line": 22,
+      "end_offset": 919,
+      "severity": "WARNING",
+      "message": "Detected a template variable used in an anchor tag with the 'href' attribute. This allows a malicious actor to input the 'javascript:' URI and is subject to cross- site scripting (XSS) attacks. If using Flask, use 'url_for()' to safely generate a URL. If using Django, use the 'url' filter to safely generate a URL. If using Mustache, use a URL encoding library, or prepend a slash '/' to the variable for relative links (`href=\"/{{link}}\"`). You may also consider setting the Content Security Policy (CSP) header.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "path": "/home/saketh/Sentra/data/repos/requests/docs/_templates/sidebar.html",
+      "start_line": 26,
+      "start_col": 10,
+      "start_offset": 980,
+      "end_line": 26,
+      "end_offset": 1024,
+      "severity": "WARNING",
+      "message": "Detected a template variable used in an anchor tag with the 'href' attribute. This allows a malicious actor to input the 'javascript:' URI and is subject to cross- site scripting (XSS) attacks. If using Flask, use 'url_for()' to safely generate a URL. If using Django, use the 'url' filter to safely generate a URL. If using Mustache, use a URL encoding library, or prepend a slash '/' to the variable for relative links (`href=\"/{{link}}\"`). You may also consider setting the Content Security Policy (CSP) header.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "requests"
+    },
+    {
+      "check_id": "python.lang.security.audit.eval-detected.eval-detected",
+      "path": "/home/saketh/Sentra/data/repos/flask/src/flask/cli.py",
+      "start_line": 1023,
+      "start_col": 13,
+      "start_offset": 33831,
+      "end_line": 1023,
+      "end_offset": 33876,
+      "severity": "WARNING",
+      "message": "Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "flask"
+    },
+    {
+      "check_id": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "path": "/home/saketh/Sentra/data/repos/flask/src/flask/sessions.py",
+      "start_line": 281,
+      "start_col": 12,
+      "start_offset": 11223,
+      "end_line": 281,
+      "end_offset": 11243,
+      "severity": "WARNING",
+      "message": "Detected SHA1 hash algorithm which is considered insecure. SHA1 is not collision resistant and is therefore not suitable as a cryptographic signature. Use SHA256 or SHA3 instead.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "flask"
+    },
+    {
+      "check_id": "python.lang.security.audit.exec-detected.exec-detected",
+      "path": "/home/saketh/Sentra/data/repos/flask/src/flask/config.py",
+      "start_line": 209,
+      "start_col": 17,
+      "start_offset": 7222,
+      "end_line": 209,
+      "end_offset": 7285,
+      "severity": "WARNING",
+      "message": "Detected the use of exec(). exec() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "flask"
+    },
+    {
+      "check_id": "javascript.browser.security.wildcard-postmessage-configuration.wildcard-postmessage-configuration",
+      "path": "/home/saketh/Sentra/data/repos/axios/lib/utils.js",
+      "start_line": 1081,
+      "start_col": 11,
+      "start_offset": 29646,
+      "end_line": 1081,
+      "end_offset": 29677,
+      "severity": "WARNING",
+      "message": "The target origin of the window.postMessage() API is set to \"*\". This could allow for information disclosure due to the possibility of any origin allowed to receive the message.",
+      "fingerprint": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "repo": "axios"
+    }
+  ],
+  "limitations_honest_summary": [
+    "Semgrep CE analysis is intra-procedural: findings do not cross function or file boundaries. Proven empirically in cross_file_limitation_experiment.",
+    "Semgrep severity values are rule-authored, not CVSS. A mapping to Sentra's critical/high/medium/low scale is required (D9).",
+    "Rules are community-maintained; precision varies per rule, so precision must be reported per rule namespace, not as one number.",
+    "Semgrep-maintained rules carry Semgrep Rules License v1.0: internal use only; rules must not be redistributed."
+  ]
+}

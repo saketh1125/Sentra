@@ -1,0 +1,315 @@
+{
+  "spike": "S1",
+  "subject": "Tree-sitter parsing and syntax-aware chunking",
+  "toolchain": {
+    "tree_sitter_python_binding": "0.25.2",
+    "tree_sitter_python_grammar": "0.25.0",
+    "tree_sitter_javascript_grammar": "0.23.1",
+    "python": "3.12.13"
+  },
+  "config": {
+    "include_decorators": true,
+    "emit_module_chunks": true,
+    "oversized_line_threshold": 200,
+    "min_line_count": 1
+  },
+  "targets_from_research": {
+    "line_range_accuracy": 95.0,
+    "parse_rate": 99.0
+  },
+  "totals": {
+    "files_seen": 408,
+    "files_parsed": 408,
+    "files_with_error": 0,
+    "files_failed": 0,
+    "chunks_total": 7570,
+    "line_range_checks": 7570,
+    "line_range_failures": 0,
+    "oversized_chunks": 60,
+    "duplicate_chunk_ranges": 0,
+    "self_nested_qualified_names": 0,
+    "total_bytes": 2336709,
+    "wall_seconds": 0.677,
+    "parse_seconds": 0.65,
+    "parse_rate": 100.0,
+    "clean_parse_rate": 100.0,
+    "line_range_accuracy": 100.0
+  },
+  "repos": [
+    {
+      "repo": "axios",
+      "commit": "b6e62b1612609d38ac29eaad683c2a026e368994",
+      "files_seen": 263,
+      "files_parsed": 263,
+      "files_with_error": 0,
+      "files_failed": 0,
+      "parse_failures": {},
+      "chunks_total": 4974,
+      "chunks_by_kind": {
+        "module": 263,
+        "function": 4279,
+        "class": 150,
+        "method": 282
+      },
+      "chunks_by_language": {
+        "typescript": 331,
+        "javascript": 4643
+      },
+      "line_range_checks": 4974,
+      "line_range_failures": 0,
+      "range_failure_reasons": {},
+      "duplicate_chunk_ranges": 0,
+      "duplicate_examples": [],
+      "self_nested_qualified_names": 0,
+      "failure_samples": [],
+      "range_failure_samples": [],
+      "oversized_chunks": 44,
+      "total_bytes": 1336588,
+      "parse_seconds": 0.4269341839990375,
+      "largest_chunks": [
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/lib/adapters/http.js",
+          "name": "<module>",
+          "lines": 1608
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/index.d.ts",
+          "name": "<module>",
+          "lines": 798
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/lib/adapters/fetch.js",
+          "name": "<module>",
+          "lines": 750
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/lib/adapters/fetch.js",
+          "name": "factory",
+          "lines": 634
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/lib/adapters/fetch.js",
+          "name": "factory.<anonymous>",
+          "lines": 500
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/docs/scripts/process-sponsors.js",
+          "name": "<module>",
+          "lines": 348
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/examples/server.js",
+          "name": "<module>",
+          "lines": 195
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/axios/lib/adapters/http.js",
+          "name": "setProxy",
+          "lines": 185
+        }
+      ],
+      "wall_seconds": 0.444,
+      "parse_rate": 100.0,
+      "clean_parse_rate": 100.0,
+      "line_range_accuracy": 100.0,
+      "files_per_second": 591.9,
+      "mb_per_second": 3.01
+    },
+    {
+      "repo": "fixtures",
+      "commit": "0a3d8935a95f58a3f1d40933e2743f50e2930bd5",
+      "files_seen": 25,
+      "files_parsed": 25,
+      "files_with_error": 0,
+      "files_failed": 0,
+      "parse_failures": {},
+      "chunks_total": 51,
+      "chunks_by_kind": {
+        "module": 23,
+        "function": 28
+      },
+      "chunks_by_language": {
+        "python": 40,
+        "javascript": 11
+      },
+      "line_range_checks": 51,
+      "line_range_failures": 0,
+      "range_failure_reasons": {},
+      "duplicate_chunk_ranges": 0,
+      "duplicate_examples": [],
+      "self_nested_qualified_names": 0,
+      "failure_samples": [],
+      "range_failure_samples": [],
+      "oversized_chunks": 0,
+      "total_bytes": 3557,
+      "parse_seconds": 0.0016545010021218332,
+      "largest_chunks": [],
+      "wall_seconds": 0.002,
+      "parse_rate": 100.0,
+      "clean_parse_rate": 100.0,
+      "line_range_accuracy": 100.0,
+      "files_per_second": 12789.7,
+      "mb_per_second": 1.82
+    },
+    {
+      "repo": "flask",
+      "commit": "d73fa1cdcbd8b1465c151db8924ba58b1dd14e35",
+      "files_seen": 83,
+      "files_parsed": 83,
+      "files_with_error": 0,
+      "files_failed": 0,
+      "parse_failures": {},
+      "chunks_total": 1702,
+      "chunks_by_kind": {
+        "module": 80,
+        "function": 1462,
+        "class": 160
+      },
+      "chunks_by_language": {
+        "python": 1702
+      },
+      "line_range_checks": 1702,
+      "line_range_failures": 0,
+      "range_failure_reasons": {},
+      "duplicate_chunk_ranges": 0,
+      "duplicate_examples": [],
+      "self_nested_qualified_names": 0,
+      "failure_samples": [],
+      "range_failure_samples": [],
+      "oversized_chunks": 7,
+      "total_bytes": 589437,
+      "parse_seconds": 0.12992931000098906,
+      "largest_chunks": [
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/app.py",
+          "name": "<module>",
+          "lines": 1629
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/app.py",
+          "name": "Flask",
+          "lines": 1519
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/cli.py",
+          "name": "<module>",
+          "lines": 1128
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/ctx.py",
+          "name": "<module>",
+          "lines": 541
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/config.py",
+          "name": "<module>",
+          "lines": 368
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/config.py",
+          "name": "Config",
+          "lines": 318
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/ctx.py",
+          "name": "AppContext",
+          "lines": 266
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/flask/src/flask/cli.py",
+          "name": "FlaskGroup",
+          "lines": 158
+        }
+      ],
+      "wall_seconds": 0.136,
+      "parse_rate": 100.0,
+      "clean_parse_rate": 100.0,
+      "line_range_accuracy": 100.0,
+      "files_per_second": 611.5,
+      "mb_per_second": 4.34
+    },
+    {
+      "repo": "requests",
+      "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+      "files_seen": 37,
+      "files_parsed": 37,
+      "files_with_error": 0,
+      "files_failed": 0,
+      "parse_failures": {},
+      "chunks_total": 843,
+      "chunks_by_kind": {
+        "module": 36,
+        "class": 96,
+        "function": 711
+      },
+      "chunks_by_language": {
+        "python": 843
+      },
+      "line_range_checks": 843,
+      "line_range_failures": 0,
+      "range_failure_reasons": {},
+      "duplicate_chunk_ranges": 0,
+      "duplicate_examples": [],
+      "self_nested_qualified_names": 0,
+      "failure_samples": [],
+      "range_failure_samples": [],
+      "oversized_chunks": 9,
+      "total_bytes": 407127,
+      "parse_seconds": 0.0911858450017462,
+      "largest_chunks": [
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/src/requests/adapters.py",
+          "name": "<module>",
+          "lines": 749
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/src/requests/adapters.py",
+          "name": "HTTPAdapter",
+          "lines": 591
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/docs/conf.py",
+          "name": "<module>",
+          "lines": 386
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/src/requests/auth.py",
+          "name": "<module>",
+          "lines": 355
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/src/requests/auth.py",
+          "name": "HTTPDigestAuth",
+          "lines": 231
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/src/requests/__init__.py",
+          "name": "<module>",
+          "lines": 220
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/src/requests/_types.py",
+          "name": "<module>",
+          "lines": 189
+        },
+        {
+          "file": "/home/saketh/Sentra/data/repos/requests/src/requests/api.py",
+          "name": "<module>",
+          "lines": 181
+        }
+      ],
+      "wall_seconds": 0.095,
+      "parse_rate": 100.0,
+      "clean_parse_rate": 100.0,
+      "line_range_accuracy": 100.0,
+      "files_per_second": 390.1,
+      "mb_per_second": 4.29
+    }
+  ],
+  "verdict": {
+    "line_range_accuracy_met": true,
+    "parse_rate_met": true,
+    "no_duplicate_chunks": true,
+    "no_self_nested_names": true
+  }
+}

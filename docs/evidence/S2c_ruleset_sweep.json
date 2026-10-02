@@ -1,0 +1,282 @@
+{
+  "spike": "S2c",
+  "subject": "Semgrep CE ruleset comparison for decision D9",
+  "toolchain": {
+    "semgrep": "1.179.0"
+  },
+  "corpus": "data/repos/fixtures/probe (21 vulnerable patterns, 4 safe controls)",
+  "cost_repo": "data/repos/flask (pinned commit)",
+  "candidates": [
+    {
+      "rulesets": [
+        "p/security-audit",
+        "p/python",
+        "p/javascript"
+      ],
+      "probe_recall": 0.429,
+      "probe_control_specificity": 1.0,
+      "probe_findings": 10,
+      "probe_detected": [
+        "eval_user_input",
+        "exec_user_input",
+        "js_child_process_exec",
+        "os_system",
+        "pickle_loads_untrusted",
+        "sha1_for_password",
+        "subprocess_popen_shell",
+        "urlopen_nonliteral",
+        "verify_false_tls"
+      ],
+      "probe_missed": [
+        "hardcoded_password",
+        "js_eval",
+        "js_hardcoded_secret",
+        "js_path_join_traversal",
+        "js_sql_concat",
+        "md5_for_password",
+        "open_user_path",
+        "random_for_token",
+        "sqli_inline_concat",
+        "sqli_inline_fstring",
+        "subprocess_shell_true",
+        "yaml_load_unsafe"
+      ],
+      "controls_flagged": [],
+      "probe_seconds": 2.5,
+      "severity_distribution": {
+        "ERROR": 4,
+        "WARNING": 6
+      },
+      "realrepo_findings": 3,
+      "realrepo_seconds": 4.0,
+      "errors": []
+    },
+    {
+      "rulesets": [
+        "p/security-audit",
+        "p/python",
+        "p/javascript",
+        "p/secrets"
+      ],
+      "probe_recall": 0.429,
+      "probe_control_specificity": 1.0,
+      "probe_findings": 10,
+      "probe_detected": [
+        "eval_user_input",
+        "exec_user_input",
+        "js_child_process_exec",
+        "os_system",
+        "pickle_loads_untrusted",
+        "sha1_for_password",
+        "subprocess_popen_shell",
+        "urlopen_nonliteral",
+        "verify_false_tls"
+      ],
+      "probe_missed": [
+        "hardcoded_password",
+        "js_eval",
+        "js_hardcoded_secret",
+        "js_path_join_traversal",
+        "js_sql_concat",
+        "md5_for_password",
+        "open_user_path",
+        "random_for_token",
+        "sqli_inline_concat",
+        "sqli_inline_fstring",
+        "subprocess_shell_true",
+        "yaml_load_unsafe"
+      ],
+      "controls_flagged": [],
+      "probe_seconds": 2.6,
+      "severity_distribution": {
+        "ERROR": 4,
+        "WARNING": 6
+      },
+      "realrepo_findings": 3,
+      "realrepo_seconds": 4.6,
+      "errors": []
+    },
+    {
+      "rulesets": [
+        "p/security-audit",
+        "p/python",
+        "p/javascript",
+        "p/secrets",
+        "p/ci"
+      ],
+      "probe_recall": 0.429,
+      "probe_control_specificity": 1.0,
+      "probe_findings": 10,
+      "probe_detected": [
+        "eval_user_input",
+        "exec_user_input",
+        "js_child_process_exec",
+        "os_system",
+        "pickle_loads_untrusted",
+        "sha1_for_password",
+        "subprocess_popen_shell",
+        "urlopen_nonliteral",
+        "verify_false_tls"
+      ],
+      "probe_missed": [
+        "hardcoded_password",
+        "js_eval",
+        "js_hardcoded_secret",
+        "js_path_join_traversal",
+        "js_sql_concat",
+        "md5_for_password",
+        "open_user_path",
+        "random_for_token",
+        "sqli_inline_concat",
+        "sqli_inline_fstring",
+        "subprocess_shell_true",
+        "yaml_load_unsafe"
+      ],
+      "controls_flagged": [],
+      "probe_seconds": 3.0,
+      "severity_distribution": {
+        "ERROR": 4,
+        "WARNING": 6
+      },
+      "realrepo_findings": 4,
+      "realrepo_seconds": 4.4,
+      "errors": []
+    },
+    {
+      "rulesets": [
+        "p/default"
+      ],
+      "probe_recall": 0.619,
+      "probe_control_specificity": 1.0,
+      "probe_findings": 14,
+      "probe_detected": [
+        "eval_user_input",
+        "exec_user_input",
+        "js_child_process_exec",
+        "js_eval",
+        "js_path_join_traversal",
+        "os_system",
+        "pickle_loads_untrusted",
+        "sha1_for_password",
+        "sqli_inline_concat",
+        "sqli_inline_fstring",
+        "subprocess_popen_shell",
+        "urlopen_nonliteral",
+        "verify_false_tls"
+      ],
+      "probe_missed": [
+        "hardcoded_password",
+        "js_hardcoded_secret",
+        "js_sql_concat",
+        "md5_for_password",
+        "open_user_path",
+        "random_for_token",
+        "subprocess_shell_true",
+        "yaml_load_unsafe"
+      ],
+      "controls_flagged": [],
+      "probe_seconds": 2.6,
+      "severity_distribution": {
+        "WARNING": 8,
+        "ERROR": 6
+      },
+      "realrepo_findings": 16,
+      "realrepo_seconds": 4.4,
+      "errors": []
+    },
+    {
+      "rulesets": [
+        "p/greatest-per-language-effort"
+      ],
+      "probe_recall": 0.0,
+      "probe_control_specificity": 1.0,
+      "probe_findings": 0,
+      "probe_detected": [],
+      "probe_missed": [
+        "eval_user_input",
+        "exec_user_input",
+        "hardcoded_password",
+        "js_child_process_exec",
+        "js_eval",
+        "js_hardcoded_secret",
+        "js_path_join_traversal",
+        "js_sql_concat",
+        "md5_for_password",
+        "open_user_path",
+        "os_system",
+        "pickle_loads_untrusted",
+        "random_for_token",
+        "sha1_for_password",
+        "sqli_inline_concat",
+        "sqli_inline_fstring",
+        "subprocess_popen_shell",
+        "subprocess_shell_true",
+        "urlopen_nonliteral",
+        "verify_false_tls",
+        "yaml_load_unsafe"
+      ],
+      "controls_flagged": [],
+      "probe_seconds": 1.9,
+      "severity_distribution": {},
+      "realrepo_findings": 0,
+      "realrepo_seconds": 1.2,
+      "errors": [
+        {
+          "code": 2,
+          "level": "error",
+          "type": "SemgrepError",
+          "message": "Failed to download configuration from https://semgrep.dev/c/p/greatest-per-language-effort HTTP 404."
+        },
+        {
+          "code": 7,
+          "level": "error",
+          "type": "SemgrepError",
+          "message": "invalid configuration file found (1 configs were invalid)"
+        }
+      ]
+    },
+    {
+      "rulesets": [
+        "p/owasp-top-ten"
+      ],
+      "probe_recall": 0.143,
+      "probe_control_specificity": 1.0,
+      "probe_findings": 4,
+      "probe_detected": [
+        "os_system",
+        "sha1_for_password",
+        "subprocess_popen_shell"
+      ],
+      "probe_missed": [
+        "eval_user_input",
+        "exec_user_input",
+        "hardcoded_password",
+        "js_child_process_exec",
+        "js_eval",
+        "js_hardcoded_secret",
+        "js_path_join_traversal",
+        "js_sql_concat",
+        "md5_for_password",
+        "open_user_path",
+        "pickle_loads_untrusted",
+        "random_for_token",
+        "sqli_inline_concat",
+        "sqli_inline_fstring",
+        "subprocess_shell_true",
+        "urlopen_nonliteral",
+        "verify_false_tls",
+        "yaml_load_unsafe"
+      ],
+      "controls_flagged": [],
+      "probe_seconds": 2.3,
+      "severity_distribution": {
+        "WARNING": 2,
+        "ERROR": 2
+      },
+      "realrepo_findings": 3,
+      "realrepo_seconds": 3.8,
+      "errors": []
+    }
+  ],
+  "note": "Recall is measured against patterns WE authored. It is not a real-world recall claim and must not be presented as one."
+}

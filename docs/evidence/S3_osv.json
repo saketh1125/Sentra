@@ -1,0 +1,477 @@
+{
+  "spike": "S3",
+  "subject": "OSV-Scanner / OSV.dev dependency risk feasibility",
+  "toolchain": {
+    "osv_scanner": "2.6.0",
+    "osv_scalibr": "0.5.2",
+    "cvss_library": "3.6",
+    "checksum_verified": true
+  },
+  "integration_hazard": {
+    "finding": "osv-scanner honours .gitignore by default. Sentra's own .gitignore excludes data/repos/*, so a default invocation scanned 0 files, exited 128, and reported 'No package sources found'.",
+    "mitigation": "Always pass --no-ignore; treat 'no sources found' as a harness failure, not a clean result.",
+    "same_hazard_confirmed_for": [
+      "semgrep (--no-git-ignore)"
+    ]
+  },
+  "exit_code_semantics": {
+    "observed": 1,
+    "meaning": "osv-scanner exits non-zero (1) when vulnerabilities are FOUND. A non-zero exit must not be treated as a tool failure in P3."
+  },
+  "fixture": {
+    "path": "data/repos/fixtures/tiny_py",
+    "seconds": 2.54,
+    "raw_scanner_findings": 38,
+    "normalized_unique_findings": 21,
+    "dedup_factor": 1.81,
+    "severity_distribution": {
+      "medium": 11,
+      "high": 9,
+      "critical": 1
+    },
+    "severity_sources": {
+      "cvss_vector:CVSS_V3": 17,
+      "cvss_vector:CVSS_V4": 4
+    },
+    "findings": [
+      {
+        "canonical_id": "CVE-2020-28500",
+        "advisory_ids": [
+          "GHSA-29mw-wpgm-hmr9"
+        ],
+        "package": "lodash@4.17.15",
+        "ecosystem": "npm",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 5.3,
+        "affected_range": ">=4.0.0, <4.17.21; >=4.0.0, no fix available",
+        "fixed_version": "4.17.21",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2020-8203",
+        "advisory_ids": [
+          "GHSA-p6mc-m468-83gw"
+        ],
+        "package": "lodash@4.17.15",
+        "ecosystem": "npm",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 7.4,
+        "affected_range": ">=3.7.0, <4.17.19; >=3.7.0, <4.17.20; >=4.0.0, no fix available; >=3.7.0, no fix available; all versions, no fix available",
+        "fixed_version": "4.17.19",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2021-23337",
+        "advisory_ids": [
+          "GHSA-35jh-r3h4-6jhm",
+          "GHSA-r5fr-rjxr-66jc"
+        ],
+        "package": "lodash@4.17.15",
+        "ecosystem": "npm",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 7.2,
+        "affected_range": "all versions, <4.17.21; all versions, no fix available",
+        "fixed_version": "4.17.21",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2025-13465",
+        "advisory_ids": [
+          "GHSA-f23m-r3pf-42rh",
+          "GHSA-xxjr-mmjv-4gpg"
+        ],
+        "package": "lodash@4.17.15",
+        "ecosystem": "npm",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 6.5,
+        "affected_range": "all versions, <4.18.0; >=4.0.0, <4.18.0",
+        "fixed_version": "4.18.0",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2020-7598",
+        "advisory_ids": [
+          "GHSA-vh95-rmgr-6w4m"
+        ],
+        "package": "minimist@0.0.8",
+        "ecosystem": "npm",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 5.6,
+        "affected_range": "all versions, <0.2.1; >=1.0.0, <1.2.3",
+        "fixed_version": "0.2.1",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2021-44906",
+        "advisory_ids": [
+          "GHSA-xvch-5gv4-984h"
+        ],
+        "package": "minimist@0.0.8",
+        "ecosystem": "npm",
+        "severity": "critical",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 9.8,
+        "affected_range": ">=1.0.0, <1.2.6; all versions, <0.2.4",
+        "fixed_version": "0.2.4",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2018-18074",
+        "advisory_ids": [
+          "PYSEC-2018-28",
+          "GHSA-x84v-xcm2-53pg"
+        ],
+        "package": "requests@2.19.0",
+        "ecosystem": "PyPI",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 7.5,
+        "affected_range": "all versions, <2.20.0",
+        "fixed_version": "2.20.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2023-32681",
+        "advisory_ids": [
+          "PYSEC-2023-74",
+          "GHSA-j8r2-6x86-q33q"
+        ],
+        "package": "requests@2.19.0",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 6.1,
+        "affected_range": ">=2.3.0, <2.31.0",
+        "fixed_version": "2.31.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2024-35195",
+        "advisory_ids": [
+          "PYSEC-2026-1873",
+          "GHSA-9wx4-h78v-vm56"
+        ],
+        "package": "requests@2.19.0",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 5.6,
+        "affected_range": "all versions, <2.32.0",
+        "fixed_version": "2.32.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2024-47081",
+        "advisory_ids": [
+          "PYSEC-2026-1872",
+          "GHSA-9hjg-9r4m-mvj7"
+        ],
+        "package": "requests@2.19.0",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 5.3,
+        "affected_range": "all versions, <2.32.4",
+        "fixed_version": "2.32.4",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2026-25645",
+        "advisory_ids": [
+          "PYSEC-2026-2275",
+          "GHSA-gc5v-m9x4-r6x2"
+        ],
+        "package": "requests@2.19.0",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 5.5,
+        "affected_range": "all versions, <2.33.0",
+        "fixed_version": "2.33.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2023-43804",
+        "advisory_ids": [
+          "PYSEC-2023-192",
+          "GHSA-v845-jxx5-vc9f"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 8.1,
+        "affected_range": "all versions, <1.26.17",
+        "fixed_version": "1.26.17",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2023-45803",
+        "advisory_ids": [
+          "PYSEC-2023-212",
+          "GHSA-g4mx-q9vg-27p4"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 4.2,
+        "affected_range": "all versions, <1.26.18",
+        "fixed_version": "1.26.18",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2024-37891",
+        "advisory_ids": [
+          "PYSEC-2026-1995",
+          "GHSA-34jh-p97f-mpxf"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 4.4,
+        "affected_range": ">=2.0.0, <2.2.2",
+        "fixed_version": "1.26.19",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2025-50181",
+        "advisory_ids": [
+          "PYSEC-2026-1999",
+          "GHSA-pq67-6m6q-mj2v"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 5.3,
+        "affected_range": "all versions, <2.5.0",
+        "fixed_version": "2.5.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2025-66418",
+        "advisory_ids": [
+          "PYSEC-2026-1998",
+          "GHSA-gm62-xv2j-4w53"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V4",
+        "cvss_base_score": 8.9,
+        "affected_range": ">=1.24, <2.6.0",
+        "fixed_version": "2.6.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2025-66471",
+        "advisory_ids": [
+          "PYSEC-2026-1994",
+          "GHSA-2xpw-w6gg-jr37"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V4",
+        "cvss_base_score": 8.9,
+        "affected_range": ">=1.0, <2.6.0",
+        "fixed_version": "2.6.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2026-21441",
+        "advisory_ids": [
+          "PYSEC-2026-1996",
+          "GHSA-38jv-5279-wg99"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 7.5,
+        "affected_range": ">=1.22, <2.6.3",
+        "fixed_version": "2.6.3",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2026-44431",
+        "advisory_ids": [
+          "PYSEC-2026-141",
+          "GHSA-qccp-gfcp-xxvc"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 5.3,
+        "affected_range": ">=1.23, <2.7.0",
+        "fixed_version": "2.7.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2026-97687",
+        "advisory_ids": [
+          "PYSEC-2026-4175",
+          "GHSA-8988-9cw3-xx77"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V4",
+        "cvss_base_score": 7.6,
+        "affected_range": ">=1.26.0, <2.8.0",
+        "fixed_version": "2.8.0",
+        "lockfile": "requirements.txt"
+      },
+      {
+        "canonical_id": "CVE-2026-97689",
+        "advisory_ids": [
+          "PYSEC-2026-4177",
+          "GHSA-vxq7-64xx-v4gw"
+        ],
+        "package": "urllib3@1.26.5",
+        "ecosystem": "PyPI",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V4",
+        "cvss_base_score": 8.9,
+        "affected_range": ">=1.10.3, <2.8.0",
+        "fixed_version": "2.8.0",
+        "lockfile": "requirements.txt"
+      }
+    ]
+  },
+  "objective_O4_agreement": {
+    "metric_definition": "Exact set equality of canonical CVEs per package@version between Sentra's normalised output and a direct POST /v1/query to OSV.dev.",
+    "package_version_pairs": 4,
+    "exact_set_matches": 4,
+    "exact_set_match_rate": 1.0,
+    "target": 1.0,
+    "detail": [
+      {
+        "ecosystem": "npm",
+        "package": "lodash",
+        "version": "4.17.15",
+        "sentra_unique_cves": 4,
+        "direct_osv_cves": 4,
+        "exact_set_match": true,
+        "only_in_sentra": [],
+        "only_in_direct": []
+      },
+      {
+        "ecosystem": "npm",
+        "package": "minimist",
+        "version": "0.0.8",
+        "sentra_unique_cves": 2,
+        "direct_osv_cves": 2,
+        "exact_set_match": true,
+        "only_in_sentra": [],
+        "only_in_direct": []
+      },
+      {
+        "ecosystem": "PyPI",
+        "package": "requests",
+        "version": "2.19.0",
+        "sentra_unique_cves": 5,
+        "direct_osv_cves": 5,
+        "exact_set_match": true,
+        "only_in_sentra": [],
+        "only_in_direct": []
+      },
+      {
+        "ecosystem": "PyPI",
+        "package": "urllib3",
+        "version": "1.26.5",
+        "sentra_unique_cves": 10,
+        "direct_osv_cves": 10,
+        "exact_set_match": true,
+        "only_in_sentra": [],
+        "only_in_direct": []
+      }
+    ]
+  },
+  "determinism": {
+    "two_runs_identical": true
+  },
+  "offline_mode": {
+    "attempted": true,
+    "correct_invocation": "osv-scanner scan source --offline-vulnerabilities --download-offline-databases -r <dir>",
+    "seed_exit_code": 1,
+    "seed_seconds": 11.0,
+    "exit_code": 1,
+    "seconds": 10.4,
+    "findings_online_normalized": 21,
+    "findings_offline_normalized": 21,
+    "identical_after_normalisation": true,
+    "demo_value": "Verified: Sentra can produce byte-stable dependency findings with no network access, which is the documented demo contingency for the viva."
+  },
+  "real_repositories": [
+    {
+      "repo": "requests",
+      "exit_code": 1,
+      "seconds": 11.2,
+      "raw_findings": 2,
+      "normalized_unique": 1,
+      "severities": {
+        "medium": 1
+      },
+      "severity_sources": {
+        "cvss_vector:CVSS_V3": 1
+      },
+      "packages": [
+        "idna@3.9.0"
+      ],
+      "lockfiles": [
+        "requirements.txt"
+      ]
+    },
+    {
+      "repo": "axios",
+      "exit_code": 1,
+      "seconds": 2.9,
+      "raw_findings": 32,
+      "normalized_unique": 26,
+      "severities": {
+        "medium": 13,
+        "high": 11,
+        "low": 2
+      },
+      "severity_sources": {
+        "cvss_vector:CVSS_V3": 22,
+        "cvss_vector:CVSS_V4": 4
+      },
+      "packages": [
+        "@vitest/mocker@4.1.9",
+        "brace-expansion@2.1.4",
+        "diff@5.0.0",
+        "fast-uri@3.1.7",
+        "js-yaml@4.1.0",
+        "minimatch@4.2.1",
+        "nanoid@3.3.1",
+        "nanoid@3.3.16",
+        "qs@6.15.3",
+        "serialize-javascript@6.0.0",
+        "vite@5.4.21"
+      ],
+      "lockfiles": [
+        "package-lock.json"
+      ]
+    }
+  ],
+  "severity_policy": {
+    "chain": [
+      "1. CVSS vector (v3.1/v4.0/v2) -> computed base score -> spec qualitative band",
+      "2. database_specific.severity string -> band",
+      "3. explicit 'unknown'"
+    ],
+    "rationale": "A computed CVSS score is objective; a vendor label is editorial. Ordering the chain this way makes severity reproducible.",
+    "bands_source": "CVSS v3.1 / v4.0 specification qualitative severity rating scale",
+    "unresolvable_measured_pct": 0.0
+  }
+}

@@ -1,0 +1,42 @@
+# Ignore rules for Sentra
+# --- Secrets & environment ---
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# --- Cloned repositories (data, not source) ---
+data/repos/*
+!data/repos/.gitkeep
+data/cache/*
+!data/cache/.gitkeep
+
+# --- Spike working artifacts (raw output, logs) ---
+data/spike_work/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+spikes/**/__pycache__/
+
+# --- Node ---
+node_modules/
+dist/
+build/
+.vite/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+
+# --- Large or generated evidence ---
+docs/evidence/raw/
+*.log
