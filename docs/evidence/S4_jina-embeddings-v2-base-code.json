@@ -1,0 +1,27 @@
+{
+  "spike": "S4",
+  "subject": "Retrieval quality and embedding candidate comparison (D1)",
+  "candidate": "jina-embeddings-v2-base-code",
+  "repo": {
+    "name": "requests",
+    "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60"
+  },
+  "corpus": {
+    "chunks": 807,
+    "excluded": "module chunks"
+  },
+  "queries": {
+    "total_authored": 24,
+    "resolved_at_this_commit": 24,
+    "unresolved": [],
+    "top_k": 10
+  },
+  "metric_definitions": {
+    "hit_rate_at_k": "expected chunk (file + qualified_name) in top-k",
+    "mrr": "mean reciprocal rank of the expected chunk",
+    "ndcg_at_k": "single-relevant-item nDCG@k",
+    "expected_line_at_k": "a top-k chunk spans the expected source line; what an M1 citation would point at"
+  },
+  "results": [],
+  "caveat": "OUR queries against ONE repository (24 queries, requests). Enough to rank candidates and validate the pipeline; NOT a general retrieval quality claim. O1 requires 30 questions per repo across 2-3 repos."
+}

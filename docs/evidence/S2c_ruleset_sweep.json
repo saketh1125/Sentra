@@ -42,13 +42,13 @@
         "yaml_load_unsafe"
       ],
       "controls_flagged": [],
-      "probe_seconds": 2.5,
+      "probe_seconds": 3.6,
       "severity_distribution": {
         "ERROR": 4,
         "WARNING": 6
       },
       "realrepo_findings": 3,
-      "realrepo_seconds": 4.0,
+      "realrepo_seconds": 6.8,
       "errors": []
     },
     {
@@ -87,13 +87,13 @@
         "yaml_load_unsafe"
       ],
       "controls_flagged": [],
-      "probe_seconds": 2.6,
+      "probe_seconds": 3.8,
       "severity_distribution": {
         "ERROR": 4,
         "WARNING": 6
       },
       "realrepo_findings": 3,
-      "realrepo_seconds": 4.6,
+      "realrepo_seconds": 6.8,
       "errors": []
     },
     {
@@ -133,13 +133,13 @@
         "yaml_load_unsafe"
       ],
       "controls_flagged": [],
-      "probe_seconds": 3.0,
+      "probe_seconds": 4.2,
       "severity_distribution": {
         "ERROR": 4,
         "WARNING": 6
       },
       "realrepo_findings": 4,
-      "realrepo_seconds": 4.4,
+      "realrepo_seconds": 7.4,
       "errors": []
     },
     {
@@ -175,13 +175,13 @@
         "yaml_load_unsafe"
       ],
       "controls_flagged": [],
-      "probe_seconds": 2.6,
+      "probe_seconds": 3.9,
       "severity_distribution": {
         "WARNING": 8,
         "ERROR": 6
       },
       "realrepo_findings": 16,
-      "realrepo_seconds": 4.4,
+      "realrepo_seconds": 7.4,
       "errors": []
     },
     {
@@ -216,10 +216,10 @@
         "yaml_load_unsafe"
       ],
       "controls_flagged": [],
-      "probe_seconds": 1.9,
+      "probe_seconds": 2.5,
       "severity_distribution": {},
       "realrepo_findings": 0,
-      "realrepo_seconds": 1.2,
+      "realrepo_seconds": 1.7,
       "errors": [
         {
           "code": 2,
@@ -268,13 +268,13 @@
         "yaml_load_unsafe"
       ],
       "controls_flagged": [],
-      "probe_seconds": 2.3,
+      "probe_seconds": 3.4,
       "severity_distribution": {
         "WARNING": 2,
         "ERROR": 2
       },
       "realrepo_findings": 3,
-      "realrepo_seconds": 3.8,
+      "realrepo_seconds": 6.3,
       "errors": []
     }
   ],

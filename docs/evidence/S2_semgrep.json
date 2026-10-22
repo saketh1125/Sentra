@@ -30,7 +30,7 @@
     {
       "repo": "requests",
       "exit_code": 0,
-      "seconds": 3.52,
+      "seconds": 6.37,
       "findings": 9,
       "unique_rules": 2,
       "severities": {
@@ -47,7 +47,7 @@
     {
       "repo": "flask",
       "exit_code": 0,
-      "seconds": 3.88,
+      "seconds": 7.6,
       "findings": 3,
       "unique_rules": 3,
       "severities": {
@@ -64,7 +64,7 @@
     {
       "repo": "axios",
       "exit_code": 0,
-      "seconds": 4.1,
+      "seconds": 8.94,
       "findings": 1,
       "unique_rules": 1,
       "severities": {

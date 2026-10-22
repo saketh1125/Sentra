@@ -29,8 +29,8 @@
     "duplicate_chunk_ranges": 0,
     "self_nested_qualified_names": 0,
     "total_bytes": 2336709,
-    "wall_seconds": 0.677,
-    "parse_seconds": 0.65,
+    "wall_seconds": 1.561,
+    "parse_seconds": 1.502,
     "parse_rate": 100.0,
     "clean_parse_rate": 100.0,
     "line_range_accuracy": 100.0
@@ -65,7 +65,7 @@
       "range_failure_samples": [],
       "oversized_chunks": 44,
       "total_bytes": 1336588,
-      "parse_seconds": 0.4269341839990375,
+      "parse_seconds": 0.9776506010048251,
       "largest_chunks": [
         {
           "file": "/home/saketh/Sentra/data/repos/axios/lib/adapters/http.js",
@@ -108,16 +108,16 @@
           "lines": 185
         }
       ],
-      "wall_seconds": 0.444,
+      "wall_seconds": 1.016,
       "parse_rate": 100.0,
       "clean_parse_rate": 100.0,
       "line_range_accuracy": 100.0,
-      "files_per_second": 591.9,
-      "mb_per_second": 3.01
+      "files_per_second": 258.9,
+      "mb_per_second": 1.32
     },
     {
       "repo": "fixtures",
-      "commit": "0a3d8935a95f58a3f1d40933e2743f50e2930bd5",
+      "commit": "ff026950bdd9b7a99e149c1076eb50c48df4baa6",
       "files_seen": 25,
       "files_parsed": 25,
       "files_with_error": 0,
@@ -142,14 +142,14 @@
       "range_failure_samples": [],
       "oversized_chunks": 0,
       "total_bytes": 3557,
-      "parse_seconds": 0.0016545010021218332,
+      "parse_seconds": 0.0035764740005106432,
       "largest_chunks": [],
-      "wall_seconds": 0.002,
+      "wall_seconds": 0.004,
       "parse_rate": 100.0,
       "clean_parse_rate": 100.0,
       "line_range_accuracy": 100.0,
-      "files_per_second": 12789.7,
-      "mb_per_second": 1.82
+      "files_per_second": 5909.9,
+      "mb_per_second": 0.84
     },
     {
       "repo": "flask",
@@ -178,7 +178,7 @@
       "range_failure_samples": [],
       "oversized_chunks": 7,
       "total_bytes": 589437,
-      "parse_seconds": 0.12992931000098906,
+      "parse_seconds": 0.30381071400006476,
       "largest_chunks": [
         {
           "file": "/home/saketh/Sentra/data/repos/flask/src/flask/app.py",
@@ -221,12 +221,12 @@
           "lines": 158
         }
       ],
-      "wall_seconds": 0.136,
+      "wall_seconds": 0.317,
       "parse_rate": 100.0,
       "clean_parse_rate": 100.0,
       "line_range_accuracy": 100.0,
-      "files_per_second": 611.5,
-      "mb_per_second": 4.34
+      "files_per_second": 261.7,
+      "mb_per_second": 1.86
     },
     {
       "repo": "requests",
@@ -255,7 +255,7 @@
       "range_failure_samples": [],
       "oversized_chunks": 9,
       "total_bytes": 407127,
-      "parse_seconds": 0.0911858450017462,
+      "parse_seconds": 0.21656669100411818,
       "largest_chunks": [
         {
           "file": "/home/saketh/Sentra/data/repos/requests/src/requests/adapters.py",
@@ -298,12 +298,12 @@
           "lines": 181
         }
       ],
-      "wall_seconds": 0.095,
+      "wall_seconds": 0.224,
       "parse_rate": 100.0,
       "clean_parse_rate": 100.0,
       "line_range_accuracy": 100.0,
-      "files_per_second": 390.1,
-      "mb_per_second": 4.29
+      "files_per_second": 164.9,
+      "mb_per_second": 1.81
     }
   ],
   "verdict": {

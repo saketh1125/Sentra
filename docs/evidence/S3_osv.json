@@ -20,17 +20,17 @@
   },
   "fixture": {
     "path": "data/repos/fixtures/tiny_py",
-    "seconds": 2.54,
+    "seconds": 2.98,
     "raw_scanner_findings": 38,
-    "normalized_unique_findings": 21,
-    "dedup_factor": 1.81,
+    "normalized_unique_findings": 23,
+    "dedup_factor": 1.65,
     "severity_distribution": {
-      "medium": 11,
-      "high": 9,
+      "medium": 12,
+      "high": 10,
       "critical": 1
     },
     "severity_sources": {
-      "cvss_vector:CVSS_V3": 17,
+      "cvss_vector:CVSS_V3": 19,
       "cvss_vector:CVSS_V4": 4
     },
     "findings": [
@@ -65,8 +65,7 @@
       {
         "canonical_id": "CVE-2021-23337",
         "advisory_ids": [
-          "GHSA-35jh-r3h4-6jhm",
-          "GHSA-r5fr-rjxr-66jc"
+          "GHSA-35jh-r3h4-6jhm"
         ],
         "package": "lodash@4.17.15",
         "ecosystem": "npm",
@@ -80,7 +79,6 @@
       {
         "canonical_id": "CVE-2025-13465",
         "advisory_ids": [
-          "GHSA-f23m-r3pf-42rh",
           "GHSA-xxjr-mmjv-4gpg"
         ],
         "package": "lodash@4.17.15",
@@ -88,7 +86,35 @@
         "severity": "medium",
         "severity_source": "cvss_vector:CVSS_V3",
         "cvss_base_score": 6.5,
+        "affected_range": ">=4.0.0, <4.17.23; >=4.0.0, no fix available",
+        "fixed_version": "4.17.23",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2026-2950",
+        "advisory_ids": [
+          "GHSA-f23m-r3pf-42rh"
+        ],
+        "package": "lodash@4.17.15",
+        "ecosystem": "npm",
+        "severity": "medium",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 6.5,
         "affected_range": "all versions, <4.18.0; >=4.0.0, <4.18.0",
+        "fixed_version": "4.18.0",
+        "lockfile": "package-lock.json"
+      },
+      {
+        "canonical_id": "CVE-2026-4800",
+        "advisory_ids": [
+          "GHSA-r5fr-rjxr-66jc"
+        ],
+        "package": "lodash@4.17.15",
+        "ecosystem": "npm",
+        "severity": "high",
+        "severity_source": "cvss_vector:CVSS_V3",
+        "cvss_base_score": 8.1,
+        "affected_range": ">=4.0.0, <4.18.0",
         "fixed_version": "4.18.0",
         "lockfile": "package-lock.json"
       },
@@ -358,8 +384,8 @@
         "ecosystem": "npm",
         "package": "lodash",
         "version": "4.17.15",
-        "sentra_unique_cves": 4,
-        "direct_osv_cves": 4,
+        "sentra_unique_cves": 6,
+        "direct_osv_cves": 6,
         "exact_set_match": true,
         "only_in_sentra": [],
         "only_in_direct": []
@@ -403,11 +429,11 @@
     "attempted": true,
     "correct_invocation": "osv-scanner scan source --offline-vulnerabilities --download-offline-databases -r <dir>",
     "seed_exit_code": 1,
-    "seed_seconds": 11.0,
+    "seed_seconds": 75.9,
     "exit_code": 1,
-    "seconds": 10.4,
-    "findings_online_normalized": 21,
-    "findings_offline_normalized": 21,
+    "seconds": 16.8,
+    "findings_online_normalized": 23,
+    "findings_offline_normalized": 23,
     "identical_after_normalisation": true,
     "demo_value": "Verified: Sentra can produce byte-stable dependency findings with no network access, which is the documented demo contingency for the viva."
   },
@@ -415,16 +441,19 @@
     {
       "repo": "requests",
       "exit_code": 1,
-      "seconds": 11.2,
-      "raw_findings": 2,
-      "normalized_unique": 1,
+      "seconds": 10.2,
+      "raw_findings": 4,
+      "normalized_unique": 3,
       "severities": {
+        "critical": 2,
         "medium": 1
       },
       "severity_sources": {
+        "cvss_vector:CVSS_V4": 2,
         "cvss_vector:CVSS_V3": 1
       },
       "packages": [
+        "certifi@2026.7.22",
         "idna@3.9.0"
       ],
       "lockfiles": [
@@ -434,30 +463,38 @@
     {
       "repo": "axios",
       "exit_code": 1,
-      "seconds": 2.9,
-      "raw_findings": 32,
-      "normalized_unique": 26,
+      "seconds": 3.6,
+      "raw_findings": 71,
+      "normalized_unique": 40,
       "severities": {
-        "medium": 13,
-        "high": 11,
-        "low": 2
+        "medium": 19,
+        "high": 17,
+        "low": 3,
+        "critical": 1
       },
       "severity_sources": {
-        "cvss_vector:CVSS_V3": 22,
-        "cvss_vector:CVSS_V4": 4
+        "cvss_vector:CVSS_V3": 28,
+        "cvss_vector:CVSS_V4": 12
       },
       "packages": [
+        "@vitest/mocker@4.1.11",
         "@vitest/mocker@4.1.9",
+        "@vue/server-renderer@3.5.32",
         "brace-expansion@2.1.4",
+        "braces@3.0.3",
         "diff@5.0.0",
         "fast-uri@3.1.7",
+        "follow-redirects@1.16.0",
         "js-yaml@4.1.0",
         "minimatch@4.2.1",
         "nanoid@3.3.1",
         "nanoid@3.3.16",
+        "proxy-addr@2.0.7",
         "qs@6.15.3",
         "serialize-javascript@6.0.0",
-        "vite@5.4.21"
+        "source-map-js@1.2.1",
+        "vite@5.4.21",
+        "vite@8.2.2"
       ],
       "lockfiles": [
         "package-lock.json"

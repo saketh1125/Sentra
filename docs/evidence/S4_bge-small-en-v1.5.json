@@ -1,0 +1,746 @@
+{
+  "spike": "S4",
+  "subject": "Retrieval quality and embedding candidate comparison (D1)",
+  "candidate": "bge-small-en-v1.5",
+  "repo": {
+    "name": "requests",
+    "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60"
+  },
+  "corpus": {
+    "chunks": 807,
+    "excluded": "module chunks"
+  },
+  "queries": {
+    "total_authored": 24,
+    "resolved_at_this_commit": 24,
+    "unresolved": [],
+    "top_k": 10
+  },
+  "metric_definitions": {
+    "hit_rate_at_k": "expected chunk (file + qualified_name) in top-k",
+    "mrr": "mean reciprocal rank of the expected chunk",
+    "ndcg_at_k": "single-relevant-item nDCG@k",
+    "expected_line_at_k": "a top-k chunk spans the expected source line; what an M1 citation would point at"
+  },
+  "results": [
+    {
+      "key": "bge-small-en-v1.5",
+      "model": "BAAI/bge-small-en-v1.5",
+      "profile": "mid-size local baseline",
+      "status": "ok",
+      "dim": 384,
+      "expected_dim": 384,
+      "dim_matches_expectation": true,
+      "render_mode": "name_and_content",
+      "load_seconds": 0.2,
+      "embed_seconds": 66.6,
+      "chunks": 807,
+      "slice_size": 64,
+      "peak_rss_mb": 2383.4,
+      "metrics": {
+        "hit_rate_at_k": 0.917,
+        "mrr": 0.546,
+        "ndcg_at_k": 0.637,
+        "expected_line_at_k": 0.958
+      },
+      "per_query": [
+        {
+          "question": "How do I check whether a response status indicates success?",
+          "expected": "src/requests/models.py::Response.ok@861",
+          "top1": "src/requests/models.py::Response.__repr__",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::Response.__repr__",
+            "src/requests/models.py::Response.ok",
+            "src/requests/models.py::Response.__bool__",
+            "tests/test_requests.py::TestRequests.test_HTTP_200_OK_GET_WITH_MIXED_PARAMS",
+            "tests/test_requests.py::TestRequests.test_status_raising"
+          ]
+        },
+        {
+          "question": "How is the HTTP basic authentication header value built?",
+          "expected": "src/requests/auth.py::_basic_auth_str@34",
+          "top1": "src/requests/auth.py::HTTPBasicAuth",
+          "hit_rank": null,
+          "expected_line_in_topk": false,
+          "top5": [
+            "src/requests/auth.py::HTTPBasicAuth",
+            "src/requests/auth.py::HTTPBasicAuth.__call__",
+            "tests/test_requests.py::TestRequests.test_BASICAUTH_TUPLE_HTTP_200_OK_GET",
+            "tests/test_requests.py::TestRequests.test_set_basicauth",
+            "src/requests/auth.py::HTTPProxyAuth.__call__"
+          ]
+        },
+        {
+          "question": "How does requests decide whether a proxy should be bypassed?",
+          "expected": "src/requests/utils.py::should_bypass_proxies@810",
+          "top1": "tests/test_utils.py::test_should_bypass_proxies_no_proxy",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_utils.py::test_should_bypass_proxies_no_proxy",
+            "src/requests/utils.py::should_bypass_proxies",
+            "tests/test_utils.py::test_should_bypass_proxies",
+            "tests/test_utils.py::test_should_bypass_proxies_pass_only_hostname",
+            "src/requests/utils.py::should_bypass_proxies.get_proxy"
+          ]
+        },
+        {
+          "question": "Where is a redirect target parsed and validated?",
+          "expected": "src/requests/sessions.py::SessionRedirectMixin.get_redirect_target@134",
+          "top1": "tests/test_requests.py::TestRequests.test_custom_redirect_mixin.CustomRedirectSession.get_redirect_target",
+          "hit_rank": 3,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestRequests.test_custom_redirect_mixin.CustomRedirectSession.get_redirect_target",
+            "tests/test_requests.py::TestRequests.test_custom_redirect_mixin.CustomRedirectSession",
+            "src/requests/sessions.py::SessionRedirectMixin.get_redirect_target",
+            "tests/test_lowlevel.py::test_redirect_rfc1808_to_non_ascii_location",
+            "tests/test_lowlevel.py::test_redirect_rfc1808_to_non_ascii_location.redirect_resp_handler"
+          ]
+        },
+        {
+          "question": "How are cookies from a jar merged into a request?",
+          "expected": "src/requests/cookies.py::merge_cookies@604",
+          "top1": "src/requests/cookies.py::extract_cookies_to_jar",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/cookies.py::extract_cookies_to_jar",
+            "src/requests/cookies.py::merge_cookies",
+            "src/requests/cookies.py::_copy_cookie_jar",
+            "src/requests/cookies.py::RequestsCookieJar.update",
+            "tests/test_requests.py::TestRequests.test_cookielib_cookiejar_on_redirect"
+          ]
+        },
+        {
+          "question": "How is TLS certificate verification performed for a connection?",
+          "expected": "src/requests/adapters.py::HTTPAdapter.cert_verify@307",
+          "top1": "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_tls_settings_verify_True",
+          "hit_rank": 5,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_tls_settings_verify_True",
+            "tests/testserver/server.py::TLSServer.__init__",
+            "src/requests/adapters.py::HTTPAdapter.get_connection_with_tls_context",
+            "tests/testserver/server.py::TLSServer",
+            "src/requests/adapters.py::HTTPAdapter.cert_verify"
+          ]
+        },
+        {
+          "question": "What is the default User-Agent string?",
+          "expected": "src/requests/utils.py::default_user_agent@942",
+          "top1": "src/requests/utils.py::default_user_agent",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::default_user_agent",
+            "tests/test_requests.py::TestRequests.test_user_agent_transfers",
+            "src/requests/utils.py::default_headers",
+            "tests/test_requests.py::TestRequests.test_HTTP_200_OK_GET_WITH_PARAMS",
+            "src/requests/auth.py::_basic_auth_str"
+          ]
+        },
+        {
+          "question": "How is JSON decoded from a response body?",
+          "expected": "src/requests/models.py::Response.json@1091",
+          "top1": "src/requests/models.py::Response.json",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::Response.json",
+            "tests/test_lowlevel.py::test_json_decode_compatibility_for_alt_utf_encodings.response_handler",
+            "tests/test_requests.py::test_json_encodes_as_bytes",
+            "src/requests/models.py::Response.__init__",
+            "tests/test_lowlevel.py::test_json_decode_compatibility_for_alt_utf_encodings"
+          ]
+        },
+        {
+          "question": "How are files encoded into a multipart request body?",
+          "expected": "src/requests/models.py::RequestEncodingMixin._encode_files@182",
+          "top1": "src/requests/models.py::RequestEncodingMixin._encode_files",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::RequestEncodingMixin._encode_files",
+            "tests/test_requests.py::TestRequests.test_can_send_objects_with_files",
+            "tests/test_requests.py::TestRequests.test_can_send_file_object_with_non_string_filename",
+            "tests/test_requests.py::TestRequests.test_unicode_multipart_post",
+            "tests/test_requests.py::TestRequests.test_unicode_multipart_post_fieldnames"
+          ]
+        },
+        {
+          "question": "How is the Content-Length header computed for a prepared request?",
+          "expected": "src/requests/models.py::PreparedRequest.prepare_content_length@654",
+          "top1": "src/requests/models.py::PreparedRequest.prepare_content_length",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::PreparedRequest.prepare_content_length",
+            "tests/test_requests.py::TestRequests.test_chunked_upload_does_not_set_content_length_header",
+            "tests/test_requests.py::TestRequests.test_empty_stream_with_auth_does_not_set_content_length_header",
+            "tests/test_requests.py::TestRequests.test_override_content_length",
+            "tests/test_requests.py::test_content_length_for_bytes_data"
+          ]
+        },
+        {
+          "question": "What data structure provides case-insensitive header lookups?",
+          "expected": "src/requests/structures.py::CaseInsensitiveDict@20",
+          "top1": "src/requests/structures.py::CaseInsensitiveDict",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/structures.py::CaseInsensitiveDict",
+            "tests/test_requests.py::TestRequests.test_header_remove_is_case_insensitive",
+            "src/requests/models.py::PreparedRequest.prepare_headers",
+            "src/requests/utils.py::default_headers",
+            "tests/test_utils.py::test_get_encoding_from_headers"
+          ]
+        },
+        {
+          "question": "How is an HTTP digest authentication challenge answered?",
+          "expected": "src/requests/auth.py::HTTPDigestAuth.handle_401@273",
+          "top1": "tests/test_lowlevel.py::test_digestauth_401_only_sent_once",
+          "hit_rank": null,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_lowlevel.py::test_digestauth_401_only_sent_once",
+            "tests/test_lowlevel.py::test_digestauth_401_count_reset_on_redirect.digest_response_handler",
+            "tests/test_lowlevel.py::test_digestauth_401_only_sent_once.digest_failed_response_handler",
+            "tests/test_lowlevel.py::test_digestauth_only_on_4xx.digest_response_handler",
+            "tests/test_requests.py::TestRequests.test_DIGEST_STREAM"
+          ]
+        },
+        {
+          "question": "How do I mount a custom adapter for a URL prefix on a session?",
+          "expected": "src/requests/sessions.py::Session.mount@888",
+          "top1": "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_without_trailing_slash",
+          "hit_rank": 5,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_without_trailing_slash",
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_with_trailing_slash",
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_matching",
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_matching_mixed_case",
+            "src/requests/sessions.py::Session.mount"
+          ]
+        },
+        {
+          "question": "How are query parameters encoded into a URL path?",
+          "expected": "src/requests/models.py::RequestEncodingMixin.path_url@111",
+          "top1": "src/requests/models.py::RequestEncodingMixin",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::RequestEncodingMixin",
+            "src/requests/models.py::RequestEncodingMixin.path_url",
+            "tests/test_requests.py::TestRequests.test_urlencoded_get_query_multivalued_param",
+            "tests/test_requests.py::TestPreparingURLs.test_parameters_for_nonstandard_schemes",
+            "src/requests/models.py::RequestEncodingMixin._encode_params"
+          ]
+        },
+        {
+          "question": "How is the text encoding of a response guessed from its headers?",
+          "expected": "src/requests/utils.py::get_encoding_from_headers@569",
+          "top1": "src/requests/models.py::Response.text",
+          "hit_rank": 6,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::Response.text",
+            "tests/test_utils.py::test_get_encoding_from_headers",
+            "tests/testserver/server.py::Server.text_response_server.text_response_handler",
+            "tests/test_utils.py::TestGuessJSONUTF.test_guess_by_bom",
+            "tests/test_utils.py::TestGuessJSONUTF.test_encoded"
+          ]
+        },
+        {
+          "question": "How is HTTP basic auth decoded when a server sends a 401?",
+          "expected": "src/requests/auth.py::HTTPBasicAuth.__call__@111",
+          "top1": "src/requests/auth.py::HTTPDigestAuth.handle_401",
+          "hit_rank": 6,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/auth.py::HTTPDigestAuth.handle_401",
+            "tests/test_lowlevel.py::test_digestauth_401_only_sent_once",
+            "src/requests/auth.py::HTTPBasicAuth",
+            "tests/test_requests.py::TestRequests.test_BASICAUTH_TUPLE_HTTP_200_OK_GET",
+            "tests/test_lowlevel.py::test_digestauth_401_count_reset_on_redirect"
+          ]
+        },
+        {
+          "question": "Where are response header links parsed from?",
+          "expected": "src/requests/utils.py::parse_header_links@965",
+          "top1": "src/requests/models.py::Response.links",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::Response.links",
+            "src/requests/utils.py::parse_header_links",
+            "src/requests/cookies.py::MockResponse.info",
+            "src/requests/models.py::Response.__init__",
+            "tests/test_requests.py::TestRequests.test_links"
+          ]
+        },
+        {
+          "question": "How is a zipped archive extracted to a destination directory?",
+          "expected": "src/requests/utils.py::extract_zipped_paths@290",
+          "top1": "src/requests/utils.py::extract_zipped_paths",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::extract_zipped_paths",
+            "tests/test_utils.py::TestExtractZippedPaths.test_zipped_paths_extracted",
+            "tests/test_utils.py::TestExtractZippedPaths",
+            "tests/test_utils.py::TestExtractZippedPaths.test_invalid_unc_path",
+            "tests/test_utils.py::TestExtractZippedPaths.test_unzipped_paths_unchanged"
+          ]
+        },
+        {
+          "question": "How are request and response hooks dispatched?",
+          "expected": "src/requests/hooks.py::dispatch_hook@32",
+          "top1": "src/requests/hooks.py::dispatch_hook",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/hooks.py::dispatch_hook",
+            "tests/test_requests.py::TestRequests.test_hook_receives_request_arguments",
+            "tests/test_requests.py::TestRequests.test_prepared_request_hook",
+            "tests/test_requests.py::TestRequests.test_session_hooks_are_used_with_no_request_hooks",
+            "tests/test_requests.py::TestRequests.test_prepared_request_hook.hook"
+          ]
+        },
+        {
+          "question": "How does a stream of response content get decoded incrementally?",
+          "expected": "src/requests/models.py::Response.iter_content@914",
+          "top1": "src/requests/utils.py::stream_decode_response_unicode",
+          "hit_rank": 5,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::stream_decode_response_unicode",
+            "src/requests/models.py::Response.__init__",
+            "src/requests/models.py::Response.iter_lines",
+            "tests/test_requests.py::TestRequests.test_response_decode_unicode",
+            "src/requests/models.py::Response.iter_content"
+          ]
+        },
+        {
+          "question": "How is the connection pool created and configured?",
+          "expected": "src/requests/adapters.py::HTTPAdapter.init_poolmanager@239",
+          "top1": "src/requests/adapters.py::HTTPAdapter.__init__",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/adapters.py::HTTPAdapter.__init__",
+            "src/requests/adapters.py::HTTPAdapter.init_poolmanager",
+            "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_mtls_settings",
+            "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_tls_settings_verify_True",
+            "src/requests/adapters.py::HTTPAdapter.build_connection_pool_key_attributes"
+          ]
+        },
+        {
+          "question": "How are proxies selected from the configuration?",
+          "expected": "src/requests/utils.py::select_proxy@885",
+          "top1": "src/requests/utils.py::select_proxy",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::select_proxy",
+            "tests/test_utils.py::test_select_proxies",
+            "src/requests/utils.py::resolve_proxies",
+            "tests/test_utils.py::test_should_bypass_proxies_win_registry_ProxyOverride_value.QueryValueEx",
+            "src/requests/utils.py::should_bypass_proxies.get_proxy"
+          ]
+        },
+        {
+          "question": "How is a Session object constructed and configured?",
+          "expected": "src/requests/sessions.py::Session.__init__@442",
+          "top1": "src/requests/sessions.py::Session",
+          "hit_rank": 3,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/sessions.py::Session",
+            "src/requests/sessions.py::session",
+            "src/requests/sessions.py::Session.__init__",
+            "tests/test_requests.py::TestRequests.test_prepared_from_session",
+            "src/requests/sessions.py::Session.prepare_request"
+          ]
+        },
+        {
+          "question": "How are HTTP exceptions such as ConnectionError defined?",
+          "expected": "src/requests/exceptions.py::ConnectionError@70",
+          "top1": "src/requests/exceptions.py::HTTPError",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/exceptions.py::HTTPError",
+            "src/requests/exceptions.py::ConnectionError",
+            "src/requests/exceptions.py::SSLError",
+            "src/requests/exceptions.py::ProxyError",
+            "tests/test_requests.py::TestRequests.test_errors"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "bge-small-en-v1.5",
+      "model": "BAAI/bge-small-en-v1.5",
+      "profile": "mid-size local baseline",
+      "status": "ok",
+      "dim": 384,
+      "expected_dim": 384,
+      "dim_matches_expectation": true,
+      "render_mode": "content_only",
+      "load_seconds": 0.2,
+      "embed_seconds": 73.4,
+      "chunks": 807,
+      "slice_size": 64,
+      "peak_rss_mb": 2508.3,
+      "metrics": {
+        "hit_rate_at_k": 0.833,
+        "mrr": 0.48,
+        "ndcg_at_k": 0.566,
+        "expected_line_at_k": 0.875
+      },
+      "per_query": [
+        {
+          "question": "How do I check whether a response status indicates success?",
+          "expected": "src/requests/models.py::Response.ok@861",
+          "top1": "tests/test_requests.py::TestRequests.test_status_raising",
+          "hit_rank": null,
+          "expected_line_in_topk": false,
+          "top5": [
+            "tests/test_requests.py::TestRequests.test_status_raising",
+            "src/requests/models.py::Response.__bool__",
+            "tests/test_testserver.py::TestTestServer.test_basic_response",
+            "tests/test_requests.py::TestRequests.test_response_iter_lines",
+            "tests/test_requests.py::TestRequests.test_request_ok_set"
+          ]
+        },
+        {
+          "question": "How is the HTTP basic authentication header value built?",
+          "expected": "src/requests/auth.py::_basic_auth_str@34",
+          "top1": "src/requests/auth.py::HTTPBasicAuth",
+          "hit_rank": null,
+          "expected_line_in_topk": false,
+          "top5": [
+            "src/requests/auth.py::HTTPBasicAuth",
+            "tests/test_requests.py::TestRequests.test_BASICAUTH_TUPLE_HTTP_200_OK_GET",
+            "tests/test_requests.py::TestRequests.test_set_basicauth",
+            "src/requests/auth.py::HTTPProxyAuth",
+            "tests/test_requests.py::TestRequests.test_prepared_from_session.DummyAuth"
+          ]
+        },
+        {
+          "question": "How does requests decide whether a proxy should be bypassed?",
+          "expected": "src/requests/utils.py::should_bypass_proxies@810",
+          "top1": "src/requests/utils.py::should_bypass_proxies",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::should_bypass_proxies",
+            "tests/test_utils.py::test_should_bypass_proxies_no_proxy",
+            "src/requests/utils.py::proxy_bypass",
+            "tests/test_utils.py::test_should_bypass_proxies",
+            "tests/test_utils.py::test_should_bypass_proxies_pass_only_hostname"
+          ]
+        },
+        {
+          "question": "Where is a redirect target parsed and validated?",
+          "expected": "src/requests/sessions.py::SessionRedirectMixin.get_redirect_target@134",
+          "top1": "tests/test_requests.py::TestRequests.test_custom_redirect_mixin.CustomRedirectSession.get_redirect_target",
+          "hit_rank": 3,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestRequests.test_custom_redirect_mixin.CustomRedirectSession.get_redirect_target",
+            "tests/test_requests.py::TestRequests.test_custom_redirect_mixin.CustomRedirectSession",
+            "src/requests/sessions.py::SessionRedirectMixin.get_redirect_target",
+            "src/requests/sessions.py::SessionRedirectMixin",
+            "tests/test_lowlevel.py::test_redirect_rfc1808_to_non_ascii_location"
+          ]
+        },
+        {
+          "question": "How are cookies from a jar merged into a request?",
+          "expected": "src/requests/cookies.py::merge_cookies@604",
+          "top1": "src/requests/cookies.py::extract_cookies_to_jar",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/cookies.py::extract_cookies_to_jar",
+            "src/requests/cookies.py::merge_cookies",
+            "src/requests/cookies.py::_copy_cookie_jar",
+            "src/requests/cookies.py::RequestsCookieJar.update",
+            "tests/test_requests.py::TestRequests.test_cookielib_cookiejar_on_redirect"
+          ]
+        },
+        {
+          "question": "How is TLS certificate verification performed for a connection?",
+          "expected": "src/requests/adapters.py::HTTPAdapter.cert_verify@307",
+          "top1": "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_tls_settings_verify_True",
+          "hit_rank": 3,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_tls_settings_verify_True",
+            "src/requests/adapters.py::HTTPAdapter.get_connection_with_tls_context",
+            "src/requests/adapters.py::HTTPAdapter.cert_verify",
+            "tests/testserver/server.py::TLSServer",
+            "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_tls_settings_verify_bundle_unexpired_cert"
+          ]
+        },
+        {
+          "question": "What is the default User-Agent string?",
+          "expected": "src/requests/utils.py::default_user_agent@942",
+          "top1": "src/requests/utils.py::default_user_agent",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::default_user_agent",
+            "src/requests/utils.py::default_headers",
+            "tests/test_requests.py::TestRequests.test_user_agent_transfers",
+            "tests/test_requests.py::TestRequests.test_HTTP_200_OK_GET_WITH_PARAMS",
+            "src/requests/auth.py::_basic_auth_str"
+          ]
+        },
+        {
+          "question": "How is JSON decoded from a response body?",
+          "expected": "src/requests/models.py::Response.json@1091",
+          "top1": "src/requests/models.py::Response.json",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::Response.json",
+            "tests/test_requests.py::test_json_encodes_as_bytes",
+            "tests/test_lowlevel.py::test_json_decode_compatibility_for_alt_utf_encodings",
+            "tests/test_requests.py::TestPreparingURLs.test_json_decode_compatibility",
+            "src/requests/exceptions.py::ContentDecodingError"
+          ]
+        },
+        {
+          "question": "How are files encoded into a multipart request body?",
+          "expected": "src/requests/models.py::RequestEncodingMixin._encode_files@182",
+          "top1": "tests/test_requests.py::TestRequests.test_can_send_objects_with_files",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestRequests.test_can_send_objects_with_files",
+            "src/requests/models.py::RequestEncodingMixin._encode_files",
+            "tests/test_requests.py::TestRequests.test_can_send_file_object_with_non_string_filename",
+            "tests/test_requests.py::TestRequests.test_unicode_multipart_post",
+            "tests/test_requests.py::TestRequests.test_unicode_multipart_post_fieldnames"
+          ]
+        },
+        {
+          "question": "How is the Content-Length header computed for a prepared request?",
+          "expected": "src/requests/models.py::PreparedRequest.prepare_content_length@654",
+          "top1": "src/requests/models.py::PreparedRequest.prepare_content_length",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::PreparedRequest.prepare_content_length",
+            "tests/test_requests.py::TestRequests.test_chunked_upload_does_not_set_content_length_header",
+            "tests/test_requests.py::TestRequests.test_empty_stream_with_auth_does_not_set_content_length_header",
+            "src/requests/models.py::Response.__init__",
+            "tests/test_requests.py::TestRequests.test_autoset_header_values_are_native"
+          ]
+        },
+        {
+          "question": "What data structure provides case-insensitive header lookups?",
+          "expected": "src/requests/structures.py::CaseInsensitiveDict@20",
+          "top1": "src/requests/structures.py::CaseInsensitiveDict",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/structures.py::CaseInsensitiveDict",
+            "tests/test_requests.py::TestRequests.test_header_remove_is_case_insensitive",
+            "src/requests/utils.py::default_headers",
+            "src/requests/models.py::PreparedRequest.prepare_headers",
+            "tests/test_utils.py::test_get_encoding_from_headers"
+          ]
+        },
+        {
+          "question": "How is an HTTP digest authentication challenge answered?",
+          "expected": "src/requests/auth.py::HTTPDigestAuth.handle_401@273",
+          "top1": "tests/test_lowlevel.py::test_digestauth_401_only_sent_once",
+          "hit_rank": null,
+          "expected_line_in_topk": false,
+          "top5": [
+            "tests/test_lowlevel.py::test_digestauth_401_only_sent_once",
+            "tests/test_lowlevel.py::test_digestauth_only_on_4xx",
+            "tests/test_lowlevel.py::test_digestauth_401_count_reset_on_redirect.digest_response_handler",
+            "tests/test_requests.py::TestRequests.test_DIGEST_HTTP_200_OK_GET",
+            "tests/test_requests.py::TestRequests.test_DIGEST_STREAM"
+          ]
+        },
+        {
+          "question": "How do I mount a custom adapter for a URL prefix on a session?",
+          "expected": "src/requests/sessions.py::Session.mount@888",
+          "top1": "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_without_trailing_slash",
+          "hit_rank": 5,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_without_trailing_slash",
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_with_trailing_slash",
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_matching",
+            "tests/test_requests.py::TestRequests.test_session_get_adapter_prefix_matching_mixed_case",
+            "src/requests/sessions.py::Session.mount"
+          ]
+        },
+        {
+          "question": "How are query parameters encoded into a URL path?",
+          "expected": "src/requests/models.py::RequestEncodingMixin.path_url@111",
+          "top1": "src/requests/models.py::RequestEncodingMixin",
+          "hit_rank": 7,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::RequestEncodingMixin",
+            "tests/test_utils.py::test_get_auth_from_url",
+            "tests/test_utils.py::test_should_bypass_proxies_win_registry_bad_values.QueryValueEx",
+            "tests/test_requests.py::TestRequests.test_unicode_get",
+            "tests/test_utils.py::test_should_bypass_proxies_win_registry_ProxyOverride_value.QueryValueEx"
+          ]
+        },
+        {
+          "question": "How is the text encoding of a response guessed from its headers?",
+          "expected": "src/requests/utils.py::get_encoding_from_headers@569",
+          "top1": "src/requests/models.py::Response.text",
+          "hit_rank": 5,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::Response.text",
+            "tests/test_utils.py::test_get_encoding_from_headers",
+            "tests/testserver/server.py::Server.text_response_server.text_response_handler",
+            "tests/test_requests.py::TestRequests.test_response_decode_unicode",
+            "src/requests/utils.py::get_encoding_from_headers"
+          ]
+        },
+        {
+          "question": "How is HTTP basic auth decoded when a server sends a 401?",
+          "expected": "src/requests/auth.py::HTTPBasicAuth.__call__@111",
+          "top1": "src/requests/auth.py::HTTPBasicAuth",
+          "hit_rank": null,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/auth.py::HTTPBasicAuth",
+            "src/requests/auth.py::HTTPDigestAuth.handle_401",
+            "tests/test_requests.py::TestRequests.test_DIGESTAUTH_WRONG_HTTP_401_GET",
+            "tests/test_lowlevel.py::test_digestauth_401_count_reset_on_redirect",
+            "tests/test_requests.py::TestRequests.test_BASICAUTH_TUPLE_HTTP_200_OK_GET"
+          ]
+        },
+        {
+          "question": "Where are response header links parsed from?",
+          "expected": "src/requests/utils.py::parse_header_links@965",
+          "top1": "src/requests/models.py::Response.links",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/models.py::Response.links",
+            "src/requests/utils.py::parse_header_links",
+            "tests/test_requests.py::TestRequests.test_links",
+            "src/requests/models.py::Response.__init__",
+            "src/requests/cookies.py::MockResponse.info"
+          ]
+        },
+        {
+          "question": "How is a zipped archive extracted to a destination directory?",
+          "expected": "src/requests/utils.py::extract_zipped_paths@290",
+          "top1": "src/requests/utils.py::extract_zipped_paths",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::extract_zipped_paths",
+            "tests/test_utils.py::TestExtractZippedPaths.test_zipped_paths_extracted",
+            "tests/test_utils.py::TestExtractZippedPaths",
+            "tests/test_utils.py::TestExtractZippedPaths.test_unzipped_paths_unchanged",
+            "tests/test_requests.py::TestRequests._patch_adapter_gzipped_redirect"
+          ]
+        },
+        {
+          "question": "How are request and response hooks dispatched?",
+          "expected": "src/requests/hooks.py::dispatch_hook@32",
+          "top1": "tests/test_requests.py::TestRequests.test_hook_receives_request_arguments",
+          "hit_rank": 3,
+          "expected_line_in_topk": true,
+          "top5": [
+            "tests/test_requests.py::TestRequests.test_hook_receives_request_arguments",
+            "tests/test_requests.py::TestRequests.test_prepared_request_hook",
+            "src/requests/hooks.py::dispatch_hook",
+            "tests/test_requests.py::TestRequests.test_session_hooks_are_used_with_no_request_hooks",
+            "src/requests/sessions.py::Session.send"
+          ]
+        },
+        {
+          "question": "How does a stream of response content get decoded incrementally?",
+          "expected": "src/requests/models.py::Response.iter_content@914",
+          "top1": "src/requests/utils.py::stream_decode_response_unicode",
+          "hit_rank": 3,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::stream_decode_response_unicode",
+            "src/requests/models.py::Response.__init__",
+            "src/requests/models.py::Response.iter_content",
+            "tests/test_lowlevel.py::test_chunked_encoding_error.incomplete_chunked_response_handler",
+            "tests/testserver/server.py::Server.text_response_server.text_response_handler"
+          ]
+        },
+        {
+          "question": "How is the connection pool created and configured?",
+          "expected": "src/requests/adapters.py::HTTPAdapter.init_poolmanager@239",
+          "top1": "src/requests/adapters.py::HTTPAdapter.__init__",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/adapters.py::HTTPAdapter.__init__",
+            "src/requests/adapters.py::HTTPAdapter.init_poolmanager",
+            "src/requests/adapters.py::HTTPAdapter.build_connection_pool_key_attributes",
+            "tests/test_requests.py::TestPreparingURLs.test_different_connection_pool_for_mtls_settings",
+            "src/requests/adapters.py::HTTPAdapter.get_connection_with_tls_context"
+          ]
+        },
+        {
+          "question": "How are proxies selected from the configuration?",
+          "expected": "src/requests/utils.py::select_proxy@885",
+          "top1": "src/requests/utils.py::select_proxy",
+          "hit_rank": 1,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/utils.py::select_proxy",
+            "src/requests/utils.py::resolve_proxies",
+            "src/requests/sessions.py::SessionRedirectMixin.rebuild_proxies",
+            "src/requests/utils.py::get_environ_proxies",
+            "src/requests/sessions.py::Session.merge_environment_settings"
+          ]
+        },
+        {
+          "question": "How is a Session object constructed and configured?",
+          "expected": "src/requests/sessions.py::Session.__init__@442",
+          "top1": "src/requests/sessions.py::Session",
+          "hit_rank": 7,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/sessions.py::Session",
+            "src/requests/sessions.py::session",
+            "tests/test_requests.py::TestRequests.test_prepared_from_session",
+            "tests/test_requests.py::RedirectSession",
+            "src/requests/sessions.py::merge_setting"
+          ]
+        },
+        {
+          "question": "How are HTTP exceptions such as ConnectionError defined?",
+          "expected": "src/requests/exceptions.py::ConnectionError@70",
+          "top1": "src/requests/exceptions.py::HTTPError",
+          "hit_rank": 2,
+          "expected_line_in_topk": true,
+          "top5": [
+            "src/requests/exceptions.py::HTTPError",
+            "src/requests/exceptions.py::ConnectionError",
+            "tests/test_requests.py::TestRequests.test_errors",
+            "tests/test_requests.py::TestRequests.test_http_error",
+            "src/requests/exceptions.py::SSLError"
+          ]
+        }
+      ]
+    }
+  ],
+  "caveat": "OUR queries against ONE repository (24 queries, requests). Enough to rank candidates and validate the pipeline; NOT a general retrieval quality claim. O1 requires 30 questions per repo across 2-3 repos."
+}
