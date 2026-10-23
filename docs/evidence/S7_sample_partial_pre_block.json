@@ -1,0 +1,93 @@
+{
+  "spike": "S7",
+  "model": "opencode/deepseek-v4.1-flash-free",
+  "sample_size": 5,
+  "note": "Deterministic even-stride sample of the reviewed findings.",
+  "findings": [
+    {
+      "pattern_id": "verify_false_tls",
+      "cwe": "CWE-295",
+      "file": "cwe_295.py",
+      "vulnerable_line": 4,
+      "truth": "vulnerable",
+      "rule": "python.requests.security.disabled-cert-validation.disabled-cert-validation",
+      "L1": {
+        "verdict": "true_positive",
+        "confidence": 0.95
+      },
+      "L2": {
+        "verdict": "true_positive",
+        "confidence": 0.97
+      },
+      "agreement": true
+    },
+    {
+      "pattern_id": "sha1_for_password",
+      "cwe": "CWE-327",
+      "file": "cwe_327.py",
+      "vulnerable_line": 7,
+      "truth": "vulnerable",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "L1": {
+        "verdict": "true_positive",
+        "confidence": 0.8
+      },
+      "L2": {
+        "verdict": "true_positive",
+        "confidence": 0.8
+      },
+      "agreement": true
+    },
+    {
+      "pattern_id": "urlopen_nonliteral",
+      "cwe": "CWE-601",
+      "file": "cwe_601.py",
+      "vulnerable_line": 4,
+      "truth": "vulnerable",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "L1": {
+        "verdict": "true_positive",
+        "confidence": 0.72
+      },
+      "L2": {
+        "verdict": "true_positive",
+        "confidence": 0.9
+      },
+      "agreement": true
+    },
+    {
+      "pattern_id": "subprocess_popen_shell",
+      "cwe": "CWE-78",
+      "file": "cwe_78.py",
+      "vulnerable_line": 7,
+      "truth": "vulnerable",
+      "rule": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "L1": {
+        "verdict": "true_positive",
+        "confidence": 0.95
+      },
+      "L2": {
+        "verdict": "true_positive",
+        "confidence": 0.9
+      },
+      "agreement": true
+    },
+    {
+      "pattern_id": "exec_user_input",
+      "cwe": "CWE-95",
+      "file": "cwe_95.py",
+      "vulnerable_line": 5,
+      "truth": "vulnerable",
+      "rule": "python.lang.security.audit.exec-detected.exec-detected",
+      "L1": {
+        "verdict": null,
+        "confidence": null
+      },
+      "L2": {
+        "verdict": null,
+        "confidence": null
+      },
+      "agreement": true
+    }
+  ]
+}

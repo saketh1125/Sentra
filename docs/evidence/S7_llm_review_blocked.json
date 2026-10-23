@@ -1,0 +1,146 @@
+{
+  "spike": "S7",
+  "subject": "LLM bug-review precision per context layer, confidence threshold, cost per finding",
+  "status": "blocked_provider_freetier_gate",
+  "blocked_by_quota": true,
+  "research_row": "Sentra_research.md \u00a79, row S7",
+  "timestamp_utc": "2026-10-23T10:06:24+00:00",
+  "toolchain": {
+    "model": "opencode/glm-5.3-flash-free",
+    "transport": "cli",
+    "client": "spikes/_llm.py (shared, reused from S5)",
+    "semgrep": "1.179.0",
+    "rulesets": [
+      "p/security-audit",
+      "p/python",
+      "p/javascript"
+    ]
+  },
+  "corpus": {
+    "path": "data/repos/fixtures/probe",
+    "ground_truth": "S2b authored probe corpus (21 vulnerable, 4 safe)",
+    "scanned_files": 18,
+    "findings": 10,
+    "mapped_findings": 10,
+    "ambiguous_findings": 0,
+    "attribution_method": "finding line range must cover the truth pattern's vulnerable line; file+line exact, no \u00b16 nearest-match heuristic"
+  },
+  "attribution": [
+    {
+      "pattern_id": "verify_false_tls",
+      "cwe": "CWE-295",
+      "file": "cwe_295.py",
+      "vulnerable_line": 4,
+      "truth": "vulnerable",
+      "semgrep_lines": "4-4",
+      "rule": "python.requests.security.disabled-cert-validation.disabled-cert-validation"
+    },
+    {
+      "pattern_id": "md5_for_password",
+      "cwe": "CWE-327",
+      "file": "cwe_327.py",
+      "vulnerable_line": 4,
+      "truth": "vulnerable",
+      "semgrep_lines": "4-4",
+      "rule": "python.lang.security.insecure-hash-algorithms-md5.insecure-hash-algorithm-md5"
+    },
+    {
+      "pattern_id": "sha1_for_password",
+      "cwe": "CWE-327",
+      "file": "cwe_327.py",
+      "vulnerable_line": 7,
+      "truth": "vulnerable",
+      "semgrep_lines": "7-7",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1"
+    },
+    {
+      "pattern_id": "pickle_loads_untrusted",
+      "cwe": "CWE-502",
+      "file": "cwe_502.py",
+      "vulnerable_line": 4,
+      "truth": "vulnerable",
+      "semgrep_lines": "4-4",
+      "rule": "python.lang.security.deserialization.pickle.avoid-pickle"
+    },
+    {
+      "pattern_id": "urlopen_nonliteral",
+      "cwe": "CWE-601",
+      "file": "cwe_601.py",
+      "vulnerable_line": 4,
+      "truth": "vulnerable",
+      "semgrep_lines": "4-4",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected"
+    },
+    {
+      "pattern_id": "js_child_process_exec",
+      "cwe": "CWE-78",
+      "file": "cwe_78.js",
+      "vulnerable_line": 3,
+      "truth": "vulnerable",
+      "semgrep_lines": "3-3",
+      "rule": "javascript.lang.security.detect-child-process.detect-child-process"
+    },
+    {
+      "pattern_id": "subprocess_shell_true",
+      "cwe": "CWE-78",
+      "file": "cwe_78.py",
+      "vulnerable_line": 4,
+      "truth": "vulnerable",
+      "semgrep_lines": "4-4",
+      "rule": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+    },
+    {
+      "pattern_id": "subprocess_popen_shell",
+      "cwe": "CWE-78",
+      "file": "cwe_78.py",
+      "vulnerable_line": 7,
+      "truth": "vulnerable",
+      "semgrep_lines": "7-7",
+      "rule": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true"
+    },
+    {
+      "pattern_id": "eval_user_input",
+      "cwe": "CWE-95",
+      "file": "cwe_95.py",
+      "vulnerable_line": 3,
+      "truth": "vulnerable",
+      "semgrep_lines": "3-3",
+      "rule": "python.lang.security.audit.eval-detected.eval-detected"
+    },
+    {
+      "pattern_id": "exec_user_input",
+      "cwe": "CWE-95",
+      "file": "cwe_95.py",
+      "vulnerable_line": 5,
+      "truth": "vulnerable",
+      "semgrep_lines": "5-5",
+      "rule": "python.lang.security.audit.exec-detected.exec-detected"
+    }
+  ],
+  "llm_calls_attempted": 1,
+  "findings_judged_possible": 1,
+  "verdicts_usable_before_block": 0,
+  "error": {
+    "transport": "cli",
+    "model": "opencode/glm-5.3-flash-free",
+    "type": "opencode CLI exit 1: free usage limit reached (account-wide daily cap)",
+    "redacted_error": "llm_error:cli_exit_1: \n> build \u00b7 glm-5.3-flash-free\nError: Free usage limit reached. Subscribe to OpenCode Go to keep going: https://opencode.ai/go",
+    "stopped_at": "layer L1, pattern verify_false_tls (cwe_295.py)",
+    "wall_seconds_before_block": 1.62
+  },
+  "note": "The opencode free tier enforces an ACCOUNT-WIDE daily request cap, which is exhausted for every model on this account, not just this one. The block is terminal until the reset: `opencode run -m opencode/glm-5.3-flash-free` exits 1 with 'Free usage limit reached' before any model call is made. The batch was stopped at the first such error rather than spending one doomed call per remaining finding, which is what turned a credential failure into a fake per-finding measurement in the S5 rerun (see docs/evidence/S5_docgen_blocked.json). This file records the block ONLY; no S7_llm_review.json and no S7_sample.json were written, deliberately, because the LLM precision / threshold / cost tables they hold were not measurable in this run.",
+  "why_not_retried_within_this_run": "The cap is account-wide and terminal until the quota reset. A retry sooner returns the same exit-1 for every finding.",
+  "rerun_condition": "opencode quota reset 00:00 UTC, or a paid/API credential (SENTRA_LLM_API_KEY + SENTRA_LLM_BASE_URL, or a paid opencode key)",
+  "rerun_command": "SENTRA_LLM_PROVIDER=opencode SENTRA_LLM_MODEL='opencode/glm-5.3-flash-free' .venv/bin/python spikes/s7_llm_review/spike.py   # after the 00:00 UTC quota reset or with a paid credential",
+  "invoked_as": {
+    "argv": [
+      "spikes/s7_llm_review/spike.py"
+    ],
+    "SENTRA_LLM_PROVIDER": "opencode",
+    "SENTRA_LLM_MODEL": "opencode/glm-5.3-flash-free",
+    "SENTRA_LLM_TRANSPORT": null,
+    "note": "credential env vars (SENTRA_LLM_API_KEY / BASE_URL) are deliberately not recorded"
+  },
+  "layers": null,
+  "cost_summary": null
+}

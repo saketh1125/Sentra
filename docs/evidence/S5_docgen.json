@@ -1,0 +1,219 @@
+{
+  "spike": "S5",
+  "subject": "Documentation generation + cost",
+  "research_row": "Sentra_research.md \u00a79, row S5 (cost table + coverage % + 30-doc quality sample)",
+  "status": "complete",
+  "blocked_by_quota": false,
+  "chunks_not_attempted": 0,
+  "toolchain": {
+    "model": "opencode/glm-5.3-flash-free",
+    "provider": "https://openrouter.ai/api/v1",
+    "transport": "cli",
+    "client": "spikes/_llm.py (shared, reused by S7)"
+  },
+  "corpus": {
+    "repo": "requests",
+    "path": "data/repos/requests",
+    "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+    "chunks_parsed": 843,
+    "sampling": "sorted by chunk_id (file::qualified_name@start_line), even stride",
+    "requested_limit": 3,
+    "sampled": 3,
+    "sample_kinds": {
+      "module": 1,
+      "function": 2
+    }
+  },
+  "cost_table": {
+    "definition": "One LLM call per chunk (single prompt: chunk content -> docstring-style JSON doc). calls/chunk is therefore by construction; the measured value confirms the pipeline did not silently retry or double-bill.",
+    "chunks_attempted": 3,
+    "chunks_succeeded": 3,
+    "llm_calls": 3,
+    "llm_retries": 0,
+    "no_usable_content_responses": 0,
+    "calls_per_chunk": 1.0,
+    "wall_seconds": 13.08,
+    "mean_latency_s": 4.36,
+    "mean_latency_succeeded_s": 4.36,
+    "min_latency_s": 2.96,
+    "max_latency_s": 5.74,
+    "usage_note": "cli transport: no token usage available; use chars for cost",
+    "chars_in_total": 7228,
+    "chars_out_total": 1733,
+    "chars_in_per_chunk_avg": 2409.3,
+    "chars_out_per_chunk_avg": 577.7,
+    "prompt_tokens_total": null,
+    "completion_tokens_total": null,
+    "of_which_reasoning_tokens": null,
+    "of_which_output_tokens": null,
+    "prompt_tokens_per_chunk_avg": null,
+    "completion_tokens_per_chunk_avg": null,
+    "reasoning_tokens_per_chunk_avg": null,
+    "output_tokens_per_chunk_avg": null,
+    "chunks_per_second": 0.2294,
+    "projected_seconds_per_1000_chunks": 4359.2,
+    "budget": {
+      "calls_per_chunk_max": 2.0,
+      "tokens_per_chunk_max": 6000
+    },
+    "within_budget": {
+      "calls_per_chunk": true,
+      "tokens_per_chunk": null
+    }
+  },
+  "coverage": {
+    "definition": "chunks with a valid parsed JSON doc / chunks attempted",
+    "coverage_pct": 100.0,
+    "success": 3,
+    "failures": [],
+    "target_pct": 95.0,
+    "target_met": true,
+    "failure_reasons": {}
+  },
+  "quality_sample": {
+    "definition": "Deterministic heuristic checks over the first 30 successful docs in chunk_id order. Not model-as-judge: the same doc re-grades identically.",
+    "size": 3,
+    "checked": 3,
+    "passed": 3,
+    "pass_rate_pct": 100.0,
+    "per_check_failures": {},
+    "detail": [
+      {
+        "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+        "file_path": "docs/_themes/flask_theme_support.py",
+        "qualified_name": "<module>",
+        "kind": "module",
+        "checks": [
+          {
+            "name": "summary_non_empty",
+            "pass": true,
+            "detail": "160 chars"
+          },
+          {
+            "name": "mentions_qualified_name_or_identifier",
+            "pass": true,
+            "detail": "found in summary"
+          },
+          {
+            "name": "no_refusal",
+            "pass": true,
+            "detail": "clean"
+          },
+          {
+            "name": "summary_length_within_bounds",
+            "pass": true,
+            "detail": "160 chars"
+          }
+        ],
+        "checks_passed": 4,
+        "checks_total": 4,
+        "verdict": "pass",
+        "reason": "all checks passed",
+        "doc": {
+          "summary": "Defines FlaskyStyle, a Pygments syntax-highlighting style (subclass of pygments Style) based on the Tango palette, used by the Flask documentation Sphinx theme.",
+          "key_behaviors": [
+            "Maps Pygments token types (keywords, strings, names, comments, generics) to Tango-style colors and formatting",
+            "Sets a light background color #f8f8f8 with empty default style",
+            "Makes docstrings render like comments (italic brown) and name classes look like plain variables",
+            "Purely declarative data module with no functions or runtime logic"
+          ],
+          "complexity_note": "Straightforward declarative style table; only risk is Pygments API drift (e.g., default_style deprecated or token renames) breaking docs builds."
+        }
+      },
+      {
+        "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+        "file_path": "tests/test_requests.py",
+        "qualified_name": "TestMorselToCookieMaxAge.test_max_age_valid_int",
+        "kind": "function",
+        "checks": [
+          {
+            "name": "summary_non_empty",
+            "pass": true,
+            "detail": "126 chars"
+          },
+          {
+            "name": "mentions_qualified_name_or_identifier",
+            "pass": true,
+            "detail": "found in summary"
+          },
+          {
+            "name": "no_refusal",
+            "pass": true,
+            "detail": "clean"
+          },
+          {
+            "name": "summary_length_within_bounds",
+            "pass": true,
+            "detail": "126 chars"
+          }
+        ],
+        "checks_passed": 4,
+        "checks_total": 4,
+        "verdict": "pass",
+        "reason": "all checks passed",
+        "doc": {
+          "summary": "Tests that morsel_to_cookie correctly converts a cookie morsel with a valid integer max-age (60 seconds) into a cookie object.",
+          "key_behaviors": [
+            "Sets morsel max-age to a valid integer (60)",
+            "Converts the morsel via morsel_to_cookie",
+            "Asserts the resulting cookie's expires attribute is an int"
+          ],
+          "complexity_note": "straightforward"
+        }
+      },
+      {
+        "chunk_id": "tests/utils.py::override_environ@5",
+        "file_path": "tests/utils.py",
+        "qualified_name": "override_environ",
+        "kind": "function",
+        "checks": [
+          {
+            "name": "summary_non_empty",
+            "pass": true,
+            "detail": "189 chars"
+          },
+          {
+            "name": "mentions_qualified_name_or_identifier",
+            "pass": true,
+            "detail": "found in summary"
+          },
+          {
+            "name": "no_refusal",
+            "pass": true,
+            "detail": "clean"
+          },
+          {
+            "name": "summary_length_within_bounds",
+            "pass": true,
+            "detail": "189 chars"
+          }
+        ],
+        "checks_passed": 4,
+        "checks_total": 4,
+        "verdict": "pass",
+        "reason": "all checks passed",
+        "doc": {
+          "summary": "Provides a context manager that temporarily overrides one or more environment variables and restores the original environment on exit; passing None deletes a variable instead of setting it.",
+          "key_behaviors": [
+            "Sets each given key/value pair in os.environ for the duration of the with block",
+            "Deletes an env var when None is passed as its value",
+            "Saves the full environment on entry and restores it via clear+update in finally, so restoration happens even on exceptions"
+          ],
+          "complexity_note": "Mutates global process state and restores the whole environment rather than only touched keys, so concurrent env changes made inside the block are silently discarded."
+        }
+      }
+    ]
+  },
+  "out_of_scope": {
+    "graph_variant": "\u00a79 asks for the graph-layer variant (LightRAG) to be re-counted. NOT MEASURED: lightrag is not installed and installing an unvetted dependency for one measurement is not justified. D4 stays open.",
+    "changed_chunks_only": "\u00a79 phrase 'summaries for changed chunks only' is a repo-state selection concern measured by S6, not a cost concern; cost is per chunk.",
+    "human_rubric": "The 30-doc sample here is heuristic-graded. A hand rubric grade is a human activity; the sample file is structured to be annotated over."
+  },
+  "verdict": {
+    "coverage_met": true,
+    "cost_table_produced": true,
+    "quality_sample_produced": false,
+    "graph_layer_cost_quantified": false,
+    "budget_met": true
+  }
+}

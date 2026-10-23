@@ -1,0 +1,197 @@
+{
+  "spike": "S7",
+  "subject": "LLM bug-review precision per context layer, confidence threshold, cost per finding",
+  "research_row": "Sentra_research.md \u00a79, row S7",
+  "status": "partial_measurement_failure",
+  "toolchain": {
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "transport": "cli",
+    "client": "spikes/_llm.py (shared, reused from S5)",
+    "semgrep": "1.179.0",
+    "rulesets": [
+      "p/security-audit",
+      "p/python",
+      "p/javascript"
+    ]
+  },
+  "corpus": {
+    "path": "data/repos/fixtures/probe",
+    "ground_truth": "S2b authored probe corpus (21 vulnerable, 4 safe)",
+    "scanned_files": 18,
+    "findings": 10,
+    "mapped_findings": 10,
+    "review_limit": null,
+    "ambiguous_findings": 0,
+    "attribution_method": "finding line range must cover the truth pattern's vulnerable line; file+line exact, no \u00b16 nearest-match heuristic"
+  },
+  "layers": {
+    "L1": {
+      "context": "finding only: rule id, message, severity, flagged lines",
+      "findings_judged": 10,
+      "usable_verdicts": 8,
+      "unreviewed_parse_or_call_failures": 2,
+      "true_positives": 8,
+      "false_positives": 0,
+      "precision": 1.0,
+      "precision_denominator": 8,
+      "mapped_findings_total": 10,
+      "controls_flagged": 0,
+      "controls_flagged_detail": [],
+      "corpus_recall_note": "LLM precision is over the 10 findings Semgrep surfaced from 21 positives; the 21-pattern corpus recall belongs to S2b, not here.",
+      "false_positive_detail": [],
+      "threshold_sweep": {
+        "0.3": {
+          "kept": 8,
+          "dropped": 0,
+          "true_positives": 8,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "0.5": {
+          "kept": 8,
+          "dropped": 0,
+          "true_positives": 8,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "0.7": {
+          "kept": 8,
+          "dropped": 0,
+          "true_positives": 8,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "0.9": {
+          "kept": 3,
+          "dropped": 5,
+          "true_positives": 3,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 0.375
+        }
+      },
+      "cost": {
+        "calls": 12,
+        "calls_per_finding": 1.2,
+        "chars_in_total": 9782,
+        "chars_out_total": 1738,
+        "chars_per_finding": 1152.0,
+        "wall_seconds": 69.86,
+        "wall_seconds_per_finding": 6.99,
+        "mean_latency_s": 6.99,
+        "tokens": "unavailable on the opencode CLI transport (chars reported instead)"
+      }
+    },
+    "L2": {
+      "context": "finding plus smallest S1 syntax-aware chunk containing it",
+      "findings_judged": 10,
+      "usable_verdicts": 8,
+      "unreviewed_parse_or_call_failures": 2,
+      "true_positives": 8,
+      "false_positives": 0,
+      "precision": 1.0,
+      "precision_denominator": 8,
+      "mapped_findings_total": 10,
+      "controls_flagged": 0,
+      "controls_flagged_detail": [],
+      "corpus_recall_note": "LLM precision is over the 10 findings Semgrep surfaced from 21 positives; the 21-pattern corpus recall belongs to S2b, not here.",
+      "false_positive_detail": [],
+      "threshold_sweep": {
+        "0.3": {
+          "kept": 8,
+          "dropped": 0,
+          "true_positives": 8,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "0.5": {
+          "kept": 8,
+          "dropped": 0,
+          "true_positives": 8,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "0.7": {
+          "kept": 8,
+          "dropped": 0,
+          "true_positives": 8,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "0.9": {
+          "kept": 5,
+          "dropped": 3,
+          "true_positives": 5,
+          "false_positives": 0,
+          "precision": 1.0,
+          "recall": 0.625
+        }
+      },
+      "cost": {
+        "calls": 12,
+        "calls_per_finding": 1.2,
+        "chars_in_total": 10719,
+        "chars_out_total": 1755,
+        "chars_per_finding": 1247.4,
+        "wall_seconds": 49.24,
+        "wall_seconds_per_finding": 4.92,
+        "mean_latency_s": 4.92,
+        "tokens": "unavailable on the opencode CLI transport (chars reported instead)"
+      }
+    }
+  },
+  "layer_agreement": {
+    "compared": 8,
+    "agree": 8,
+    "disagree": 0,
+    "disagreements": []
+  },
+  "cost_summary": {
+    "llm_calls_total": 24,
+    "findings_reviewed": 20,
+    "wall_seconds_total": 128.85,
+    "wall_seconds_per_review": 6.44,
+    "note": "opencode CLI transport: no token usage; cost = calls + chars + wall seconds"
+  },
+  "anomalies": {
+    "ambiguous_attributions": [],
+    "ambiguous_count": 0,
+    "malformed_outputs": [
+      {
+        "layer": "L1",
+        "pattern_id": "eval_user_input",
+        "error": "llm_error:cli_exit_1: \u001b[0m\n> build \u00b7 deepseek-v4.1-flash-free\n\u001b[91m\u001b[1mError: \u001b[0mFree usage limit reached. Subscribe to OpenCode Go to keep going: https://opencode.ai/go"
+      },
+      {
+        "layer": "L1",
+        "pattern_id": "exec_user_input",
+        "error": "llm_error:cli_exit_1: \u001b[0m\n> build \u00b7 deepseek-v4.1-flash-free\n\u001b[91m\u001b[1mError: \u001b[0mFree usage limit reached. Subscribe to OpenCode Go to keep going: https://opencode.ai/go"
+      },
+      {
+        "layer": "L2",
+        "pattern_id": "eval_user_input",
+        "error": "llm_error:cli_exit_1: \u001b[0m\n> build \u00b7 deepseek-v4.1-flash-free\n\u001b[91m\u001b[1mError: \u001b[0mFree usage limit reached. Subscribe to OpenCode Go to keep going: https://opencode.ai/go"
+      },
+      {
+        "layer": "L2",
+        "pattern_id": "exec_user_input",
+        "error": "llm_error:cli_exit_1: \u001b[0m\n> build \u00b7 deepseek-v4.1-flash-free\n\u001b[91m\u001b[1mError: \u001b[0mFree usage limit reached. Subscribe to OpenCode Go to keep going: https://opencode.ai/go"
+      }
+    ],
+    "retries": 4,
+    "llm_transient_retries": 0,
+    "no_usable_content": 8,
+    "chunk_lookup_fallbacks": 0,
+    "controls_with_findings": 0
+  },
+  "verdict": {
+    "note": "These are OUR 21 authored patterns, not a third-party benchmark. The finding-level precision measures the judge's ability to confirm or reject Semgrep findings, not Semgrep's or Sentra's corpus recall. Safe-control false positives cannot be measured above zero on this run because Semgrep raised no finding on any of the 4 controls.",
+    "confidence_caveat": "Threshold precision/recall is on 10 findings per layer; one verdict moves precision by 0.1. Treat the sweep as directional, not stable."
+  }
+}

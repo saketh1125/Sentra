@@ -1,0 +1,432 @@
+{
+  "spike": "S8",
+  "subject": "PR diff + risk analysis \u2014 M5 file\u2192finding join proof",
+  "research_row": "Sentra_research.md \u00a79, row S8",
+  "informs": [
+    "D14",
+    "D20"
+  ],
+  "status": "stages_1_2_measured",
+  "deviation": "The spec's demo repos (saketh1125/Abhaya-Netra, saketh1125/PramanaGST) have 0 merged PRs and are not in this workspace, so the 5-10-PR sample is drawn from public upstream repos (psf/requests, pallets/flask) via the unauthenticated REST API. The local clones are depth-1 with zero merge commits and therefore cannot supply merged PR state.",
+  "pr_count": 9,
+  "changed_file_count": 20,
+  "changed_code_file_count": 15,
+  "files_downloaded_at_head": 15,
+  "findings_count": 7,
+  "findings_joined": 7,
+  "join_coverage_pct": 100.0,
+  "join_note": "Join key is the EXACT repository-relative path of a Semgrep finding against the PR's changed-file set (no fuzzy or basename matching). Where findings exist, coverage is 100% by construction: the staged tree contains only that PR's changed files at HEAD, so the measured property is that every finding path resolves to a changed file and that ZERO findings land on files the PR did not touch. A production join is likewise constrained to the PR's HEAD tree, which is what this staging reproduces.",
+  "findings_on_unchanged_files": [],
+  "findings_on_unchanged_files_count": 0,
+  "repo_scope_join": {
+    "findings_in_repo_scans": 9,
+    "joined_to_pr_changed_files": 7,
+    "join_coverage_pct": 77.8,
+    "meaning": "Of the findings the deterministic layer produces on the repo's current commit, how many fall inside the sampled PRs' changed-file sets \u2014 i.e. how many risk flags M5 would surface for those PRs, and how many it correctly leaves out because the PR did not touch that file."
+  },
+  "integration_hazard_checks": {
+    "semgrep_git_ignore_flag": "--no-git-ignore passed on every scan (D9 / DECISION_LOG locked requirement)",
+    "zero_scan_is_harness_failure": [
+      {
+        "pr_number": 6767,
+        "scanned_files": 1
+      },
+      {
+        "pr_number": 6963,
+        "scanned_files": 1
+      },
+      {
+        "pr_number": 6806,
+        "scanned_files": 1
+      },
+      {
+        "pr_number": 6994,
+        "scanned_files": 1
+      },
+      {
+        "pr_number": 7011,
+        "scanned_files": 1
+      },
+      {
+        "pr_number": 7431,
+        "scanned_files": 3
+      },
+      {
+        "pr_number": 7436,
+        "scanned_files": 1
+      },
+      {
+        "pr_number": 7505,
+        "scanned_files": 2
+      },
+      {
+        "pr_number": 7354,
+        "scanned_files": 2
+      }
+    ]
+  },
+  "per_pr": [
+    {
+      "repo": "psf/requests",
+      "pr_number": 6767,
+      "title": "Revert caching a default SSLContext",
+      "changed_files": 1,
+      "changed_code_files": 1,
+      "files_downloaded": 1,
+      "download_errors": [],
+      "semgrep_seconds": 4.0,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "11d68c17bcd66bd3e2c5137b0a7aad7f59967102"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 6963,
+      "title": "fix CVE 2024 47081: manual url parsing leads to netloc credentials leak",
+      "changed_files": 2,
+      "changed_code_files": 2,
+      "files_downloaded": 2,
+      "download_errors": [],
+      "semgrep_seconds": 4.8,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "92bab7d1142db0c807060577233568e5f7734c9b"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 6806,
+      "title": "Fix typo in documentation for verify",
+      "changed_files": 1,
+      "changed_code_files": 1,
+      "files_downloaded": 1,
+      "download_errors": [],
+      "semgrep_seconds": 5.0,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "2f9591c56fb98fc3afbab71611e928003199f7e5"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 6994,
+      "title": "docs: clarify timeout parameter uses seconds in Session.request",
+      "changed_files": 1,
+      "changed_code_files": 1,
+      "files_downloaded": 1,
+      "download_errors": [],
+      "semgrep_seconds": 4.3,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "d48d75e44778718124329a8bbfcc6ca53af57fd4"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7011,
+      "title": "v2.32.5",
+      "changed_files": 2,
+      "changed_code_files": 1,
+      "files_downloaded": 1,
+      "download_errors": [],
+      "semgrep_seconds": 4.1,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "b82d733cb9dd32104487c2a14877f40935b995bd"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7431,
+      "title": "Fix mutability issues with headers input types",
+      "changed_files": 3,
+      "changed_code_files": 3,
+      "files_downloaded": 3,
+      "download_errors": [],
+      "semgrep_seconds": 4.5,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "0a074cadfaccfbdd2f841d567a4c1a9132a72cd4"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7436,
+      "title": "Update JsonType containers to read-based collections",
+      "changed_files": 1,
+      "changed_code_files": 1,
+      "files_downloaded": 1,
+      "download_errors": [],
+      "semgrep_seconds": 3.8,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "1be917108874d28ae47cc311297d30790302b648"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7505,
+      "title": "Add hasattr checks for remaining protocol isinstance checks",
+      "changed_files": 3,
+      "changed_code_files": 3,
+      "files_downloaded": 3,
+      "download_errors": [],
+      "semgrep_seconds": 5.7,
+      "findings": 0,
+      "findings_joined": 0,
+      "join_coverage_pct": null,
+      "findings_on_unchanged": 0,
+      "rules": [],
+      "severities": {},
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 0,
+        "join_coverage_pct": 0.0,
+        "inherited_rule_ids": []
+      },
+      "head_sha": "8561a353cfa7bb44f90d30f5cbb3e596611f7ff1"
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7354,
+      "title": "Cleanup docs and add i18n wrappers",
+      "changed_files": 6,
+      "changed_code_files": 2,
+      "files_downloaded": 2,
+      "download_errors": [],
+      "semgrep_seconds": 3.8,
+      "findings": 7,
+      "findings_joined": 7,
+      "join_coverage_pct": 100.0,
+      "findings_on_unchanged": 0,
+      "rules": [
+        "generic.html-templates.security.var-in-href.var-in-href"
+      ],
+      "severities": {
+        "WARNING": 7
+      },
+      "repo_scope": {
+        "findings_in_repo": 9,
+        "joined_to_this_pr": 7,
+        "join_coverage_pct": 77.8,
+        "inherited_rule_ids": [
+          "generic.html-templates.security.var-in-href.var-in-href"
+        ]
+      },
+      "head_sha": "07dc19ed95cec0cbd929b93382dff80524a32a65"
+    }
+  ],
+  "joined_findings_detail": [
+    {
+      "pr_number": 7354,
+      "path": "docs/_templates/sidebar.html",
+      "line_start": 2,
+      "rule_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "finding_identity": "psf/requests::docs/_templates/sidebar.html::generic.html-templates.security.var-in-href.var-in-href::2-2"
+    },
+    {
+      "pr_number": 7354,
+      "path": "docs/_templates/sidebar.html",
+      "line_start": 18,
+      "rule_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "finding_identity": "psf/requests::docs/_templates/sidebar.html::generic.html-templates.security.var-in-href.var-in-href::18-18"
+    },
+    {
+      "pr_number": 7354,
+      "path": "docs/_templates/sidebar.html",
+      "line_start": 19,
+      "rule_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "finding_identity": "psf/requests::docs/_templates/sidebar.html::generic.html-templates.security.var-in-href.var-in-href::19-19"
+    },
+    {
+      "pr_number": 7354,
+      "path": "docs/_templates/sidebar.html",
+      "line_start": 20,
+      "rule_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "finding_identity": "psf/requests::docs/_templates/sidebar.html::generic.html-templates.security.var-in-href.var-in-href::20-20"
+    },
+    {
+      "pr_number": 7354,
+      "path": "docs/_templates/sidebar.html",
+      "line_start": 21,
+      "rule_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "finding_identity": "psf/requests::docs/_templates/sidebar.html::generic.html-templates.security.var-in-href.var-in-href::21-21"
+    },
+    {
+      "pr_number": 7354,
+      "path": "docs/_templates/sidebar.html",
+      "line_start": 22,
+      "rule_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "finding_identity": "psf/requests::docs/_templates/sidebar.html::generic.html-templates.security.var-in-href.var-in-href::22-22"
+    },
+    {
+      "pr_number": 7354,
+      "path": "docs/_templates/sidebar.html",
+      "line_start": 26,
+      "rule_id": "generic.html-templates.security.var-in-href.var-in-href",
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "finding_identity": "psf/requests::docs/_templates/sidebar.html::generic.html-templates.security.var-in-href.var-in-href::26-26"
+    }
+  ],
+  "api": {
+    "limit_per_hour_unauthenticated": 60,
+    "rate_floor_before_stop": 5,
+    "remaining_at_end": 6,
+    "calls_made": 3,
+    "status_codes": {
+      "200": 3
+    },
+    "calls": [
+      {
+        "url": "https://api.github.com/repos/psf/requests/commits",
+        "status": 200,
+        "ratelimit_remaining": 8,
+        "seconds": 3.8
+      },
+      {
+        "url": "https://api.github.com/repos/psf/requests/commits/185f587a78e2d2df31ae8af8c95d97a012213df7/pulls",
+        "status": 200,
+        "ratelimit_remaining": 7,
+        "seconds": 0.9
+      },
+      {
+        "url": "https://api.github.com/repos/psf/requests/pulls/7354/files",
+        "status": 200,
+        "ratelimit_remaining": 6,
+        "seconds": 1.1
+      }
+    ]
+  },
+  "corpus_cache": "data/cache/pr_corpus.json",
+  "corpus_reused_existing_cache": true,
+  "determinism": {
+    "spot_check_pr": 7354,
+    "runs": 2,
+    "identity_sets_identical": true,
+    "fingerprint_sets_identical": true,
+    "fingerprint_quirk": "MEASURED: extra.fingerprint is the constant string 'requires login' for every finding in this environment (12/12 findings across requests and flask), while extra.lines carries the matched text. D17 assumes extra.fingerprint is a usable stable finding key \u2014 it is NOT here, so finding identity must fall back to (repo, path, rule_id, line range). Determinism is therefore judged on that tuple, and the fingerprint comparison is reported but cannot discriminate."
+  },
+  "finding_identity_measurement": {
+    "measured": "extra.fingerprint is the constant string 'requires login' for every finding",
+    "findings_checked": 12,
+    "findings_with_non_empty_fingerprint": 12,
+    "distinct_fingerprints": 1,
+    "impact_on_d17": "D17 plans to reuse semgrep's extra.fingerprint as the M5 finding key. Measured here it cannot discriminate between findings, so the fallback key (repo, path, rule_id, line range) must be used, or a Sentra-computed fingerprint. Do not key M5 findings on extra.fingerprint without re-measuring on a build where it is a hash."
+  },
+  "join_selfcheck": {
+    "checks": [
+      {
+        "repo": "psf/requests",
+        "findings": 9,
+        "positive_control_joined": 9,
+        "positive_control_expected": 9,
+        "basename_near_miss_joined": 0,
+        "exact_path_only": true
+      }
+    ],
+    "all_passed": true,
+    "note": "Positive control: joining against the finding paths themselves must recover every finding. Negative control: a changed-file set that shares only BASENAMES must recover none \u2014 this is what stops M5 from reporting a finding on the wrong file (P6 acceptance criterion 3)."
+  },
+  "draft_rubric": {
+    "name": "S8 PR-summary rubric (draft for D20; LLM-free deliverable)",
+    "scale": "0-2 per criterion, 0 = missing, 1 = partial, 2 = complete",
+    "criteria": [
+      "1. What the PR does: stated in plain English without reading the diff",
+      "2. Scope: which components/files are affected, with no invented files",
+      "3. Risk flags: each flag cites a stored finding id (P6 acceptance criterion 2)",
+      "4. Confidence: the summary says what it could NOT determine",
+      "5. No false cross-references: every file->finding link is an exact path match (P6 acceptance criterion 3)"
+    ],
+    "aggregate": "mean of criterion scores x 50 -> percent; reported with N and the frozen threshold",
+    "freeze_rule": "Thresholds are frozen before the final measurement run (Sentra_research.md \u00a73.8 / D20); the rubric is not tuned after seeing results."
+  },
+  "llm_stage": {
+    "status": "blocked_provider",
+    "blocked_by_quota": true,
+    "prs_attempted": 1,
+    "prs_in_corpus": 9,
+    "error_redacted": "cli_exit_1: \u001b[0m\n> build \u00b7 glm-5.3-flash-free\n\u001b[91m\u001b[1mError: \u001b[0mFree usage limit reached. Subscribe to OpenCode Go to keep going: https://opencode.ai/go",
+    "record": "S8_pr_risk_blocked_llm.json",
+    "earlier_partial_sample": {
+      "prs_summarised": 1,
+      "record": "S8_pr_risk_summaries.json"
+    }
+  }
+}

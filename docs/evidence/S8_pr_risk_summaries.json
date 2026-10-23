@@ -1,0 +1,38 @@
+{
+  "spike": "S8",
+  "stage": "summarize",
+  "status": "ok",
+  "llm_calls_attempted": 1,
+  "draft_rubric": {
+    "name": "S8 PR-summary rubric (draft for D20; LLM-free deliverable)",
+    "scale": "0-2 per criterion, 0 = missing, 1 = partial, 2 = complete",
+    "criteria": [
+      "1. What the PR does: stated in plain English without reading the diff",
+      "2. Scope: which components/files are affected, with no invented files",
+      "3. Risk flags: each flag cites a stored finding id (P6 acceptance criterion 2)",
+      "4. Confidence: the summary says what it could NOT determine",
+      "5. No false cross-references: every file->finding link is an exact path match (P6 acceptance criterion 3)"
+    ],
+    "aggregate": "mean of criterion scores x 50 -> percent; reported with N and the frozen threshold",
+    "freeze_rule": "Thresholds are frozen before the final measurement run (Sentra_research.md \u00a73.8 / D20); the rubric is not tuned after seeing results."
+  },
+  "sample_summaries": [
+    {
+      "pr_number": 6767,
+      "title": "Revert caching a default SSLContext",
+      "summary_json": "```json\n{\n  \"summary\": \"PR #6767 in psf/requests reverts the default-SSLContext caching introduced in #6667, restoring prior TLS behaviour in src/requests/adapters.py. The author cites recurring edge cases and concurrency problems with the cached context, so this is a deliberate stability rollback that reduces functional scope rather than adding new code paths. No Semgrep findings were joined to this PR, so no fingerprint-backed risk flags can be cited; overall risk appears low (revert to previously shipped behaviour), but residual regression risk from the reverted edge cases and the state of test coverage for the TLS path cannot be determined from the given data.\",\n  \"risk_flags\": []\n}\n```",
+      "usage": {
+        "chars_in": 1165,
+        "chars_out": 699,
+        "note": "cli transport: no token usage available; use chars for cost"
+      },
+      "latency_seconds": 20.1
+    }
+  ],
+  "llm_stats": {
+    "http_calls": 1,
+    "transient_retries": 0,
+    "no_usable_content": 0,
+    "quota_exhausted": false
+  }
+}

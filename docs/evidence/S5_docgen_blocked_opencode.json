@@ -1,0 +1,26 @@
+{
+  "spike": "S5",
+  "subject": "Documentation generation + cost",
+  "status": "blocked_provider_freetier_gate",
+  "blocked_by_quota": false,
+  "chunks_not_attempted": 300,
+  "target_limit_chunks": 300,
+  "research_row": "Sentra_research.md §9, row S5 (cost table + coverage % + 30-doc quality sample)",
+  "note": "Rerun attempt switching the LLM backend to the opencode hosted provider (spikes/_llm.py: resolve_provider(), SENTRA_LLM_PROVIDER=opencode or auto-fallback). Smoke test (1 chat() call, 'Reply with exactly: OK', max_tokens=512) failed with HTTP 403 and error type FreeTierError: \"OpenCode's free tier can only be used from within OpenCode. Download it at https://opencode.ai and keep building.\" The gate is server-side and NOT header/stream-related: the identical request with the official client's User-Agent (opencode/latest/2.0.32/cli), x-opencode-client header and stream:true also got 403, and so did an unauthenticated request. On the SAME machine and the SAME account, the official client DOES work: `opencode run -m opencode/glm-5.3-flash-free 'Reply with exactly: OK'` returned 'OK' (CLI v2.0.22), so the auth.json credential (type 'api', a Console API key, sk-*) is what the free-tier gate rejects for non-OpenCode-client requests. Per the opencode-backend run rules (401/403 = systematic auth block, not a per-chunk transient), the run was stopped before any chunk. No cost table exists for the opencode backend; the only valid S5 measurements are the OpenRouter pilot in S5_docgen.json (10/300 chunks) and the previous blocked file S5_docgen_blocked.json.",
+  "gate_snapshot": {
+    "http_status": 403,
+    "error_type": "Generation.FreeTierError / FreeTierError",
+    "message": "OpenCode's free tier can only be used from within OpenCode. Download it at https://opencode.ai and keep building.",
+    "reproduced_with": [
+      "authed (auth.json opencode key, type 'api')",
+      "authed + stream:true + official-cli User-Agent + x-opencode-client: cli",
+      "unauthenticated + stream:true"
+    ],
+    "control_official_client_same_machine_same_account": "opencode run -m opencode/glm-5.3-flash-free 'Reply with exactly: OK' -> 'OK' (v2.0.22)"
+  },
+  "why_not_retried_within_this_run": "The gate rejects the auth.json API key for scripted requests regardless of headers or streaming; only responses routed through the official OpenCode client session pass. Rerunning the script against the same credential returns the same 403 for every chunk.",
+  "rerun_command": ".venv/bin/python spikes/s5_docgen/spike.py --limit-chunks 300   # with a provider whose free/API tier accepts direct API-key requests (D2/D3 decision), or once OpenCode exposes an official non-gated inference credential",
+  "cost_table": null,
+  "coverage": null,
+  "quality_sample": null
+}

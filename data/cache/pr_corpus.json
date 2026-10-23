@@ -1,0 +1,309 @@
+{
+  "spike": "S8",
+  "stage": "fetch",
+  "fetched_at": "2026-10-23T10:17:57Z",
+  "source": "public GitHub REST API, unauthenticated",
+  "selection": {
+    "rule": "Substantive merged PRs only (merged_at set, no Bot/dependabot/renovate, no 'bump'), ranked by (touches a path where these rulesets fire, touches src/) so the M5 join is exercised by real findings instead of a vacuous zero-finding sample.",
+    "preferred_count": 8,
+    "rest_count": 11,
+    "candidates_examined": 19,
+    "stop_reason": "target_reached",
+    "finding_paths_used": {
+      "psf/requests": [
+        "docs/_templates/sidebar.html",
+        "src/requests/auth.py"
+      ],
+      "pallets/flask": [
+        "src/flask/cli.py",
+        "src/flask/config.py",
+        "src/flask/sessions.py"
+      ]
+    },
+    "hunt": {
+      "path": "docs/_templates/sidebar.html",
+      "commit": "185f587a78e2d2df31ae8af8c95d97a012213df7",
+      "added_pr": 7354
+    }
+  },
+  "api_status": {
+    "limit_per_hour_unauthenticated": 60,
+    "rate_floor_before_stop": 5,
+    "remaining_at_end": 6,
+    "calls_made": 3,
+    "status_codes": {
+      "200": 3
+    },
+    "calls": [
+      {
+        "url": "https://api.github.com/repos/psf/requests/commits",
+        "status": 200,
+        "ratelimit_remaining": 8,
+        "seconds": 3.8
+      },
+      {
+        "url": "https://api.github.com/repos/psf/requests/commits/185f587a78e2d2df31ae8af8c95d97a012213df7/pulls",
+        "status": 200,
+        "ratelimit_remaining": 7,
+        "seconds": 0.9
+      },
+      {
+        "url": "https://api.github.com/repos/psf/requests/pulls/7354/files",
+        "status": 200,
+        "ratelimit_remaining": 6,
+        "seconds": 1.1
+      }
+    ]
+  },
+  "prs": [
+    {
+      "repo": "psf/requests",
+      "pr_number": 6767,
+      "title": "Revert caching a default SSLContext",
+      "user": "nateprewitt",
+      "merged_at": "2025-06-13T16:42:08Z",
+      "base_sha": "8ff173b186f135670879db9fbe1e68a6b5209c89",
+      "head_sha": "11d68c17bcd66bd3e2c5137b0a7aad7f59967102",
+      "body": "This PR reverts the changes from #6667 to the previous behavior. Due to the number of edge cases and concurrency issues we've encountered with this change, we've decided the benefit doesn't currently outweigh the pain to existing infrastructure. We've iterated on a few tries to keep this functionality in place, but are still receiving reports of novel issues with this behavior.\r\n\r\nWe may be able to revisit this in a later version of Requests but we'll need a much more comprehensive test plan.",
+      "changed_files": [
+        {
+          "filename": "src/requests/adapters.py",
+          "status": "modified",
+          "additions": 16,
+          "deletions": 39,
+          "changes": 55
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 6963,
+      "title": "fix CVE 2024 47081: manual url parsing leads to netloc credentials leak",
+      "user": "awoimbee",
+      "merged_at": "2025-06-05T14:55:33Z",
+      "base_sha": "7bc45877a86192af77645e156eb3744f95b47dae",
+      "head_sha": "92bab7d1142db0c807060577233568e5f7734c9b",
+      "body": "https://seclists.org/fulldisclosure/2025/Jun/2\r\n\r\nHonestly I have no idea why this lib used `netloc` + manual parsing instead of `hostname` as I can see references to `hostname` as early as from [the python 2.6 docs](https://docs.python.org/2.6/library/urlparse.html).",
+      "changed_files": [
+        {
+          "filename": "src/requests/utils.py",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 8,
+          "changes": 9
+        },
+        {
+          "filename": "tests/test_utils.py",
+          "status": "modified",
+          "additions": 19,
+          "deletions": 0,
+          "changes": 19
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 6806,
+      "title": "Fix typo in documentation for verify",
+      "user": "jonas",
+      "merged_at": "2025-06-10T02:54:25Z",
+      "base_sha": "e57b5bf05c4e39281b5547b1bd05a5074dc96df3",
+      "head_sha": "2f9591c56fb98fc3afbab71611e928003199f7e5",
+      "body": "The code for reference: https://github.com/psf/requests/blob/7335bbf480adc8e6aa88feb2022797a549a00aa3/src/requests/adapters.py#L336\r\n",
+      "changed_files": [
+        {
+          "filename": "src/requests/adapters.py",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 6994,
+      "title": "docs: clarify timeout parameter uses seconds in Session.request",
+      "user": "killerdevildog",
+      "merged_at": "2025-07-18T02:09:20Z",
+      "base_sha": "91a3eabd3dcc4d7f36dd8249e4777a90ef9b4305",
+      "head_sha": "d48d75e44778718124329a8bbfcc6ca53af57fd4",
+      "body": "- Updated Session.request() docstring to match requests.request()\r\n- Changed 'How long to wait' to 'How many seconds to wait'\r\n- Fixes inconsistency in timeout documentation\r\n\r\nFixes #6813",
+      "changed_files": [
+        {
+          "filename": "src/requests/sessions.py",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7011,
+      "title": "v2.32.5",
+      "user": "nateprewitt",
+      "merged_at": "2025-08-18T20:23:20Z",
+      "base_sha": "131e506079d97606e4214cc4d87b780ac478de7a",
+      "head_sha": "b82d733cb9dd32104487c2a14877f40935b995bd",
+      "body": "2.32.5 (2025-08-18)\r\n-------------------\r\n\r\n**Bugfixes**\r\n\r\n- The SSLContext caching feature originally introduced in 2.32.0 has created\r\n  a new class of issues in Requests that have had negative impact across a number\r\n  of use cases. The Requests team has decided to revert this feature as long term\r\n  maintenance of it is proving to be unsustainable in its current iteration.\r\n\r\n**Deprecations**\r\n- Added support for Python 3.14.\r\n- Dropped support for Python 3.8 following its end of support.",
+      "changed_files": [
+        {
+          "filename": "HISTORY.md",
+          "status": "modified",
+          "additions": 10,
+          "deletions": 0,
+          "changes": 10
+        },
+        {
+          "filename": "src/requests/__version__.py",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 2,
+          "changes": 4
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7431,
+      "title": "Fix mutability issues with headers input types",
+      "user": "nateprewitt",
+      "merged_at": "2026-05-13T19:16:50Z",
+      "base_sha": "0b401c76b6e80a4eecf3c690085b2553f6e261ca",
+      "head_sha": "0a074cadfaccfbdd2f841d567a4c1a9132a72cd4",
+      "body": "We already got a helpful email, lack of header mutability in the typing contract is creating friction for some code bases. I think we'd started to go down this route but it got lost in the cleanup. I'm going to stage this as a known issue for a 2.34.1 but we'll likely wait a day or two before cutting another release to see what other feedback we missed.",
+      "changed_files": [
+        {
+          "filename": "src/requests/_types.py",
+          "status": "modified",
+          "additions": 2,
+          "deletions": 3,
+          "changes": 5
+        },
+        {
+          "filename": "src/requests/models.py",
+          "status": "modified",
+          "additions": 3,
+          "deletions": 2,
+          "changes": 5
+        },
+        {
+          "filename": "src/requests/sessions.py",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7436,
+      "title": "Update JsonType containers to read-based collections",
+      "user": "nateprewitt",
+      "merged_at": "2026-05-13T14:43:17Z",
+      "base_sha": "0b401c76b6e80a4eecf3c690085b2553f6e261ca",
+      "head_sha": "1be917108874d28ae47cc311297d30790302b648",
+      "body": "The current definition for `JsonType` is constrained to `dict` for map-like objects but that introduces issues when input is explicitly typed.\r\n\r\nThe type checker is able to infer typing correctly with:\r\n\r\n```python\r\npayload = {\"test\": \"test\"}\r\nr = requests.post(url, json=payload)\r\n```\r\n\r\nbut not\r\n```python\r\npayload: dict[str, str] = {\"test\": \"test\"}\r\nr = requests.post(url, json=payload)\r\n```\r\n\r\nThis is due to the varied Value typing on `JsonType` and the mutability of `dict`. Changing it to `Mapping` which only exposes read interfacea allows us to check covariant value types. This works because the `json` input is never touched. It's taken from input and passed directly to `json.dumps` resulting in bytes. There's no access point in the pipeline to modify it later.\r\n\r\nWe're going to start with this expansion of the type to see if it works broadly. The goal is to avoid `Any` for JsonType if at all possible.",
+      "changed_files": [
+        {
+          "filename": "src/requests/_types.py",
+          "status": "modified",
+          "additions": 8,
+          "deletions": 2,
+          "changes": 10
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7505,
+      "title": "Add hasattr checks for remaining protocol isinstance checks",
+      "user": "nateprewitt",
+      "merged_at": "2026-06-09T15:45:59Z",
+      "base_sha": "6f205ff422bccd5e4c4fc0b64c5f3e7df5181db6",
+      "head_sha": "8561a353cfa7bb44f90d30f5cbb3e596611f7ff1",
+      "body": "This PR is a successor to #7502. The proxied-read case appears in the standard library which points to it being a pretty well established pattern. A quick search shows there are two other places this was missed in.\r\n\r\nRather than put `or hasattr(data, \"read\")` everywhere we use want to use `SupportsRead`, this combines it into a single check that scopes typing correctly for proxy objects. That should hopefully avoid missing it for future checks as well.",
+      "changed_files": [
+        {
+          "filename": "src/requests/_types.py",
+          "status": "modified",
+          "additions": 5,
+          "deletions": 0,
+          "changes": 5
+        },
+        {
+          "filename": "src/requests/models.py",
+          "status": "modified",
+          "additions": 4,
+          "deletions": 7,
+          "changes": 11
+        },
+        {
+          "filename": "tests/test_requests.py",
+          "status": "modified",
+          "additions": 15,
+          "deletions": 0,
+          "changes": 15
+        }
+      ]
+    },
+    {
+      "repo": "psf/requests",
+      "pr_number": 7354,
+      "title": "Cleanup docs and add i18n wrappers",
+      "user": "nateprewitt",
+      "merged_at": "2026-04-11T19:39:24Z",
+      "base_sha": "ef439eb779c1eba7cbdeeeb302b11e1e061b4b7d",
+      "head_sha": "07dc19ed95cec0cbd929b93382dff80524a32a65",
+      "body": "This PR should address #7352 and #7353. It collapses the two slightly different sidebar templates into a single source of truth. That template now has the i18n wrappers if someone were to choose to update the internationalized docs. I don't think any of those are currently maintained. It also fixes the lack of logo in the top left which makes navigating back to home difficult, I've hit this myself recently.\r\n\r\nThe last change is ripping out hacks.html and a significant amount of dead css from a now defunct ad integration.",
+      "changed_files": [
+        {
+          "filename": "docs/_static/custom.css",
+          "status": "modified",
+          "additions": 8,
+          "deletions": 172,
+          "changes": 180
+        },
+        {
+          "filename": "docs/_templates/hacks.html",
+          "status": "removed",
+          "additions": 0,
+          "deletions": 80,
+          "changes": 80
+        },
+        {
+          "filename": "docs/_templates/sidebar.html",
+          "status": "added",
+          "additions": 33,
+          "deletions": 0,
+          "changes": 33
+        },
+        {
+          "filename": "docs/_templates/sidebarintro.html",
+          "status": "removed",
+          "additions": 0,
+          "deletions": 37,
+          "changes": 37
+        },
+        {
+          "filename": "docs/_templates/sidebarlogo.html",
+          "status": "removed",
+          "additions": 0,
+          "deletions": 30,
+          "changes": 30
+        },
+        {
+          "filename": "docs/conf.py",
+          "status": "modified",
+          "additions": 8,
+          "deletions": 9,
+          "changes": 17
+        }
+      ]
+    }
+  ],
+  "_reused_cache": true
+}

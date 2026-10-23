@@ -1,0 +1,23 @@
+{
+  "spike": "S5",
+  "subject": "Documentation generation + cost",
+  "status": "blocked_provider_quota",
+  "blocked_by_quota": true,
+  "chunks_not_attempted": 290,
+  "target_limit_chunks": 300,
+  "research_row": "Sentra_research.md \u00a79, row S5 (cost table + coverage % + 30-doc quality sample)",
+  "note": "Run BLOCKED by the OpenRouter free-tier daily request cap (50 requests/day). Live quota at the time of the stop: free_model_daily_requests used=51, limit=50, remaining=0; total_credits=0. The 300-chunk run reached 99/300 with 2 successes before the cap bit; the remaining 201 attempts were all 429s. Continuing would have hammered a dead rate limit and recorded ~300 bogus per-chunk failures, turning a credential failure into a fake measurement of doc generation. This file records the block only \u2014 it carries NO cost table deliberately, because none was measured in this run. The valid pilot measurement is in S5_docgen.json.",
+  "quota_snapshot": {
+    "used": 51,
+    "limit": 50,
+    "remaining": 0,
+    "is_free_tier": true,
+    "total_credits": 0,
+    "quota_message": "Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day"
+  },
+  "why_not_retried_within_this_run": "The daily cap is terminal until the 00:00 UTC reset. A rerun sooner returns 429 for every chunk.",
+  "rerun_command": ".venv/bin/python spikes/s5_docgen/spike.py --limit-chunks 300   # after the 00:00 UTC reset, or with a paid SENTRA_LLM_* credential",
+  "cost_table": null,
+  "coverage": null,
+  "quality_sample": null
+}

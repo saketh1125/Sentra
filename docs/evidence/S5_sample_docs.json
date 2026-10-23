@@ -1,0 +1,146 @@
+{
+  "spike": "S5",
+  "subject": "30-doc quality sample \u2014 deterministic heuristic grading",
+  "model": "opencode/glm-5.3-flash-free",
+  "grading": {
+    "checks": [
+      "summary_non_empty: summary is at least 10 chars",
+      "mentions_qualified_name_or_identifier: the chunk's qualified name or any identifier of length >3 appears in the summary",
+      "no_refusal: none of [\"i'm sorry\", 'i am sorry', 'i cannot', \"i can't\", 'unable to assist', 'as an ai', \"i don't have access\", 'cannot assist'] appear",
+      "summary_length_within_bounds: between 10 and 600 chars"
+    ],
+    "deterministic": true
+  },
+  "totals": {
+    "docs": 3,
+    "passed": 3,
+    "pass_rate_pct": 100.0,
+    "per_check_failures": {}
+  },
+  "docs": [
+    {
+      "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+      "file_path": "docs/_themes/flask_theme_support.py",
+      "qualified_name": "<module>",
+      "kind": "module",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "160 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "160 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Defines FlaskyStyle, a Pygments syntax-highlighting style (subclass of pygments Style) based on the Tango palette, used by the Flask documentation Sphinx theme.",
+        "key_behaviors": [
+          "Maps Pygments token types (keywords, strings, names, comments, generics) to Tango-style colors and formatting",
+          "Sets a light background color #f8f8f8 with empty default style",
+          "Makes docstrings render like comments (italic brown) and name classes look like plain variables",
+          "Purely declarative data module with no functions or runtime logic"
+        ],
+        "complexity_note": "Straightforward declarative style table; only risk is Pygments API drift (e.g., default_style deprecated or token renames) breaking docs builds."
+      }
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "file_path": "tests/test_requests.py",
+      "qualified_name": "TestMorselToCookieMaxAge.test_max_age_valid_int",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "126 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "126 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Tests that morsel_to_cookie correctly converts a cookie morsel with a valid integer max-age (60 seconds) into a cookie object.",
+        "key_behaviors": [
+          "Sets morsel max-age to a valid integer (60)",
+          "Converts the morsel via morsel_to_cookie",
+          "Asserts the resulting cookie's expires attribute is an int"
+        ],
+        "complexity_note": "straightforward"
+      }
+    },
+    {
+      "chunk_id": "tests/utils.py::override_environ@5",
+      "file_path": "tests/utils.py",
+      "qualified_name": "override_environ",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "189 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "189 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Provides a context manager that temporarily overrides one or more environment variables and restores the original environment on exit; passing None deletes a variable instead of setting it.",
+        "key_behaviors": [
+          "Sets each given key/value pair in os.environ for the duration of the with block",
+          "Deletes an env var when None is passed as its value",
+          "Saves the full environment on entry and restores it via clear+update in finally, so restoration happens even on exceptions"
+        ],
+        "complexity_note": "Mutates global process state and restores the whole environment rather than only touched keys, so concurrent env changes made inside the block are silently discarded."
+      }
+    }
+  ]
+}

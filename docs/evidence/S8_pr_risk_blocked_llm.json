@@ -1,0 +1,46 @@
+{
+  "spike": "S8",
+  "subject": "PR diff + risk analysis \u2014 LLM summary + rubric-test stage",
+  "status": "blocked_provider",
+  "blocked_by_quota": true,
+  "prs_in_corpus": 9,
+  "llm_calls_attempted": 1,
+  "llm_calls_succeeded": 0,
+  "research_row": "Sentra_research.md \u00a79, row S8 (sample summaries + draft rubric + join-accuracy note)",
+  "note": "Stage 3 was attempted and stopped at the provider's account-wide free-tier limit. The error is recorded verbatim (redacted) and nothing is invented: this file carries NO summaries and NO rubric scores. Stages 1 (fetch) and 2 (the M5 file->finding join) are fully measured in S8_pr_risk.json, and the draft rubric is LLM-free so it stays valid. Where a call DID succeed earlier in the session, its sample is kept in docs/evidence/S8_pr_risk_summaries.json and must not be read as a completed run: it covers 1 of 9 PRs and was never rubric-rated (D20 needs a human rater).",
+  "earlier_partial_sample": {
+    "record": "docs/evidence/S8_pr_risk_summaries.json",
+    "prs_summarised": 1,
+    "rubric_rated_by_human": false
+  },
+  "block_detail": {
+    "error_class": "LLMError",
+    "error": "cli_exit_1: \u001b[0m\n> build \u00b7 glm-5.3-flash-free\n\u001b[91m\u001b[1mError: \u001b[0mFree usage limit reached. Subscribe to OpenCode Go to keep going: https://opencode.ai/go",
+    "quota_exhausted_flag": false,
+    "llm_stats": {
+      "http_calls": 1,
+      "transient_retries": 0,
+      "no_usable_content": 1,
+      "quota_exhausted": false
+    },
+    "provider": "opencode",
+    "model": "glm-5.3-flash-free"
+  },
+  "draft_rubric": {
+    "name": "S8 PR-summary rubric (draft for D20; LLM-free deliverable)",
+    "scale": "0-2 per criterion, 0 = missing, 1 = partial, 2 = complete",
+    "criteria": [
+      "1. What the PR does: stated in plain English without reading the diff",
+      "2. Scope: which components/files are affected, with no invented files",
+      "3. Risk flags: each flag cites a stored finding id (P6 acceptance criterion 2)",
+      "4. Confidence: the summary says what it could NOT determine",
+      "5. No false cross-references: every file->finding link is an exact path match (P6 acceptance criterion 3)"
+    ],
+    "aggregate": "mean of criterion scores x 50 -> percent; reported with N and the frozen threshold",
+    "freeze_rule": "Thresholds are frozen before the final measurement run (Sentra_research.md \u00a73.8 / D20); the rubric is not tuned after seeing results."
+  },
+  "rerun_command": ".venv/bin/python spikes/s8_pr_risk/spike.py --stage summarize   # once the opencode free-tier account limit resets, or with a SENTRA_LLM_* credential / D2-D3 decision",
+  "summaries": null,
+  "rubric_test_results": null,
+  "cost_table": null
+}
