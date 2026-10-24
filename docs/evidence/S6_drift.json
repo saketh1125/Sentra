@@ -1,0 +1,433 @@
+{
+  "spike": "S6",
+  "subject": "Documentation drift detection",
+  "research_row": "Sentra_research.md \u00a79, row S6 (D11 doc-time reference vector, D13 drift methodology)",
+  "toolchain": {
+    "embed_model": "BAAI/bge-small-en-v1.5",
+    "cache_dir": "data/cache/fastembed",
+    "chunker": "spikes/s1_tree_sitter/chunker.py"
+  },
+  "linkage": {
+    "docs_linked": 3,
+    "docs_in_sample": 3,
+    "match_methods": [
+      "imported S5 sampler + exact chunk_id match"
+    ],
+    "reproduced_sample_ids": [
+      "docs/_themes/flask_theme_support.py::<module>@1",
+      "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "tests/utils.py::override_environ@5"
+    ],
+    "reproduced_match": true,
+    "reproduced_sample_matches_sample_file": true,
+    "s5_corpus_chunks_at_same_commit": 843
+  },
+  "corpus": {
+    "repo": "requests",
+    "path": "data/repos/requests",
+    "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60"
+  },
+  "checks": [
+    {
+      "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+      "variant": "unmutated",
+      "mutation_note": "control: chunk text unchanged",
+      "d1_hash_fired": false,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.899957
+    },
+    {
+      "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+      "variant": "M2_behavior",
+      "mutation_note": "integer literal 000000 -> 1",
+      "d1_hash_fired": true,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.896916
+    },
+    {
+      "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+      "variant": "M3_structure",
+      "mutation_note": "added one statement 'S6_M3_MARKER = None' (module level; no function found)",
+      "d1_hash_fired": true,
+      "d2_ast_fired": true,
+      "d3_similarity": 0.899957
+    },
+    {
+      "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+      "variant": "N1_comment_only",
+      "mutation_note": "appended one comment line",
+      "d1_hash_fired": true,
+      "d2_ast_fired": true,
+      "d3_similarity": 0.899957
+    },
+    {
+      "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+      "variant": "N2_whitespace_only",
+      "mutation_note": "appended a whitespace-only line",
+      "d1_hash_fired": true,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.899957
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "variant": "unmutated",
+      "mutation_note": "control: chunk text unchanged",
+      "d1_hash_fired": false,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.887586
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "variant": "M1_identity",
+      "mutation_note": "renamed 'test_max_age_valid_int' -> 'test_max_age_valid_int_s6renamed' (1 occurrence(s) in chunk text)",
+      "d1_hash_fired": true,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.886574
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "variant": "M2_behavior",
+      "mutation_note": "integer literal 60 -> 61",
+      "d1_hash_fired": true,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.887739
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "variant": "M3_structure",
+      "mutation_note": "added one statement 'S6_M3_MARKER = None' (function level; no removable parameter (only self/cls, or none))",
+      "d1_hash_fired": true,
+      "d2_ast_fired": true,
+      "d3_similarity": 0.881385
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "variant": "N1_comment_only",
+      "mutation_note": "appended one comment line",
+      "d1_hash_fired": true,
+      "d2_ast_fired": true,
+      "d3_similarity": 0.882098
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
+      "variant": "N2_whitespace_only",
+      "mutation_note": "appended a whitespace-only line",
+      "d1_hash_fired": true,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.887586
+    },
+    {
+      "chunk_id": "tests/utils.py::override_environ@5",
+      "variant": "unmutated",
+      "mutation_note": "control: chunk text unchanged",
+      "d1_hash_fired": false,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.827336
+    },
+    {
+      "chunk_id": "tests/utils.py::override_environ@5",
+      "variant": "M1_identity",
+      "mutation_note": "renamed 'override_environ' -> 'override_environ_s6renamed' (1 occurrence(s) in chunk text)",
+      "d1_hash_fired": true,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.781526
+    },
+    {
+      "chunk_id": "tests/utils.py::override_environ@5",
+      "variant": "M3_structure",
+      "mutation_note": "removed last parameter '**kwargs' (parse ok)",
+      "d1_hash_fired": true,
+      "d2_ast_fired": true,
+      "d3_similarity": 0.829848
+    },
+    {
+      "chunk_id": "tests/utils.py::override_environ@5",
+      "variant": "N1_comment_only",
+      "mutation_note": "appended one comment line",
+      "d1_hash_fired": true,
+      "d2_ast_fired": true,
+      "d3_similarity": 0.824733
+    },
+    {
+      "chunk_id": "tests/utils.py::override_environ@5",
+      "variant": "N2_whitespace_only",
+      "mutation_note": "appended a whitespace-only line",
+      "d1_hash_fired": true,
+      "d2_ast_fired": false,
+      "d3_similarity": 0.827336
+    }
+  ],
+  "threshold_sweep": [
+    {
+      "threshold": 0.5,
+      "d3_fired_unmutated": 0,
+      "total_unmutated": 3,
+      "d3_fired_M1_identity": 0,
+      "total_M1_identity": 2,
+      "d3_fired_M2_behavior": 0,
+      "total_M2_behavior": 2,
+      "d3_fired_M3_structure": 0,
+      "total_M3_structure": 3,
+      "d3_fired_N1_comment_only": 0,
+      "total_N1_comment_only": 3,
+      "d3_fired_N2_whitespace_only": 0,
+      "total_N2_whitespace_only": 3,
+      "tp_M1": 0,
+      "tp_M2": 0,
+      "tp_M3": 0,
+      "tp_total": 0,
+      "fp_unmutated": 0,
+      "fp_N1": 0,
+      "fp_N2": 0,
+      "fp_total_negatives": 0
+    },
+    {
+      "threshold": 0.6,
+      "d3_fired_unmutated": 0,
+      "total_unmutated": 3,
+      "d3_fired_M1_identity": 0,
+      "total_M1_identity": 2,
+      "d3_fired_M2_behavior": 0,
+      "total_M2_behavior": 2,
+      "d3_fired_M3_structure": 0,
+      "total_M3_structure": 3,
+      "d3_fired_N1_comment_only": 0,
+      "total_N1_comment_only": 3,
+      "d3_fired_N2_whitespace_only": 0,
+      "total_N2_whitespace_only": 3,
+      "tp_M1": 0,
+      "tp_M2": 0,
+      "tp_M3": 0,
+      "tp_total": 0,
+      "fp_unmutated": 0,
+      "fp_N1": 0,
+      "fp_N2": 0,
+      "fp_total_negatives": 0
+    },
+    {
+      "threshold": 0.7,
+      "d3_fired_unmutated": 0,
+      "total_unmutated": 3,
+      "d3_fired_M1_identity": 0,
+      "total_M1_identity": 2,
+      "d3_fired_M2_behavior": 0,
+      "total_M2_behavior": 2,
+      "d3_fired_M3_structure": 0,
+      "total_M3_structure": 3,
+      "d3_fired_N1_comment_only": 0,
+      "total_N1_comment_only": 3,
+      "d3_fired_N2_whitespace_only": 0,
+      "total_N2_whitespace_only": 3,
+      "tp_M1": 0,
+      "tp_M2": 0,
+      "tp_M3": 0,
+      "tp_total": 0,
+      "fp_unmutated": 0,
+      "fp_N1": 0,
+      "fp_N2": 0,
+      "fp_total_negatives": 0
+    },
+    {
+      "threshold": 0.8,
+      "d3_fired_unmutated": 0,
+      "total_unmutated": 3,
+      "d3_fired_M1_identity": 1,
+      "total_M1_identity": 2,
+      "d3_fired_M2_behavior": 0,
+      "total_M2_behavior": 2,
+      "d3_fired_M3_structure": 0,
+      "total_M3_structure": 3,
+      "d3_fired_N1_comment_only": 0,
+      "total_N1_comment_only": 3,
+      "d3_fired_N2_whitespace_only": 0,
+      "total_N2_whitespace_only": 3,
+      "tp_M1": 1,
+      "tp_M2": 0,
+      "tp_M3": 0,
+      "tp_total": 1,
+      "fp_unmutated": 0,
+      "fp_N1": 0,
+      "fp_N2": 0,
+      "fp_total_negatives": 0
+    },
+    {
+      "threshold": 0.9,
+      "d3_fired_unmutated": 3,
+      "total_unmutated": 3,
+      "d3_fired_M1_identity": 2,
+      "total_M1_identity": 2,
+      "d3_fired_M2_behavior": 2,
+      "total_M2_behavior": 2,
+      "d3_fired_M3_structure": 3,
+      "total_M3_structure": 3,
+      "d3_fired_N1_comment_only": 3,
+      "total_N1_comment_only": 3,
+      "d3_fired_N2_whitespace_only": 3,
+      "total_N2_whitespace_only": 3,
+      "tp_M1": 2,
+      "tp_M2": 2,
+      "tp_M3": 3,
+      "tp_total": 7,
+      "fp_unmutated": 3,
+      "fp_N1": 3,
+      "fp_N2": 3,
+      "fp_total_negatives": 9
+    },
+    {
+      "threshold": 0.95,
+      "d3_fired_unmutated": 3,
+      "total_unmutated": 3,
+      "d3_fired_M1_identity": 2,
+      "total_M1_identity": 2,
+      "d3_fired_M2_behavior": 2,
+      "total_M2_behavior": 2,
+      "d3_fired_M3_structure": 3,
+      "total_M3_structure": 3,
+      "d3_fired_N1_comment_only": 3,
+      "total_N1_comment_only": 3,
+      "d3_fired_N2_whitespace_only": 3,
+      "total_N2_whitespace_only": 3,
+      "tp_M1": 2,
+      "tp_M2": 2,
+      "tp_M3": 3,
+      "tp_total": 7,
+      "fp_unmutated": 3,
+      "fp_N1": 3,
+      "fp_N2": 3,
+      "fp_total_negatives": 9
+    }
+  ],
+  "chosen_threshold": 0.5,
+  "detection_rates_at_chosen": {
+    "unmutated": {
+      "total": 3,
+      "d1_hash_rate": 0.0,
+      "d2_ast_rate": 0.0,
+      "d3_sim_rate_at_chosen": 0.0,
+      "d1_fired": 0,
+      "d2_fired": 0,
+      "d3_fired": 0
+    },
+    "M1_identity": {
+      "total": 2,
+      "d1_hash_rate": 1.0,
+      "d2_ast_rate": 0.0,
+      "d3_sim_rate_at_chosen": 0.0,
+      "d1_fired": 2,
+      "d2_fired": 0,
+      "d3_fired": 0
+    },
+    "M2_behavior": {
+      "total": 2,
+      "d1_hash_rate": 1.0,
+      "d2_ast_rate": 0.0,
+      "d3_sim_rate_at_chosen": 0.0,
+      "d1_fired": 2,
+      "d2_fired": 0,
+      "d3_fired": 0
+    },
+    "M3_structure": {
+      "total": 3,
+      "d1_hash_rate": 1.0,
+      "d2_ast_rate": 1.0,
+      "d3_sim_rate_at_chosen": 0.0,
+      "d1_fired": 3,
+      "d2_fired": 3,
+      "d3_fired": 0
+    },
+    "N1_comment_only": {
+      "total": 3,
+      "d1_hash_rate": 1.0,
+      "d2_ast_rate": 1.0,
+      "d3_sim_rate_at_chosen": 0.0,
+      "d1_fired": 3,
+      "d2_fired": 3,
+      "d3_fired": 0
+    },
+    "N2_whitespace_only": {
+      "total": 3,
+      "d1_hash_rate": 1.0,
+      "d2_ast_rate": 0.0,
+      "d3_sim_rate_at_chosen": 0.0,
+      "d1_fired": 3,
+      "d2_fired": 0,
+      "d3_fired": 0
+    }
+  },
+  "cost": {
+    "hash_ms": 0.0093,
+    "hash_ms_median": 0.0081,
+    "hash_ast_ms": 1.1313,
+    "hash_ast_ms_median": 0.1632,
+    "similarity_ms": 48.3285,
+    "similarity_ms_median": 21.1282,
+    "doc_embed_ms": 25.5988,
+    "hash_ms_raw": [
+      0.0122,
+      0.0116,
+      0.0123,
+      0.0125,
+      0.013,
+      0.0081,
+      0.0072,
+      0.009,
+      0.0076,
+      0.0084,
+      0.0081,
+      0.008,
+      0.0075,
+      0.0078,
+      0.0072,
+      0.0079
+    ],
+    "hash_ast_ms_raw": [
+      0.814,
+      13.3818,
+      0.8359,
+      0.8247,
+      0.8532,
+      0.0995,
+      0.0943,
+      0.0925,
+      0.0918,
+      0.109,
+      0.096,
+      0.1634,
+      0.1698,
+      0.1427,
+      0.1631,
+      0.1685
+    ],
+    "similarity_ms_raw": [
+      153.5068,
+      104.0939,
+      105.8204,
+      103.4444,
+      110.6915,
+      14.3648,
+      12.3773,
+      12.3677,
+      13.3915,
+      18.3846,
+      18.0952,
+      22.5055,
+      22.4973,
+      19.7591,
+      24.5687,
+      17.3869
+    ]
+  },
+  "skipped": [
+    {
+      "chunk_id": "docs/_themes/flask_theme_support.py::<module>@1",
+      "variant": "M1_identity",
+      "reason": "M1 not applicable: chunk has no renameable name (module/qualified '<module>')"
+    },
+    {
+      "chunk_id": "tests/utils.py::override_environ@5",
+      "variant": "M2_behavior",
+      "reason": "M2 not applicable: no string or numeric literal in chunk text"
+    }
+  ],
+  "summary": "S6 drift: 16 checks over 3 linked chunks; chosen_threshold=0.5 (lowest with 0 FP on unmutated); sweep=6 thresholds"
+}

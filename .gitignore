@@ -11,6 +11,8 @@ data/repos/*
 !data/repos/.gitkeep
 data/cache/*
 !data/cache/.gitkeep
+# pr_corpus.json is a small hand-built fixture — keep it tracked
+!data/cache/pr_corpus.json
 
 # --- Spike working artifacts (raw output, logs) ---
 data/spike_work/
