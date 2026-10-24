@@ -187,19 +187,15 @@ def main() -> int:
     findings = run(RULESETS, PROBE_DIR)
     elapsed = time.perf_counter() - t0
 
-    # Map each finding to a truth record by file + line proximity.
     matched: dict[str, dict] = {}
+    matched_truth: dict[str, str] = {}
     unmatched_findings: list[dict] = []
+    ambiguous: list[dict] = []
     for f in findings:
         path = str(Path(f["path"]))
         line = f["start"]["line"]
-        best, best_dist = None, 10**9
-        for t in truth:
-            if not path.endswith(t["file"]):
-                continue
-            d = abs(line - t["first_line"])
-            if d < best_dist:
-                best, best_dist = t, d
+        end_line = f["end"]["line"]
+        candidates = [t for t in truth if path.endswith(t["file"]) and line <= t["first_line"] <= end_line]
         rec = {
             "check_id": f["check_id"],
             "severity": f["extra"]["severity"],
@@ -208,8 +204,12 @@ def main() -> int:
             "message": f["extra"]["message"][:120],
             "confidence": f["extra"].get("metadata", {}).get("confidence"),
         }
-        if best is not None and best_dist <= 6:
-            matched[best["pattern_id"]] = rec
+        if len(candidates) == 1:
+            pid = candidates[0]["pattern_id"]
+            matched[pid] = rec
+            matched_truth[pid] = path
+        elif len(candidates) > 1:
+            ambiguous.append({"file": path, "line": line, "candidates": [c["pattern_id"] for c in candidates]})
         else:
             unmatched_findings.append(rec)
 

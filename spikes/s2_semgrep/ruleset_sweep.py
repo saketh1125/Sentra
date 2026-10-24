@@ -56,20 +56,17 @@ def run(rulesets: list[str], target: Path) -> tuple[list[dict], float, list[str]
 
 
 def score(findings: list[dict], truth: list[dict]) -> dict:
+    if not truth:
+        return {"recall": 0, "control_specificity": 1.0, "detected": [], "missed": [], "controls_flagged": []}
     positives = [t for t in truth if t["expect_detected"]]
     negatives = [t for t in truth if not t["expect_detected"]]
     hit: set[str] = set()
     for f in findings:
-        path, line = str(Path(f["path"])), f["start"]["line"]
-        best, bd = None, 10**9
+        path, line, eline = str(Path(f["path"])), f["start"]["line"], f["end"]["line"]
         for t in truth:
-            if not path.endswith(t["file"]):
-                continue
-            d = abs(line - t["first_line"])
-            if d < bd:
-                best, bd = t, d
-        if best is not None and bd <= 6:
-            hit.add(best["pattern_id"])
+            if path.endswith(t["file"]) and line <= t["first_line"] <= eline:
+                hit.add(t["pattern_id"])
+                break
     tp = [p for p in positives if p["pattern_id"] in hit]
     fn = [p for p in positives if p["pattern_id"] not in hit]
     fp = [p for p in negatives if p["pattern_id"] in hit]

@@ -153,7 +153,7 @@ def score_corpus(dvecs, qvec):
     import numpy as np
 
     M = dvecs / (np.linalg.norm(dvecs, axis=1, keepdims=True) + 1e-9)
-    Q = qvecs = qvec / (np.linalg.norm(qvec, axis=1, keepdims=True) + 1e-9)
+    Q = qvec / (np.linalg.norm(qvec, axis=1, keepdims=True) + 1e-9)
     return M, Q
 
 
@@ -300,6 +300,7 @@ def main() -> int:
         del D, Q, dvecs, qvecs, doc_texts, q_texts
         gc.collect()
 
+    peak_before_del = rss_mb()
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     out = EVIDENCE / f"S4_{args.candidate}.json"
     out.write_text(
@@ -329,6 +330,7 @@ def main() -> int:
                     "expected_line_at_k": "a top-k chunk spans the expected source line; what an M1 citation would point at",
                 },
                 "results": results,
+                "peak_rss_mb": peak_before_del,
                 "caveat": (
                     "OUR queries against ONE repository (24 queries, requests). Enough to "
                     "rank candidates and validate the pipeline; NOT a general retrieval "
@@ -341,7 +343,7 @@ def main() -> int:
 
     del model
     gc.collect()
-    print(f"\n  peak rss {rss_mb()} MB")
+    print(f"\n  peak rss {peak_before_del} MB (before del)")
     print(f"  wrote {out.relative_to(REPO_ROOT)}")
     return 0
 
