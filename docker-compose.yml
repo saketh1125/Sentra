@@ -1,0 +1,35 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: sentra
+      POSTGRES_USER: sentra
+      POSTGRES_PASSWORD: sentra
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentra -d sentra"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://sentra:sentra@db:5432/sentra
+      MISTRAL_API_KEY: ${MISTRAL_API_KEY:-}
+      SENTRA_GH_TOKEN: ${SENTRA_GH_TOKEN:-}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/repos:/app/data/repos
+      - ./data/cache:/app/data/cache
+
+volumes:
+  pgdata:
