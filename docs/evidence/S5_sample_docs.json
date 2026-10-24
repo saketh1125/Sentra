@@ -1,7 +1,7 @@
 {
   "spike": "S5",
   "subject": "30-doc quality sample \u2014 deterministic heuristic grading",
-  "model": "opencode/glm-5.3-flash-free",
+  "model": "ministral-3b-latest",
   "grading": {
     "checks": [
       "summary_non_empty: summary is at least 10 chars",
@@ -12,8 +12,8 @@
     "deterministic": true
   },
   "totals": {
-    "docs": 3,
-    "passed": 3,
+    "docs": 10,
+    "passed": 10,
     "pass_rate_pct": 100.0,
     "per_check_failures": {}
   },
@@ -27,7 +27,7 @@
         {
           "name": "summary_non_empty",
           "pass": true,
-          "detail": "160 chars"
+          "detail": "116 chars"
         },
         {
           "name": "mentions_qualified_name_or_identifier",
@@ -42,7 +42,7 @@
         {
           "name": "summary_length_within_bounds",
           "pass": true,
-          "detail": "160 chars"
+          "detail": "116 chars"
         }
       ],
       "checks_passed": 4,
@@ -50,26 +50,26 @@
       "verdict": "pass",
       "reason": "all checks passed",
       "doc": {
-        "summary": "Defines FlaskyStyle, a Pygments syntax-highlighting style (subclass of pygments Style) based on the Tango palette, used by the Flask documentation Sphinx theme.",
+        "summary": "Creates a Pygments syntax styling configuration mimicking the Tango color scheme for Flask-themed code highlighting.",
         "key_behaviors": [
-          "Maps Pygments token types (keywords, strings, names, comments, generics) to Tango-style colors and formatting",
-          "Sets a light background color #f8f8f8 with empty default style",
-          "Makes docstrings render like comments (italic brown) and name classes look like plain variables",
-          "Purely declarative data module with no functions or runtime logic"
+          "Applies distinct colors and formatting (e.g., bold keywords, green strings) to token types",
+          "Handles edge cases for unrecognized token classes by defaulting to neutral styles",
+          "Includes conditional styling (e.g., italic comments, red errors) for specific tokens",
+          "Supports customizable background and overrides for token classes"
         ],
-        "complexity_note": "Straightforward declarative style table; only risk is Pygments API drift (e.g., default_style deprecated or token renames) breaking docs builds."
+        "complexity_note": "Moderate complexity due to extensive token-specific styling rules; minor revisions noted for certain classes may require testing"
       }
     },
     {
-      "chunk_id": "tests/test_requests.py::TestMorselToCookieMaxAge.test_max_age_valid_int@2519",
-      "file_path": "tests/test_requests.py",
-      "qualified_name": "TestMorselToCookieMaxAge.test_max_age_valid_int",
+      "chunk_id": "src/requests/cookies.py::MockRequest.get_header@86",
+      "file_path": "src/requests/cookies.py",
+      "qualified_name": "MockRequest.get_header",
       "kind": "function",
       "checks": [
         {
           "name": "summary_non_empty",
           "pass": true,
-          "detail": "126 chars"
+          "detail": "173 chars"
         },
         {
           "name": "mentions_qualified_name_or_identifier",
@@ -84,7 +84,7 @@
         {
           "name": "summary_length_within_bounds",
           "pass": true,
-          "detail": "126 chars"
+          "detail": "173 chars"
         }
       ],
       "checks_passed": 4,
@@ -92,13 +92,303 @@
       "verdict": "pass",
       "reason": "all checks passed",
       "doc": {
-        "summary": "Tests that morsel_to_cookie correctly converts a cookie morsel with a valid integer max-age (60 seconds) into a cookie object.",
+        "summary": "Retrieves a header value from either the request's original headers or a fallback set of headers if the original doesn't contain it, returning the default if neither exists.",
         "key_behaviors": [
-          "Sets morsel max-age to a valid integer (60)",
-          "Converts the morsel via morsel_to_cookie",
-          "Asserts the resulting cookie's expires attribute is an int"
+          "Delegates to `self._r.headers` first, then falls back to `self._new_headers`",
+          "Supports optional default value for missing headers",
+          "Type-safe return (str or None) with minimal logic",
+          "Handles nested header lookups efficiently"
         ],
-        "complexity_note": "straightforward"
+        "complexity_note": "Minimal risk\u2014straightforward fallback logic with no edge cases requiring special handling"
+      }
+    },
+    {
+      "chunk_id": "src/requests/models.py::PreparedRequest.prepare_auth@670",
+      "file_path": "src/requests/models.py",
+      "qualified_name": "PreparedRequest.prepare_auth",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "166 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "166 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Handles authentication preparation by either using an explicit auth method or extracting it from the URL, then applies it to the request object and updates its state.",
+        "key_behaviors": [
+          "Extracts auth from URL if none provided",
+          "Supports both explicit auth handlers and URL-derived auth",
+          "Applies auth handler via callable or basic auth tuple",
+          "Updates request object state after auth processing"
+        ],
+        "complexity_note": "Moderate complexity due to conditional auth handling and potential edge cases with URL auth extraction and auth handler execution"
+      }
+    },
+    {
+      "chunk_id": "src/requests/structures.py::CaseInsensitiveDict.__len__@73",
+      "file_path": "src/requests/structures.py",
+      "qualified_name": "CaseInsensitiveDict.__len__",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "149 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "149 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Implements the `__len__` magic method for `CaseInsensitiveDict` to return the number of key-value pairs stored in its internal dictionary (`_store`).",
+        "key_behaviors": [
+          "Returns the count of stored items regardless of case sensitivity",
+          "Depends on the underlying `_store` dictionary's length",
+          "No external dependencies or side effects"
+        ],
+        "complexity_note": "Straightforward; relies on standard dictionary length behavior but assumes `_store` is properly initialized."
+      }
+    },
+    {
+      "chunk_id": "tests/test_lowlevel.py::test_digestauth_401_count_reset_on_redirect.digest_response_handler@152",
+      "file_path": "tests/test_lowlevel.py",
+      "qualified_name": "test_digestauth_401_count_reset_on_redirect.digest_response_handler",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "186 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "186 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Tests that a Digest Authentication server correctly resets the Authorization header count on HTTP 302 redirects, ensuring the client re-authenticates before accessing the final resource.",
+        "key_behaviors": [
+          "Verifies initial 401 challenge and subsequent Authorization header inclusion",
+          "Ensures no Authorization header is sent during the redirect (302 response)",
+          "Confirms re-authentication on the next 401 challenge",
+          "Validates final successful 200 response with correct Authorization header"
+        ],
+        "complexity_note": "Minimal complexity; focuses on HTTP Digest Auth flow edge cases (header reset on redirect)."
+      }
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestRequests.test_POSTBIN_SEEKED_OBJECT_WITH_NO_ITER.TestStream@842",
+      "file_path": "tests/test_requests.py",
+      "qualified_name": "TestRequests.test_POSTBIN_SEEKED_OBJECT_WITH_NO_ITER.TestStream",
+      "kind": "class",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "116 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "116 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Implements a custom byte stream with seekable and iterable behavior for testing HTTP POST requests with binary data.",
+        "key_behaviors": [
+          "Supports seeking to arbitrary positions via `seek()` with relative/absolute offsets",
+          "Reads data in chunks or fully when no size is specified (consumes stream)",
+          "Tracks position with `tell()` and enforces bounds via `seek()` with `where=2`",
+          "Encodes input data and manages internal index for position tracking"
+        ],
+        "complexity_note": "Minimal but requires careful handling of edge cases like invalid seek positions or negative offsets"
+      }
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestRequests.test_param_cookiejar_works@442",
+      "file_path": "tests/test_requests.py",
+      "qualified_name": "TestRequests.test_param_cookiejar_works",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "152 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "152 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Tests whether a custom cookie jar (from a dictionary) is correctly passed as a session cookie when making an HTTP request to `httpbin.cookies` endpoint.",
+        "key_behaviors": [
+          "validates cookie jar serialization/deserialization from a dictionary",
+          "verifies cookie inclusion in session requests via `cookies` parameter",
+          "checks response contains expected cookie value in `cookies` JSON field"
+        ],
+        "complexity_note": "Straightforward unit test; minimal edge cases (e.g., malformed cookie dict or session issues)."
+      }
+    },
+    {
+      "chunk_id": "tests/test_requests.py::TestRequests.test_should_strip_auth_host_change@1940",
+      "file_path": "tests/test_requests.py",
+      "qualified_name": "TestRequests.test_should_strip_auth_host_change",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "121 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "121 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Tests whether a session should strip authentication headers when the host in the URL changes from the session's base URL.",
+        "key_behaviors": [
+          "compares session base URL with URL host for auth header handling",
+          "returns boolean indicating auth header stripping requirement"
+        ],
+        "complexity_note": "Straightforward but requires careful handling of URL parsing and base URL normalization to avoid false positives"
+      }
+    },
+    {
+      "chunk_id": "tests/test_utils.py::TestGuessFilename.test_guess_filename_invalid@321",
+      "file_path": "tests/test_utils.py",
+      "qualified_name": "TestGuessFilename.test_guess_filename_invalid",
+      "kind": "function",
+      "checks": [
+        {
+          "name": "summary_non_empty",
+          "pass": true,
+          "detail": "132 chars"
+        },
+        {
+          "name": "mentions_qualified_name_or_identifier",
+          "pass": true,
+          "detail": "found in summary"
+        },
+        {
+          "name": "no_refusal",
+          "pass": true,
+          "detail": "clean"
+        },
+        {
+          "name": "summary_length_within_bounds",
+          "pass": true,
+          "detail": "132 chars"
+        }
+      ],
+      "checks_passed": 4,
+      "checks_total": 4,
+      "verdict": "pass",
+      "reason": "all checks passed",
+      "doc": {
+        "summary": "Validates that `guess_filename()` returns `None` for invalid input types (non-strings or custom objects without a `name` attribute).",
+        "key_behaviors": [
+          "Handles non-string inputs gracefully by returning `None`",
+          "Checks for missing `name` attribute in custom objects",
+          "Edge-case: Explicitly tests invalid types (e.g., integers, fake objects)"
+        ],
+        "complexity_note": "Low risk; straightforward validation with no hidden dependencies or edge cases beyond type/attribute checks"
       }
     },
     {
@@ -110,7 +400,7 @@
         {
           "name": "summary_non_empty",
           "pass": true,
-          "detail": "189 chars"
+          "detail": "154 chars"
         },
         {
           "name": "mentions_qualified_name_or_identifier",
@@ -125,7 +415,7 @@
         {
           "name": "summary_length_within_bounds",
           "pass": true,
-          "detail": "189 chars"
+          "detail": "154 chars"
         }
       ],
       "checks_passed": 4,
@@ -133,13 +423,14 @@
       "verdict": "pass",
       "reason": "all checks passed",
       "doc": {
-        "summary": "Provides a context manager that temporarily overrides one or more environment variables and restores the original environment on exit; passing None deletes a variable instead of setting it.",
+        "summary": "A context manager that temporarily overrides environment variables with provided key-value pairs, ensuring they revert to their original values afterward.",
         "key_behaviors": [
-          "Sets each given key/value pair in os.environ for the duration of the with block",
-          "Deletes an env var when None is passed as its value",
-          "Saves the full environment on entry and restores it via clear+update in finally, so restoration happens even on exceptions"
+          "Temporarily modifies environment variables for a block of code",
+          "Handles deletion of keys when `None` is provided",
+          "Restores original environment state via a saved backup",
+          "Works within a `try/finally` block to guarantee cleanup"
         ],
-        "complexity_note": "Mutates global process state and restores the whole environment rather than only touched keys, so concurrent env changes made inside the block are silently discarded."
+        "complexity_note": "Minimal risk of edge cases; relies on Python's built-in `os.environ` but handles cleanup reliably"
       }
     }
   ]

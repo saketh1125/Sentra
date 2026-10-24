@@ -176,6 +176,7 @@ def chat(
     url = f"{base_url().rstrip('/')}/chat/completions"
 
     last_error = ""
+    _fallback_tried = False
     for attempt in (1, 2):
         if attempt == 2:
             STATS["transient_retries"] += 1
@@ -199,15 +200,32 @@ def chat(
         # request limit reached"). Trusting resp.status_code alone reports a
         # bogus success and an empty document, so the body is inspected first.
         embedded = (data or {}).get("error") or {}
+        if not embedded and isinstance(data, dict) and data.get("object") == "error":
+            embedded = data
         embedded_code = embedded.get("code")
         if embedded or resp.status_code != 200:
-            detail = str(embedded.get("message") or (resp.text[:300] if data is None else ""))[:300]
+            detail = str(embedded.get("message") or (data or {}).get("message") or (resp.text[:300] if data is None else ""))[:300]
             status = embedded_code or resp.status_code
             # The free tier's DAILY cap is terminal for the rest of the day and
             # is reported as 429 like any other rate limit. Retrying it is
             # pointless, so it is flagged rather than retried.
             _low_detail = detail.lower()
-            if any(m in _low_detail for m in ("free-models-per-day", "free_model_daily", "rate limit", "quota_exceeded", "insufficient_quota", "billing", "capacity")):
+            if any(m in _low_detail for m in ("free-models-per-day", "free_model_daily", "rate limit", "rate_limited", "quota_exceeded", "insufficient_quota", "billing", "capacity")):
+                if (
+                    not _fallback_tried
+                    and resolve_provider() == "mistral"
+                    and model in (_MISTRAL_DEFAULT_MODEL, "mistral-medium-latest")
+                    and resp.status_code == 429
+                ):
+                    _fallback_tried = True
+                    payload["model"] = _MISTRAL_FALLBACK
+                    model = _MISTRAL_FALLBACK
+                    ra = resp.headers.get("Retry-After")
+                    if ra and ra.isdigit():
+                        time.sleep(min(int(ra), 10))
+                    last_error = f"fallback_429:{detail[:120]} -> retrying with {_MISTRAL_FALLBACK}"
+                    STATS["transient_retries"] += 1
+                    continue
                 STATS["quota_exhausted"] = True
                 raise LLMError(f"quota_exhausted_daily: {detail[:200]}")
             retryable = status == 429 or (isinstance(status, int) and 500 <= status < 600)
@@ -273,12 +291,12 @@ def resolve_provider() -> str:
     provider = os.environ.get("SENTRA_LLM_PROVIDER")
     if provider:
         return provider
+    if not _has_sentra_llm_env() and _opencode_auth_entry().get("key"):
+        return "opencode"
     if not _has_sentra_llm_env() and os.environ.get("MISTRAL_API_KEY"):
         return "mistral"
     if not _has_sentra_llm_env() and _mistral_auth_entry().get("key"):
         return "mistral"
-    if not _has_sentra_llm_env() and _opencode_auth_entry().get("key"):
-        return "opencode"
     return "openrouter"
 
 
