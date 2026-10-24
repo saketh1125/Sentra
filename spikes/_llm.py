@@ -291,12 +291,14 @@ def resolve_provider() -> str:
     provider = os.environ.get("SENTRA_LLM_PROVIDER")
     if provider:
         return provider
-    if not _has_sentra_llm_env() and _opencode_auth_entry().get("key"):
-        return "opencode"
+    # Mistral is Sentra's chosen provider (D2/D3); a dotenv MISTRAL_API_KEY wins
+    # over the opencode auth.json entry, whose CLI transport is brittle.
     if not _has_sentra_llm_env() and os.environ.get("MISTRAL_API_KEY"):
         return "mistral"
     if not _has_sentra_llm_env() and _mistral_auth_entry().get("key"):
         return "mistral"
+    if not _has_sentra_llm_env() and _opencode_auth_entry().get("key"):
+        return "opencode"
     return "openrouter"
 
 
