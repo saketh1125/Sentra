@@ -609,6 +609,8 @@ def summarize_stage(corpus: dict, joins: list[dict], max_calls: int) -> dict:
                     {"role": "user", "content": prompt},
                 ],
                 max_tokens=600,
+                response_format={"type": "json_object"},
+                reasoning_effort="none",
             )
         except Exception as exc:  # noqa: BLE001  — an LLM failure, not a task failure
             blocked = {

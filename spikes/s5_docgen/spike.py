@@ -170,7 +170,7 @@ def generate_doc(chunk) -> dict:
         "doc": None,
     }
     try:
-        content, usage, latency = _llm.chat(messages=messages)
+        content, usage, latency = _llm.chat(messages=messages, response_format={"type": "json_object"}, reasoning_effort="none")
     except _llm.LLMError as exc:
         record["error"] = f"{type(exc).__name__}: {exc}"
         return record
@@ -627,6 +627,8 @@ def quota_snapshot() -> dict:
     Cheap and read-only; it is the fact that decides whether a rerun is even
     possible, so it belongs in the evidence rather than in a chat message.
     """
+    if _llm.resolve_provider() == "mistral":
+        return {"note": "quota for mistral at https://console.mistral.ai/api-keys/ — no programmatic key-usage endpoint"}
     try:
         import requests as req
 

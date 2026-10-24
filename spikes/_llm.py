@@ -27,7 +27,31 @@ import requests
 
 BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_MODEL = "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
+_MISTRAL_BASE_URL = "https://api.mistral.ai/v1"
+_MISTRAL_DEFAULT_MODEL = "mistral-small-latest"
+_MISTRAL_FALLBACK = "ministral-3b-latest"
 AUTH_PATH = Path.home() / ".local" / "share" / "opencode" / "auth.json"
+_REPO_DOTENV = Path(__file__).resolve().parents[1] / ".env"
+_DOTENV_LOADED = False
+
+def _load_dotenv():
+    global _DOTENV_LOADED
+    if _DOTENV_LOADED:
+        return
+    _DOTENV_LOADED = True
+    try:
+        if _REPO_DOTENV.exists():
+            for line in _REPO_DOTENV.read_text().splitlines():
+                line=line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                k,v=line.split("=",1)
+                k,v=k.strip(),v.strip().strip('"').strip("'")
+                if k and k not in __import__("os").environ:
+                    __import__("os").environ[k]=v
+    except OSError:
+        pass
+_load_dotenv()
 TIMEOUT_S = 60
 RETRY_BACKOFF_S = 5.0
 
@@ -94,13 +118,22 @@ def _usage(raw: dict | None) -> dict:
     """
     raw = raw or {}
     details = raw.get("completion_tokens_details") or {}
-    return {
+    out = {
         "prompt_tokens": raw.get("prompt_tokens") or 0,
         "completion_tokens": raw.get("completion_tokens") or 0,
         "total_tokens": raw.get("total_tokens")
         or (raw.get("prompt_tokens") or 0) + (raw.get("completion_tokens") or 0),
-        "reasoning_tokens": details.get("reasoning_tokens") or 0,
+        "reasoning_tokens": details.get("reasoning_tokens") or raw.get("reasoning_tokens") or 0,
     }
+    if raw.get("cached_tokens") is not None:
+        out["cached_tokens"] = raw["cached_tokens"]
+    elif details.get("cached_tokens") is not None:
+        out["cached_tokens"] = details["cached_tokens"]
+    else:
+        ptd = raw.get("prompt_tokens_details") or {}
+        if isinstance(ptd, dict) and ptd.get("cached_tokens") is not None:
+            out["cached_tokens"] = ptd["cached_tokens"]
+    return out
 
 
 def chat(
@@ -108,6 +141,8 @@ def chat(
     messages: list | None = None,
     max_tokens: int = 1024,
     temperature: float | None = None,
+    response_format: dict | None = None,
+    reasoning_effort: str | None = None,
 ) -> tuple[str, dict, float]:
     """One chat completion. Returns (content, usage_dict, latency_seconds).
 
@@ -132,6 +167,11 @@ def chat(
     }
     if temperature is not None:
         payload["temperature"] = temperature
+    if response_format is not None:
+        payload["response_format"] = response_format
+    if reasoning_effort is not None:
+        if not (resolve_provider() == "mistral" and model and "ministral" in model.lower()):
+            payload["reasoning_effort"] = reasoning_effort
     headers = {"Authorization": f"Bearer {api_key()}", "Content-Type": "application/json"}
     url = f"{base_url().rstrip('/')}/chat/completions"
 
@@ -166,7 +206,8 @@ def chat(
             # The free tier's DAILY cap is terminal for the rest of the day and
             # is reported as 429 like any other rate limit. Retrying it is
             # pointless, so it is flagged rather than retried.
-            if "free-models-per-day" in detail or "free_model_daily" in detail:
+            _low_detail = detail.lower()
+            if any(m in _low_detail for m in ("free-models-per-day", "free_model_daily", "rate limit", "quota_exceeded", "insufficient_quota", "billing", "capacity")):
                 STATS["quota_exhausted"] = True
                 raise LLMError(f"quota_exhausted_daily: {detail[:200]}")
             retryable = status == 429 or (isinstance(status, int) and 500 <= status < 600)
@@ -181,6 +222,14 @@ def chat(
         if message.get("refusal"):
             raise LLMError(f"refusal: {str(message['refusal'])[:200]}")
         content = message.get("content")
+        if isinstance(content, list):
+            _parts = []
+            for _p in content:
+                if isinstance(_p, dict) and _p.get("type") == "text":
+                    _t = _p.get("text")
+                    if isinstance(_t, str):
+                        _parts.append(_t)
+            content = "".join(_parts)
         if content is None or not str(content).strip():
             STATS["no_usable_content"] += 1
             last_error = (
@@ -209,15 +258,25 @@ def _opencode_auth_entry() -> dict:
         return {}
 
 
+def _mistral_auth_entry() -> dict:
+    try:
+        return json.loads(AUTH_PATH.read_text()).get("mistral") or {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
 def _has_sentra_llm_env() -> bool:
     return any(os.environ.get(v) for v in ("SENTRA_LLM_PROVIDER", "SENTRA_LLM_API_KEY", "SENTRA_LLM_BASE_URL", "SENTRA_LLM_MODEL"))
 
 
 def resolve_provider() -> str:
-    """Return 'opencode' or 'openrouter' per the resolution order above."""
     provider = os.environ.get("SENTRA_LLM_PROVIDER")
     if provider:
         return provider
+    if not _has_sentra_llm_env() and os.environ.get("MISTRAL_API_KEY"):
+        return "mistral"
+    if not _has_sentra_llm_env() and _mistral_auth_entry().get("key"):
+        return "mistral"
     if not _has_sentra_llm_env() and _opencode_auth_entry().get("key"):
         return "opencode"
     return "openrouter"
@@ -234,18 +293,27 @@ def _patched_api_key() -> str:
         if key:
             return key
         raise LLMError(f"no `opencode` credential in {AUTH_PATH}")
+    if resolve_provider() == "mistral":
+        key = os.environ.get("MISTRAL_API_KEY") or os.environ.get("SENTRA_LLM_API_KEY") or _mistral_auth_entry().get("key") or ""
+        if key:
+            return key
+        raise LLMError(f"no `mistral` credential: set MISTRAL_API_KEY or SENTRA_LLM_API_KEY or add a `mistral` entry to {AUTH_PATH}")
     return _orig_api_key()
 
 
 def _patched_base_url() -> str:
     if resolve_provider() == "opencode":
         return os.environ.get("SENTRA_LLM_BASE_URL") or _OPENCODE_BASE_URL
+    if resolve_provider() == "mistral":
+        return os.environ.get("SENTRA_LLM_BASE_URL") or _MISTRAL_BASE_URL
     return _orig_base_url()
 
 
 def _patched_default_model() -> str:
     if resolve_provider() == "opencode":
         return os.environ.get("SENTRA_LLM_MODEL") or _OPENCODE_DEFAULT_MODEL
+    if resolve_provider() == "mistral":
+        return os.environ.get("SENTRA_LLM_MODEL") or _MISTRAL_DEFAULT_MODEL
     return _orig_default_model()
 
 
@@ -291,6 +359,8 @@ def chat_cli(
     messages: list | None = None,
     max_tokens: int = 1024,
     temperature: float | None = None,
+    response_format: dict | None = None,
+    reasoning_effort: str | None = None,
 ) -> tuple[str, dict, float]:
     """One completion via `opencode run`. Returns (content, usage, latency).
 
@@ -329,6 +399,8 @@ def chat_cli(
 
 
 _transport = os.environ.get("SENTRA_LLM_TRANSPORT")
-if _transport == "cli" or (_transport is None and resolve_provider() == "opencode"):
+if resolve_provider() == "mistral":
+    pass
+elif _transport == "cli" or (_transport is None and resolve_provider() == "opencode"):
     chat = chat_cli
 # SENTRA_LLM_TRANSPORT=http or unset+openrouter: the existing http chat is unchanged.

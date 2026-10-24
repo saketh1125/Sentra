@@ -140,6 +140,11 @@ QUOTA_MARKERS = (
     "freetier",
     "free-models-per-day",
     "quota_exhausted_daily",
+    "rate limit",
+    "quota_exceeded",
+    "insufficient_quota",
+    "billing",
+    "capacity",
 )
 _ANSI_RE = re.compile(r"\x1b\[[0-9;?]*[A-Za-z]")
 
@@ -364,7 +369,7 @@ def review(finding: dict, truth_rec: dict, layer: str, chunk, source_lines: list
         rec["attempts"] = attempt
         try:
             content, usage, latency = _llm.chat(
-                messages=[{"role": "user", "content": prompt}], max_tokens=300
+                messages=[{"role": "user", "content": prompt}], max_tokens=300, response_format={"type": "json_object"}, reasoning_effort="none"
             )
         except _llm.LLMError as exc:
             rec["error"] = f"llm_error:{clean_error(str(exc))}"
