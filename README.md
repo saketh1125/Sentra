@@ -1,17 +1,27 @@
 # Sentra
 
-Sentra is a local-first repository analysis app. It indexes Python and JavaScript/TypeScript repositories and provides code Q&A with citations, documentation and drift checks, Semgrep findings, OSV dependency findings, and a readiness score.
+Sentra is a local-first engineering trust tool for understanding whether a
+software repository is ready to change or release. It indexes Python and
+JavaScript/TypeScript code, answers questions with source citations, generates
+code documentation and checks it for drift, runs static and dependency
+security scans, reviews GitHub pull requests against existing findings, and
+turns open findings into a transparent readiness score.
 
-See [current implementation status](docs/IMPLEMENTATION_STATUS.md) for verified
-features and remaining limitations. The older development and session status
-documents are historical research checkpoints.
+The backend is FastAPI with PostgreSQL and pgvector. Repository parsing uses
+Tree-sitter, retrieval uses local BGE embeddings, Semgrep and OSV-Scanner find
+issues, and Mistral optionally generates answers, documentation, and PR
+summaries. Sentra provides analysis and conceptual fix guidance; it does not
+modify repository files.
 
 ## Run locally
 
-Requirements: Docker Engine with Compose, and Node.js 22+ for the frontend dev server.
+Requirements: Docker Engine with Compose, Node.js 22+, and Python 3 with Tkinter
+if you want the desktop service manager.
 
-1. Copy `.env.example` to `.env` and set `MISTRAL_API_KEY` to enable generated answers and documentation. `SENTRA_GH_TOKEN` is optional and supports private GitHub clones.
-2. Start the API and pgvector database:
+1. Copy `.env.example` to `.env`. Set `MISTRAL_API_KEY` for generated answers,
+   docs, and PR summaries. Set `SENTRA_GH_TOKEN` when you need private GitHub
+   repository access. Keep `.env` private.
+2. Start the API and database:
 
    ```sh
    docker compose up --build -d
@@ -24,30 +34,40 @@ Requirements: Docker Engine with Compose, and Node.js 22+ for the frontend dev s
    npm --prefix frontend run dev
    ```
 
-Open the Vite URL (normally `http://localhost:5173`). The API listens only on `127.0.0.1:8000`; health checks are at `/health` and `/ready`.
+Open the Vite URL, normally `http://localhost:5173`. The API is available at
+`http://127.0.0.1:8000`; `/health` and `/ready` report service health. The first
+build installs the analysis tools, and the first repository embedding run
+downloads the BGE model.
 
-To manage the backend with a small desktop window instead, run `python3 service_manager.py` from the repository. It can start or stop the Compose services, shows live API/database readiness, and streams Compose output. The frontend dev server is started separately with the command above.
+To start or stop the Compose services with a desktop window, run
+`python3 service_manager.py`. It shows live API/database readiness and service
+command output. Start the frontend separately using the command above.
 
-Select a repository after adding its HTTPS Git URL. Sentra clones it, parses supported source files, embeds chunks, and stores the index in Docker volumes. Ask and documentation generation send selected source snippets to Mistral when the key is configured. Without a key, retrieval candidates and citations remain available, while generated text is disabled.
+## Use Sentra
 
-## Analysis sections
+Add a repository using its HTTPS Git URL, wait for indexing to finish, then
+select it as active. The **Ask**, **Docs & Drift**, **Findings**, **PR Risk**,
+and **Score** sections use that selected repository. Ask and Docs provide code
+citations or summaries; Findings opens a detail view with conceptual
+remediation guidance; PR Risk accepts a GitHub PR URL and supports follow-up
+questions; Score explains severity penalties and module caps. Results remain
+available while navigating sections in the current browser session.
 
-- **Ask** searches indexed code and returns cited answers. Retrieved source snippets are sent to Mistral when generation is enabled.
-- **Docs & Drift** generates documentation for source chunks and checks whether the indexed code has changed since each document was generated.
-- **Findings** lists Semgrep and OSV results. Select a finding to open its location, explanation, and conceptual fix guidance; Sentra does not apply fixes automatically.
-- **PR Risk** reviews a GitHub pull request, summarizes its changes, and links changed files to existing findings. After reviewing a PR, use **Ask about this pull request** for questions grounded in the PR metadata and available diff excerpts. GitHub may omit patches for binary files or large changes, and reviews currently inspect up to 100 changed files.
-- **Score** explains release readiness with the severity weights, module caps, raw penalties, and deductions applied to the score.
+Mistral can rate-limit requests. Retrieval results and deterministic PR
+metadata remain useful when generated text is unavailable. Mistral calls send
+the selected code snippets or PR context needed for the requested operation.
 
-Results and entered Ask/PR text remain available while moving between sections in the current browser session. Mistral may rate-limit requests; when generation is unavailable, review results indicate that no AI answer was returned.
+## Documentation
 
-Postgres data, cloned repositories, and model files persist in Docker volumes (`pgdata`, `reposdata`, and `modelcache`). `docker compose down` preserves them; `docker compose down -v` deletes them.
+- [Documentation index](docs/README.md)
+- [Current implementation status](docs/IMPLEMENTATION_STATUS.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [API reference](docs/API.md)
+- [Data model](docs/DATA_MODEL.md)
+- [Scoring model](docs/SCORING.md)
+- [Privacy, integrations, and operations](docs/OPERATIONS_AND_PRIVACY.md)
+- [Research and architecture decisions](Sentra_research.md) (historical planning record)
 
-## Backend commands
-
-```sh
-docker compose up --build -d
-docker compose logs -f api
-docker compose down
-```
-
-The first build installs pinned Semgrep and OSV-Scanner binaries. The first embedding run downloads the selected BGE model into the persistent model cache.
+PostgreSQL data, cloned repositories, and embedding model files persist in
+Docker volumes (`pgdata`, `reposdata`, `modelcache`). `docker compose down`
+preserves them; `docker compose down -v` deletes them.

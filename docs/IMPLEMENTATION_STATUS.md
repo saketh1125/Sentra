@@ -17,27 +17,36 @@ the current implementation checkpoint.
 - Semgrep and OSV scans feed findings and readiness score snapshots.
 - Retrieval, cited Q&A, generated documentation, and documentation drift routes
   are connected to the frontend. Mistral generation requires `MISTRAL_API_KEY`.
-- GitHub PR review joins changed paths with existing findings; private GitHub
-  access uses `SENTRA_GH_TOKEN`.
+- GitHub PR review joins changed paths with open findings, summarizes diffs,
+  and supports PR-specific Q&A grounded in PR metadata and available patches.
+  Private GitHub access uses `SENTRA_GH_TOKEN`.
+- The frontend preserves results and entered Ask/PR text across section changes
+  during the browser session. Finding details include conceptual fix guidance;
+  score details explain weights, caps, and deductions.
 
 ## Current verification
 
 - Docker API and database health checks pass; database migration is applied.
 - A public repository was ingested, embedded, and scanned end to end.
-- Retrieval and local stubbed generation, documentation, and drift flows were
-  exercised without sending source to an external model.
+- Retrieval, live Mistral answer and documentation generation, drift, and live
+  GitHub PR review and PR Q&A were exercised. Mistral calls can be rate-limited.
 - Frontend production build, Python compile check, Compose config validation,
   and `git diff --check` pass.
-- Live Mistral generation and an authenticated GitHub PR fetch have not been
-  verified in this session.
+- The PR-specific Q&A route was exercised with Mistral against a reviewed PR.
+  The frontend production build and Python compile check passed after the
+  corresponding changes.
 
 ## Known limits
 
 - PR review currently reads the first 100 changed files.
-- Generated answers, docs, and PR summaries send selected repository context to
-  Mistral. Live calls should be made only when the user chooses that feature.
+- Generated answers, docs, PR summaries, and PR Q&A send selected repository
+  context to Mistral. Mistral rate limits can leave generated text unavailable.
 - The API binds to localhost. Docker named volumes persist across `down`; use
   `docker compose down -v` only when intentionally deleting local state.
 
 See [README](../README.md) for setup and [development-status.md](development-status.md)
 and [SESSION_PROGRESS.md](SESSION_PROGRESS.md) for historical spike evidence.
+
+Current implementation details are in [Architecture](ARCHITECTURE.md),
+[API](API.md), [Data model](DATA_MODEL.md), [Scoring](SCORING.md), and
+[Operations and privacy](OPERATIONS_AND_PRIVACY.md).

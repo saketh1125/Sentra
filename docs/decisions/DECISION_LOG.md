@@ -1,5 +1,12 @@
 # Sentra — Architecture Decision Log
 
+> **Historical decision record.** Several “pending” labels and environment
+> observations below describe the pre-integration research checkpoint, not the
+> current running application. The implementation uses BGE-small-en-v1.5
+> (384 dimensions), Mistral when configured, FastAPI/PostgreSQL+pgvector, and
+> the integrations described in [`../IMPLEMENTATION_STATUS.md`](../IMPLEMENTATION_STATUS.md).
+> See [`../ARCHITECTURE.md`](../ARCHITECTURE.md) for the current system.
+
 **Purpose:** every architectural decision (D1–D20 from `Sentra_research.md`) is
 recorded here with its options, the evidence that settled it, the outcome, and
 the consequences. A decision is only marked **LOCKED** when evidence exists.
