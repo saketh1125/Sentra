@@ -30,6 +30,16 @@ To manage the backend with a small desktop window instead, run `python3 service_
 
 Select a repository after adding its HTTPS Git URL. Sentra clones it, parses supported source files, embeds chunks, and stores the index in Docker volumes. Ask and documentation generation send selected source snippets to Mistral when the key is configured. Without a key, retrieval candidates and citations remain available, while generated text is disabled.
 
+## Analysis sections
+
+- **Ask** searches indexed code and returns cited answers. Retrieved source snippets are sent to Mistral when generation is enabled.
+- **Docs & Drift** generates documentation for source chunks and checks whether the indexed code has changed since each document was generated.
+- **Findings** lists Semgrep and OSV results. Select a finding to open its location, explanation, and conceptual fix guidance; Sentra does not apply fixes automatically.
+- **PR Risk** reviews a GitHub pull request, summarizes its changes, and links changed files to existing findings. After reviewing a PR, use **Ask about this pull request** for questions grounded in the PR metadata and available diff excerpts. GitHub may omit patches for binary files or large changes, and reviews currently inspect up to 100 changed files.
+- **Score** explains release readiness with the severity weights, module caps, raw penalties, and deductions applied to the score.
+
+Results and entered Ask/PR text remain available while moving between sections in the current browser session. Mistral may rate-limit requests; when generation is unavailable, review results indicate that no AI answer was returned.
+
 Postgres data, cloned repositories, and model files persist in Docker volumes (`pgdata`, `reposdata`, and `modelcache`). `docker compose down` preserves them; `docker compose down -v` deletes them.
 
 ## Backend commands
