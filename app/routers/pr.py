@@ -24,6 +24,10 @@ class PrReviewIn(BaseModel):
     summarize: bool = True
 
 
+class PrQuestionIn(BaseModel):
+    question: str
+
+
 def _github_repo(url: str) -> tuple[str, str] | None:
     parsed = urlparse(url)
     if parsed.scheme not in ("https", "http") or parsed.hostname not in ("github.com", "www.github.com"):
@@ -141,6 +145,86 @@ async def review_pr(repo_id: uuid.UUID, body: PrReviewIn):
         record.summary = summary
         await session.commit()
     return result
+
+
+@router.post("/{repo_id}/pr-review/{pr_number}/ask")
+async def ask_about_pr(repo_id: uuid.UUID, pr_number: int, body: PrQuestionIn):
+    question = body.question.strip()
+    if not question:
+        raise HTTPException(400, "question is required")
+    if len(question) > 2000:
+        raise HTTPException(400, "question must be 2000 characters or fewer")
+
+    async with SessionLocal() as session:
+        repo = await session.get(Repository, repo_id)
+        if repo is None:
+            raise HTTPException(404, "repo not found")
+        analysis = (await session.execute(
+            select(PrAnalysis).where(
+                PrAnalysis.repo_id == repo_id,
+                PrAnalysis.pr_number == pr_number,
+            ).order_by(PrAnalysis.created_at.desc()).limit(1)
+        )).scalars().first()
+        if analysis is None:
+            raise HTTPException(404, "review this pull request before asking questions")
+        summary = analysis.summary or {}
+        risk_flags = analysis.findings or []
+
+    parsed = _github_repo(repo.remote_url)
+    if parsed is None:
+        raise HTTPException(400, "repository must use a GitHub URL")
+    owner, name = parsed
+    headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+    if settings.sentra_gh_token:
+        headers["Authorization"] = f"Bearer {settings.sentra_gh_token}"
+    async with httpx.AsyncClient(headers=headers, timeout=30) as client:
+        response = await client.get(f"https://api.github.com/repos/{owner}/{name}/pulls/{pr_number}")
+        if response.status_code == 404:
+            raise HTTPException(404, "pull request not found or inaccessible")
+        if response.status_code != 200:
+            raise HTTPException(502, f"GitHub API returned HTTP {response.status_code}")
+        pr_data = response.json()
+        file_response = await client.get(
+            f"https://api.github.com/repos/{owner}/{name}/pulls/{pr_number}/files",
+            params={"per_page": 100},
+        )
+        if file_response.status_code != 200:
+            raise HTTPException(502, f"GitHub files API returned HTTP {file_response.status_code}")
+        files = file_response.json()
+
+    diff_context = "\n\n".join(
+        f"--- {item.get('filename')} ({item.get('status')})\n{item['patch']}"
+        for item in files if item.get("patch")
+    )[:18000]
+    context = (
+        f"PR title: {pr_data.get('title', '')}\n"
+        f"PR description: {(pr_data.get('body') or '')[:3000]}\n"
+        f"Saved summary: {summary.get('text', '')[:3000]}\n"
+        f"Changed files: {', '.join(item.get('filename', '') for item in files)[:5000]}\n"
+        f"Existing risk flags: {str(risk_flags)[:5000]}\n"
+        f"Diff excerpts:\n{diff_context or '(GitHub provided no text patch for these files.)'}"
+    )
+    answer = None
+    model = None
+    if settings.mistral_api_key:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "spikes"))
+        import _llm
+        try:
+            answer, _, _ = await asyncio.to_thread(
+                _llm.chat,
+                messages=[
+                    {"role": "system", "content": "Answer questions about this pull request using only the supplied PR metadata, changed-file list, risk flags, and diff excerpts. State clearly when context is insufficient or a file's diff is unavailable. Distinguish added, removed, and unchanged code. Cite changed files and, when available, line numbers from diff excerpts. Do not claim to have reviewed repository code absent from the provided context."},
+                    {"role": "user", "content": f"Question: {question}\n\nPull request context:\n{context}"},
+                ],
+                max_tokens=700,
+                temperature=0.1,
+            )
+            model = _llm.default_model()
+        except Exception as exc:
+            return {"answer": None, "model": _llm.default_model(), "status": "unavailable", "message": f"AI answer unavailable: {type(exc).__name__}"}
+    else:
+        return {"answer": None, "model": None, "status": "disabled", "message": "Set MISTRAL_API_KEY to enable PR questions."}
+    return {"answer": answer, "model": model, "status": "ok", "pr_number": pr_number}
 
 
 @router.get("/{repo_id}/pr-analyses")

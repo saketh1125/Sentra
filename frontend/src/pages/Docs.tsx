@@ -2,13 +2,15 @@ import { useState } from "react"
 import { api } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useWorkspace } from "@/lib/workspace"
 
 type DocsResult = { status: string; count?: number; docs?: Array<{ chunk_id: string; doc?: { summary?: string; key_behaviors?: string[] }; cached?: boolean; error?: string }>; reason?: string }
 type DriftResult = { checked: number; drifted: number; items: Array<{ file_path: string; qualified_name: string; start_line?: number; hash_drift: boolean | null }> }
 
 export default function Docs() {
-  const [result, setResult] = useState<DocsResult | null>(null)
-  const [drift, setDrift] = useState<DriftResult | null>(null)
+  const { workspace, setWorkspace } = useWorkspace()
+  const result = workspace.docsResult as DocsResult | null
+  const drift = workspace.driftResult as DriftResult | null
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState("")
   const repoId = localStorage.getItem("sentra.repoId")
@@ -16,7 +18,7 @@ export default function Docs() {
   async function generate() {
     if (!repoId) return
     setBusy(true); setError("")
-    try { setResult(await api.post<DocsResult>(`/repos/${repoId}/docs`, { limit: 10, force: false })) }
+    try { const docs = await api.post<DocsResult>(`/repos/${repoId}/docs`, { limit: 10, force: false }); setWorkspace(previous => ({ ...previous, docsResult: docs })) }
     catch (e) { setError(e instanceof Error ? e.message : "Documentation generation failed") }
     finally { setBusy(false) }
   }
@@ -24,7 +26,7 @@ export default function Docs() {
   async function checkDrift() {
     if (!repoId) return
     setBusy(true); setError("")
-    try { setDrift(await api.post<DriftResult>(`/repos/${repoId}/drift`, { threshold: 0.8 })) }
+    try { const result = await api.post<DriftResult>(`/repos/${repoId}/drift`, { threshold: 0.8 }); setWorkspace(previous => ({ ...previous, driftResult: result })) }
     catch (e) { setError(e instanceof Error ? e.message : "Drift check failed") }
     finally { setBusy(false) }
   }

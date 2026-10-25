@@ -8,6 +8,7 @@ import Repos from "@/pages/Repos"
 import Score from "@/pages/Score"
 import Ask from "@/pages/Ask"
 import Docs from "@/pages/Docs"
+import { WorkspaceProvider } from "@/lib/workspace"
 
 const nav = [
   { to: "/", label: "Repos" },
@@ -27,7 +28,7 @@ function HealthBadge() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <WorkspaceProvider><BrowserRouter>
       <div className="min-h-screen bg-background">
         <header className="sticky top-0 z-10 border-b bg-card/80 backdrop-blur">
           <div className="mx-auto max-w-6xl flex h-14 items-center gap-6 px-4">
@@ -51,6 +52,6 @@ export default function App() {
           </Routes>
         </main>
       </div>
-    </BrowserRouter>
+    </BrowserRouter></WorkspaceProvider>
   )
 }
