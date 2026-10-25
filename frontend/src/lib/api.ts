@@ -24,7 +24,7 @@ export const api = {
   ready: () => get<Ready>("/ready"),
   repos: {
     list: () => get<unknown[]>("/repos"),
-    create: (body: { url: string }) => post<unknown>("/repos", body),
+    create: (body: { remote_url: string; name?: string; branch?: string }) => post<unknown>("/repos", body),
   },
   get,
   post,

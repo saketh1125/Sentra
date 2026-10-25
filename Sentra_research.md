@@ -4,7 +4,10 @@
 **Document:** `Sentra_research`
 **Purpose:** Research consolidation, feasibility assessment, milestone roadmap and implementation planning for the Sentra final-year major project.
 **Author context:** B.Tech CSE (AI & ML), CMR College of Engineering & Technology, A.Y. 2026–27.
-**Status of this document:** Planning and research phase. **No implementation code has been written.**
+**Status of this document:** Historical planning and research blueprint. Its
+original “no implementation code” statement is obsolete; see
+[`docs/IMPLEMENTATION_STATUS.md`](docs/IMPLEMENTATION_STATUS.md) for the current
+implementation checkpoint.
 
 ---
 

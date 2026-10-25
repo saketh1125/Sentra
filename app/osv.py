@@ -52,6 +52,8 @@ def scan_repo(repo) -> list:
     from normalizer import normalize_scanner_output
     rp = _repo_path(repo)
     data = run_osv_scanner(rp)
+    if data.get("_error") or data.get("_stderr"):
+        raise RuntimeError(data.get("_error") or data.get("_stderr"))
     return normalize_scanner_output(data, root=str(rp))
 
 async def upsert_osv_findings(repo_id: uuid.UUID, session):

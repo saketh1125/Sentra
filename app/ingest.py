@@ -1,19 +1,22 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import hashlib
 import logging
+import os
 import subprocess
 import uuid
 from pathlib import Path
 
 from sqlalchemy import select
 
-from app.chunker import chunk_repo, language_for_path
+from app.chunker import EXCLUDE_DIRS, Chunker, ChunkerConfig, language_for_path
 from app.db import SessionLocal
 from app.models import Chunk as ChunkRow
 from app.models import File as FileRow
 from app.models import Repository
+from app.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +29,8 @@ def _repo_dir(name: str) -> Path:
 
 def _safe_name(remote_url: str, name: str | None) -> str:
     if name:
+        if Path(name).name != name or name in (".", ".."):
+            raise ValueError("repository name must be a single path component")
         return name
     base = remote_url.rstrip("/").split("/")[-1]
     if base.endswith(".git"):
@@ -34,9 +39,18 @@ def _safe_name(remote_url: str, name: str | None) -> str:
 
 
 def _run_git(args: list[str], cwd: Path | None = None) -> str:
+    env = os.environ.copy()
+    if settings.sentra_gh_token:
+        auth = base64.b64encode(f"x-access-token:{settings.sentra_gh_token}".encode()).decode()
+        env.update({
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
+            "GIT_CONFIG_VALUE_0": f"AUTHORIZATION: basic {auth}",
+            "GIT_TERMINAL_PROMPT": "0",
+        })
     r = subprocess.run(
         ["git", *args], cwd=str(cwd) if cwd else None,
-        capture_output=True, text=True, timeout=120,
+        capture_output=True, text=True, timeout=120, env=env,
     )
     if r.returncode != 0:
         raise RuntimeError(f"git {' '.join(args)} failed: {r.stderr[:500]}")
@@ -87,28 +101,35 @@ async def ingest_repo(repo_id: uuid.UUID, remote_url: str) -> dict:
         repo.status = "ingesting"
         await session.commit()
 
-        chunks = await asyncio.to_thread(lambda: chunk_repo(target))
+        def _parse_files():
+            chunker = Chunker(ChunkerConfig())
+            files: dict[str, tuple[str | None, int, str, list]] = {}
+            for path in sorted(target.rglob("*")):
+                if not path.is_file() or any(part in EXCLUDE_DIRS for part in path.parts):
+                    continue
+                language = language_for_path(path)
+                if language is None:
+                    continue
+                try:
+                    raw = path.read_bytes()
+                    content_hash = hashlib.sha256(raw).hexdigest()
+                    chunks, _ = chunker.chunk_file(path, target)
+                except (OSError, UnicodeError, ValueError):
+                    logger.warning("Skipping unsupported or unreadable source file %s", path)
+                    continue
+                relative = path.relative_to(target).as_posix()
+                files[relative] = (language, len(raw), content_hash, chunks)
+            return files
 
-        file_groups: dict[str, list] = {}
-        for ch in chunks:
-            file_groups.setdefault(ch.file_path, []).append(ch)
+        file_groups = await asyncio.to_thread(_parse_files)
 
         from collections import defaultdict
 
-        stats = {"files_seen": len(file_groups), "files_upserted": 0, "files_skipped": 0, "chunks_written": 0, "chunks_deleted": 0}
+        stats = {"files_seen": len(file_groups), "files_upserted": 0, "files_skipped": 0, "files_deleted": 0, "chunks_written": 0, "chunks_deleted": 0}
         existing_files = (await session.execute(select(FileRow).where(FileRow.repo_id == repo_id))).scalars().all()
         by_path: dict[str, FileRow] = {f.path: f for f in existing_files}
 
-        for rel_path, chs in file_groups.items():
-            p = target / rel_path
-            try:
-                raw = p.read_bytes()
-            except OSError:
-                stats["files_skipped"] += 1
-                continue
-            content_hash = hashlib.sha256(raw).hexdigest()
-            lang = language_for_path(p)
-            byte_len = len(raw)
+        for rel_path, (lang, byte_len, content_hash, chs) in file_groups.items():
 
             fr = by_path.get(rel_path)
             if fr is not None and fr.content_hash == content_hash:
@@ -153,7 +174,23 @@ async def ingest_repo(repo_id: uuid.UUID, remote_url: str) -> dict:
                 session.add(row)
                 stats["chunks_written"] += 1
 
-        repo.status = "ready"
+        removed_paths = set(by_path) - set(file_groups)
+        if removed_paths:
+            from sqlalchemy import delete
+            removed_ids = [by_path[path].id for path in removed_paths]
+            stats["files_deleted"] = len(removed_ids)
+            deleted = await session.execute(delete(FileRow).where(FileRow.id.in_(removed_ids)))
+            stats["chunks_deleted"] += deleted.rowcount or 0
+
+        repo.status = "embedding"
         await session.commit()
+        await session.close()
+        from app.embed import embed_repo
+        embedding_stats = await embed_repo(repo_id)
+        async with SessionLocal() as final_session:
+            final_repo = await final_session.get(Repository, repo_id)
+            if final_repo is not None:
+                final_repo.status = "ready"
+                await final_session.commit()
         logger.info("ingest %s done: %s commit=%s", repo_id, stats, commit_sha)
-        return {"repo_id": str(repo_id), "commit_sha": commit_sha, **stats}
+        return {"repo_id": str(repo_id), "commit_sha": commit_sha, **stats, "embedding": embedding_stats}

@@ -76,4 +76,31 @@ async def ask_repo(repo_id: uuid.UUID, body: AskBody):
             }
             for r in rows
         ]
-        return {"answer_candidates": candidates, "model": DEFAULT_MODEL}
+    answer = None
+    llm_model = None
+    if candidates:
+        from app.config import settings
+        if settings.mistral_api_key or os.environ.get("MISTRAL_API_KEY"):
+            import sys
+            sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "spikes"))
+            import _llm
+
+            context = "\n\n".join(
+                f"[{i}] {c['file']}:{c['start_line']}-{c['end_line']} ({c['qualified_name']})\n{c['content']}"
+                for i, c in enumerate(candidates, 1)
+            )
+            answer, _, _ = await asyncio.to_thread(
+                _llm.chat,
+                messages=[
+                    {"role": "system", "content": "Answer repository questions using only the supplied code. Treat tests as evidence of expected behavior, not proof of implementation. If the retrieved snippets show only tests, declarations, or callers and do not show the implementation, say that the implementation is not present in the supplied context. If context is insufficient, say so instead of inferring. Cite each factual claim with supplied citation numbers like [1]. Do not invent file names or behavior."},
+                    {"role": "user", "content": f"Question: {q}\n\nCode context:\n{context}"},
+                ],
+                max_tokens=800,
+                temperature=0.1,
+            )
+            llm_model = _llm.default_model()
+    citations = [
+        {"id": i, "file": c["file"], "qualified_name": c["qualified_name"], "start_line": c["start_line"], "end_line": c["end_line"], "score": c["score"]}
+        for i, c in enumerate(candidates, 1)
+    ]
+    return {"answer": answer, "citations": citations, "answer_candidates": candidates, "model": DEFAULT_MODEL, "llm_model": llm_model}

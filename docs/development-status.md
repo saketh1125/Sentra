@@ -1,5 +1,9 @@
 # Sentra — Development Status / Checkpoint
 
+> **Historical checkpoint (2026-10-02).** This records the earlier P0 research
+> phase. Its “no application code exists” status is obsolete; see
+> [current implementation status](IMPLEMENTATION_STATUS.md).
+
 **Checkpoint date:** 2026-10-02
 **Phase:** P0 — Research, Feasibility & Decision Lock
 **Overall status:** P0 **partially complete**. Spikes S1, S2, S2b, S2c, S3 completed with

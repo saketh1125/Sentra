@@ -33,3 +33,6 @@ build-backend = "hatchling.build"
 
 [tool.alembic]
 script_location = "alembic"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]

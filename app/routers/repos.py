@@ -74,3 +74,16 @@ async def embed_repo_route(repo_id: uuid.UUID):
     from app.embed import embed_repo as do_embed
     result = await do_embed(repo_id)
     return result
+
+
+@router.post("/{repo_id}/ingest")
+async def retry_ingest(repo_id: uuid.UUID):
+    async with SessionLocal() as session:
+        repo = await session.get(Repository, repo_id)
+        if repo is None:
+            raise HTTPException(status_code=404, detail="repo not found")
+        repo.status = "pending"
+        await session.commit()
+        remote_url = repo.remote_url
+    asyncio.create_task(_ingest_background(repo_id, remote_url))
+    return {"repo_id": str(repo_id), "status": "pending"}

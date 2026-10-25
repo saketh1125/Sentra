@@ -74,6 +74,8 @@ def normalize_semgrep(data: dict, repo_path: Path) -> list[dict]:
 def scan_repo(repo) -> list[dict]:
     rp = _repo_path(repo)
     data = run_semgrep(rp)
+    if data.get("_error") or data.get("_stderr"):
+        raise RuntimeError(data.get("_error") or data.get("_stderr"))
     return normalize_semgrep(data, rp)
 
 async def upsert_semgrep_findings(repo_id: uuid.UUID, session):

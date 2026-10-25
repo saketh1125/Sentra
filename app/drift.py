@@ -38,7 +38,7 @@ def ast_fingerprint(text: str, language: str) -> str | None:
 
 def drift_check(
     current_text: str,
-    reference_text: str | None,
+    reference_text: str | None = None,
     reference_hash: str | None = None,
     reference_ast: str | None = None,
     reference_embedding: list[float] | None = None,

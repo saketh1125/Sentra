@@ -1,5 +1,9 @@
 # Session Progress — P0 Spike Verification (2026-10-22 → 2026-10-23)
 
+> **Historical checkpoint.** This records spike verification before backend
+> integration. Its status is not current; see
+> [current implementation status](IMPLEMENTATION_STATUS.md).
+
 Long orchestrator-led session: all 8 spike modules individually tested/verified,
 evidence regenerated and committed per milestone. Work was done by subagents
 (orchestrator-only); this file is the durable record. Current date: 2026-10-23.

@@ -22,21 +22,50 @@ async def trigger_scan(repo_id: uuid.UUID, body: ScanIn, bg: BackgroundTasks):
             raise HTTPException(404, "repo not found")
     mods = body.modules or ["m4", "m2"]
     mods = [m for m in mods if m in ("m4", "m2")]
+    if not mods:
+        raise HTTPException(400, "modules must include m2 and/or m4")
+
+    async with SessionLocal() as s:
+        repo = await s.get(Repository, repo_id)
+        repo.status = "scanning"
+        await s.commit()
 
     async def _run():
-        async with SessionLocal() as s2:
-            if "m4" in mods:
-                try:
-                    from app.osv import upsert_osv_findings
-                    await upsert_osv_findings(repo_id, s2)
-                except Exception:
-                    pass
-            if "m2" in mods:
-                try:
-                    from app.semgrep import upsert_semgrep_findings
-                    await upsert_semgrep_findings(repo_id, s2)
-                except Exception:
-                    pass
+        errors = {}
+        try:
+            async with SessionLocal() as s2:
+                if "m4" in mods:
+                    try:
+                        from app.osv import upsert_osv_findings
+                        result = await upsert_osv_findings(repo_id, s2)
+                        if result.get("error"):
+                            errors["m4"] = result["error"]
+                    except Exception as exc:
+                        await s2.rollback()
+                        errors["m4"] = f"{type(exc).__name__}: {exc}"[:300]
+                if "m2" in mods:
+                    try:
+                        from app.semgrep import upsert_semgrep_findings
+                        result = await upsert_semgrep_findings(repo_id, s2)
+                        if result.get("error"):
+                            errors["m2"] = result["error"]
+                    except Exception as exc:
+                        await s2.rollback()
+                        errors["m2"] = f"{type(exc).__name__}: {exc}"[:300]
+                repo = await s2.get(Repository, repo_id)
+                if repo:
+                    repo.status = "scan_failed" if errors else "ready"
+                    await s2.commit()
+        except Exception as exc:
+            errors["scan"] = f"{type(exc).__name__}: {exc}"[:300]
+            async with SessionLocal() as s3:
+                repo = await s3.get(Repository, repo_id)
+                if repo:
+                    repo.status = "scan_failed"
+                    await s3.commit()
+        if errors:
+            import logging
+            logging.getLogger(__name__).error("scan failed for %s: %s", repo_id, errors)
 
     bg.add_task(_run)
     return {"status": "scanning", "modules": mods}
@@ -90,17 +119,24 @@ async def drift(repo_id: uuid.UUID, body: DriftIn):
         if not repo:
             raise HTTPException(404, "repo not found")
         from sqlalchemy import select as sel
-        from app.models import Chunk as ChunkRow, Document
-        chunks = (await s.execute(sel(ChunkRow).where(ChunkRow.repo_id == repo_id))).scalars().all()
-        docs = (await s.execute(sel(Document))).scalars().all()
-        doc_by_chunk = {str(d.chunk_id): d for d in docs if d.chunk_id}
+        from app.models import Chunk as ChunkRow, Document, File as FileRow
+        rows = (await s.execute(
+            sel(ChunkRow, FileRow.path, FileRow.language)
+            .join(FileRow, ChunkRow.file_id == FileRow.id)
+            .where(ChunkRow.repo_id == repo_id)
+        )).all()
+        docs = (await s.execute(
+            sel(Document).join(ChunkRow, Document.chunk_id == ChunkRow.id)
+            .where(ChunkRow.repo_id == repo_id)
+        )).scalars().all()
+        doc_by_chunk = {d.chunk_id: d for d in docs if d.chunk_id}
         from app.drift import drift_check
         out = []
-        for c in chunks:
-            d = doc_by_chunk.get(str(c.id))
+        for c, file_path, language in rows:
+            d = doc_by_chunk.get(c.id)
             if not d:
                 continue
-            r = drift_check(current_text=c.content, reference_text=d.text, language=c.qualified_name.split(".")[-1] if "." in c.qualified_name else "python", threshold=body.threshold)
+            r = drift_check(current_text=c.content, reference_hash=d.source_hash, language=language or "python", threshold=body.threshold)
             if r["drift"]:
-                out.append({"chunk_id": str(c.id), "file_path": c.file_path, "qualified_name": c.qualified_name, **{k: v for k, v in r.items() if k not in ("cur_hash", "cur_ast")}, "cur_hash": r["cur_hash"][:12], "cur_ast": (r["cur_ast"] or "")[:12]})
-        return {"threshold": body.threshold, "checked": len([c for c in chunks if str(c.id) in doc_by_chunk]), "drifted": len(out), "items": out[:100]}
+                out.append({"chunk_id": str(c.id), "file_path": file_path, "qualified_name": c.qualified_name, **{k: v for k, v in r.items() if k not in ("cur_hash", "cur_ast")}, "cur_hash": r["cur_hash"][:12], "cur_ast": (r["cur_ast"] or "")[:12]})
+        return {"threshold": body.threshold, "checked": len([c for c, _, _ in rows if c.id in doc_by_chunk]), "drifted": len(out), "items": out[:100]}

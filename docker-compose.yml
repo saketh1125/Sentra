@@ -23,13 +23,16 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql+asyncpg://sentra:sentra@db:5432/sentra
+      HOME: /tmp
       MISTRAL_API_KEY: ${MISTRAL_API_KEY:-}
       SENTRA_GH_TOKEN: ${SENTRA_GH_TOKEN:-}
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
-      - ./data/repos:/app/data/repos
-      - ./data/cache:/app/data/cache
+      - reposdata:/app/data/repos
+      - modelcache:/app/data/cache
 
 volumes:
   pgdata:
+  reposdata:
+  modelcache:

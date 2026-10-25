@@ -6,9 +6,13 @@ import Findings from "@/pages/Findings"
 import PrRisk from "@/pages/PrRisk"
 import Repos from "@/pages/Repos"
 import Score from "@/pages/Score"
+import Ask from "@/pages/Ask"
+import Docs from "@/pages/Docs"
 
 const nav = [
   { to: "/", label: "Repos" },
+  { to: "/ask", label: "Ask" },
+  { to: "/docs", label: "Docs & Drift" },
   { to: "/findings", label: "Findings" },
   { to: "/pr-risk", label: "PR Risk" },
   { to: "/score", label: "Score" },
@@ -39,6 +43,8 @@ export default function App() {
         <main className="mx-auto max-w-6xl p-6">
           <Routes>
             <Route path="/" element={<Repos />} />
+            <Route path="/ask" element={<Ask />} />
+            <Route path="/docs" element={<Docs />} />
             <Route path="/findings" element={<Findings />} />
             <Route path="/pr-risk" element={<PrRisk />} />
             <Route path="/score" element={<Score />} />
